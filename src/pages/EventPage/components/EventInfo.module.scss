@@ -1,0 +1,41 @@
+.eventInfo {
+	border: 1px solid #ddd;
+	padding: 20px;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	width: 80%;
+	max-width: 600px;
+	text-align: left;
+}
+
+.eventPrice {
+	color: #007bff;
+	font-family: "Roboto", sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 0.5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.eventImage {
+	width: 100%;
+	border-radius: 8px;
+}
+
+.eventDetails {
+	margin-top: 10px;
+
+	span {
+		display: flex;
+		align-items: center;
+		margin: 5px 0;
+		font-size: 16px;
+	}
+}
+
+.icon {
+	margin-left: 8px;
+	font-size: 18px;
+}

@@ -5,6 +5,8 @@ import { EventsService } from '../../api/EventsService/EventsService.ts';
 import { SportTypes } from '../../types/enums/SportTypes.ts';
 import { GameLevels } from '../../types/enums/GameLevels.ts';
 import { Loader } from '../../components/Loader/Loader.tsx';
+import EventInfo from './components/EventInfo.tsx'; // Импортируем новый компонент
+import styles from './EventPage.module.scss'; // Импортируем стили
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
@@ -21,11 +23,14 @@ const EventPage: React.FC = () => {
 			price: 100500,
 			isFree: false,
 			gameLevel: [GameLevels.High, GameLevels.MidPlus],
-			description: null,
+			description: 'Exciting football match in London!',
 			rawMessage: null,
 			capacity: 15,
 			busy: 5,
 			subscribersId: [],
+			preview:
+				'https://avatars.dzeninfra.ru/get-zen_doc/2352854/pub_62a6dcd0c45e772bdf322942_62a6e39f976862692ac1769d/scale_1200',
+			photos: [],
 		};
 	}, []);
 
@@ -43,17 +48,9 @@ const EventPage: React.FC = () => {
 	}, []);
 
 	return (
-		<>
-			{event ? (
-				<div className={'event_page'}>
-					<span>{event.id}</span>
-					<span>{event.description}</span>
-					<span>{event.address}</span>
-				</div>
-			) : (
-				<Loader />
-			)}
-		</>
+		<div className={styles.eventPage}>
+			{event ? <EventInfo event={event} /> : <Loader />}
+		</div>
 	);
 };
 
