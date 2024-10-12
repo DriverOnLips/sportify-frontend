@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Footer.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
 	const navigate = useNavigate();
 
 	const onFooterClick = () => {
@@ -22,5 +22,3 @@ const Footer: React.FC = () => {
 		</div>
 	);
 };
-
-export default Footer;
