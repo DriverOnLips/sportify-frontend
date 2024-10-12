@@ -4,9 +4,8 @@ body {
 }
 
 #content {
-	position: absolute;
-	left: 256px;
-	width: calc(100vw - 256px);
+  position: absolute;
+  left: 256px;
 }
 
 @media screen and (max-width: 650px) {

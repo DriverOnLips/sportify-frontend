@@ -4,6 +4,7 @@ import EventPage from 'pages/EventPage/EventPage.tsx';
 import Sidebar from './components/Menu/Menu.tsx';
 
 import './App.scss';
+import { Toaster } from 'sonner';
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 					/> */}
 					</Routes>
 				</div>
+				<Toaster position='top-center' />
 				<Sidebar />
 			</BrowserRouter>
 		</div>

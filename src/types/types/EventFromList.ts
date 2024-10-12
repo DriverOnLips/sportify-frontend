@@ -12,16 +12,18 @@ export type EventFromListApi = Omit<
 >;
 
 export const createEventFromListModel = (
-	from: EventFromListApi,
-): EventFromListModel => ({
-	...from,
-	sportType: from.sport_type,
-	startTime: from.start_time,
-	endTime: from.end_time,
-	isFree: from.is_free,
-	gameLevel: from.game_level,
-	subscribersId: from.subscribers_id,
-});
+	from: EventFromListApi[],
+): EventFromListModel[] => {
+	return from.map((event) => ({
+		...event,
+		sportType: event.sport_type,
+		startTime: event.start_time,
+		endTime: event.end_time,
+		isFree: event.is_free,
+		gameLevel: event.game_level,
+		subscribersId: event.subscribers_id,
+	}));
+};
 
 export const createEventFromListApi = (
 	from: EventFromListModel,

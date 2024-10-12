@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { EventTypeModel } from '../../types/types/EventType.ts';
+import {
+	createEventTypeModel,
+	EventTypeModel,
+} from '../../types/types/EventType.ts';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
-import { GameLevels } from '../../types/enums/GameLevels.ts';
 import { Loader } from '../../components/Loader/Loader.tsx';
 import EventInfo from './components/EventInfo.tsx';
 import YandexMap from './components/YandexMap.tsx';
@@ -11,6 +12,8 @@ import styles from './EventPage.module.scss';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
+	if (!id) return <React.Fragment />;
+
 	const [event, setEvent] = useState<EventTypeModel | null>(null);
 
 	const e: EventTypeModel = useMemo(() => {
@@ -38,10 +41,15 @@ const EventPage: React.FC = () => {
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
-		// const evts = await eventsService.getEventInfo(id);
-		setTimeout(() => {
-			setEvent(e);
-		}, 1000);
+		try {
+			const e = await eventsService.getEventInfo(id);
+			setEvent(createEventTypeModel(e));
+		} catch (e) {
+			toast.message(`Ошибка при получении данных: ${(e as Error).message}`, {
+				className: 'error',
+				duration: 3000,
+			});
+		}
 	};
 
 	useEffect(() => {

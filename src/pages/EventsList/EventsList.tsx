@@ -1,46 +1,29 @@
 import ListItem from './components/ListItem/ListItem';
-import { EventFromListModel } from '../../types/types/EventFromList.ts';
+import {
+	createEventFromListModel,
+	EventFromListModel,
+} from '../../types/types/EventFromList.ts';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
 import React, { useEffect, useState } from 'react';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
-import { GameLevels } from '../../types/enums/GameLevels.ts';
 import styles from './EventsList.module.scss';
-
-const generateEvents = (): EventFromListModel[] => {
-	const events: EventFromListModel[] = [];
-
-	for (let i = 1; i <= 30; i++) {
-		const event: EventFromListModel = {
-			id: `event_${i}`, // уникальный ID
-			sportType: SportTypes.Football,
-			address: 'London',
-			date: String(new Date()),
-			startTime: String(new Date()),
-			endTime: null,
-			price: 100500,
-			isFree: false,
-			gameLevel: [GameLevels.High, GameLevels.MidPlus],
-			capacity: 15,
-			busy: 5,
-			subscribersId: [],
-			preview: '',
-			photos: [],
-		};
-		events.push(event);
-	}
-
-	return events;
-};
+import { toast } from 'sonner';
+import { Loader } from '../../components/Loader/Loader.tsx';
 
 const EventsList: React.FC = () => {
 	const [events, setEvents] = useState<EventFromListModel[]>();
 
-	const e = generateEvents();
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
-		// const evts = await eventsService.getEvents(10);
-		setEvents(e);
+		try {
+			const evts = await eventsService.getEvents();
+			setEvents(createEventFromListModel(evts));
+		} catch (e) {
+			toast.message(`Ошибка при получении данных: ${(e as Error).message}`, {
+				className: 'error',
+				duration: 3000,
+			});
+		}
 	};
 
 	useEffect(() => {
@@ -59,7 +42,7 @@ const EventsList: React.FC = () => {
 					))}
 				</div>
 			) : (
-				<span>Нет событий</span>
+				<Loader />
 			)}
 		</div>
 	);
