@@ -1,6 +1,6 @@
 import { EventFromListModel } from '../../../../types/types/EventFromList.ts';
 import styles from './ListItem.module.scss';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
@@ -16,7 +16,7 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 			onClick={onItemClick}
 		>
 			<span>{event.id}</span>
-			<span>{event.name}</span>
+			<span>{event.address}</span>
 		</div>
 	);
 };
