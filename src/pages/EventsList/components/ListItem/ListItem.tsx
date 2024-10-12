@@ -3,6 +3,9 @@ import styles from './ListItem.module.scss';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Card } from 'antd';
+import Text from '../../../../components/Text/Text.tsx';
+
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 	const navigate = useNavigate();
 
@@ -11,13 +14,30 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 	}, []);
 
 	return (
-		<div
-			className={styles.list_item_page}
+		<Card
+			className={styles.list_item}
+			hoverable
+			cover={
+				<img
+					alt='example'
+					src={event.preview}
+				/>
+			}
 			onClick={onItemClick}
 		>
-			<span>{event.id}</span>
-			<span>{event.address}</span>
-		</div>
+			<div className={styles.list_item__content}>
+				<Text>Card content</Text>
+				<Text>Card content</Text>
+				<Text>Card content</Text>
+				<Text>Card content</Text>
+				<Text>Card content</Text>
+				<Text>Card content</Text>
+			</div>
+			{/*<Meta*/}
+			{/*	title='Europe Street beat'*/}
+			{/*	description='www.instagram.com'*/}
+			{/*/>*/}
+		</Card>
 	);
 };
 

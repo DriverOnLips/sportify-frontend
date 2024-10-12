@@ -23,7 +23,8 @@ const generateEvents = (): EventFromListModel[] => {
 			capacity: 15,
 			busy: 5,
 			subscribersId: [],
-			preview: '',
+			preview:
+				'https://avatars.dzeninfra.ru/get-zen_doc/2352854/pub_62a6dcd0c45e772bdf322942_62a6e39f976862692ac1769d/scale_1200',
 			photos: [],
 		};
 		events.push(event);
