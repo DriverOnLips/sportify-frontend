@@ -9,6 +9,9 @@ import {
 	ArrowLeftOutlined,
 } from '@ant-design/icons';
 import Button from 'components/Button/Button.tsx';
+import Text from 'components/Text/Text.tsx';
+import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
+
 
 interface EventInfoProps {
 	event: EventTypeModel;
@@ -30,7 +33,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				>
 					<ArrowLeftOutlined />
 				</Button>
-				<span className={styles.sportType}>{event.sportType}</span>
+        <Text size={'s3'}>{convertSportTypeToDisplayValue(event.sportType)}</Text>
 				<Button className={styles.registerButton}>Записаться</Button>
 			</div>
 			<img
@@ -40,7 +43,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			/>
 			<div className={styles.eventDetails}>
 				<span className={styles.eventPrice}>
-					{event.price + ' ₽'} {event.isFree ? '(Бесплатно)' : ''}
+          {event.isFree ? 'Бесплатно' : `${event.price} ₽`}
 				</span>
 				<span className={styles.eventDescription}>
 					Описание:
