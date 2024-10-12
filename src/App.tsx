@@ -2,6 +2,8 @@ import EventsList from 'pages/EventsList/EventsList.tsx';
 import { Footer } from './components/Footer/Footer.tsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import EventPage from 'pages/EventPage/EventPage.tsx';
+import Sidebar from './components/Sidebar/Sidebar.tsx';
+
 import './App.scss';
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
 					/> */}
 				</Routes>
 				<Footer />
+				<Sidebar />
 			</BrowserRouter>
 		</div>
 	);

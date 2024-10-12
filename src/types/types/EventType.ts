@@ -17,6 +17,8 @@ export type EventTypeModel = {
 	capacity: number | null;
 	busy: number;
 	subscribersId: string[] | null;
+	preview: string;
+	photos: string[];
 };
 
 export type EventTypeApi = {
@@ -34,6 +36,8 @@ export type EventTypeApi = {
 	capacity: number | null;
 	busy: number;
 	subscribers_id: string[] | null;
+	preview: string;
+	photos: string[];
 };
 
 export const createEventTypeModel = (from: EventTypeApi): EventTypeModel => ({
