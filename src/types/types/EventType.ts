@@ -11,11 +11,11 @@ export type EventTypeModel = {
 	endTime: string | null;
 	price: number | null;
 	isFree: boolean;
-	gameLevel: GameLevels | null;
+	gameLevel: GameLevels[] | null;
 	description: string | null;
 	rawMessage: string | null;
 	capacity: number | null;
-	busy: number | null;
+	busy: number;
 	subscribersId: string[] | null;
 };
 
@@ -28,11 +28,11 @@ export type EventTypeApi = {
 	end_time: string | null;
 	price: number | null;
 	is_free: boolean;
-	game_level: GameLevels | null;
+	game_level: GameLevels[] | null;
 	description: string | null;
 	raw_message: string | null;
 	capacity: number | null;
-	busy: number | null;
+	busy: number;
 	subscribers_id: string[] | null;
 };
 
