@@ -12,6 +12,7 @@ import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import './Menu.scss';
+import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -59,6 +60,18 @@ const Menu: React.FC = () => {
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
+	const navigate = useNavigate();
+
+	const handleClick: MenuProps['onClick'] = (e) => {
+		switch (e.key) {
+			case '2':
+				navigate('/');
+				break;
+			default:
+				break;
+		}
+	};
+
 	return (
 		<div id='menu'>
 			<AntdMenu
@@ -67,7 +80,8 @@ const Menu: React.FC = () => {
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}
-				items={items} // Генерация элементов меню
+				items={items}
+				onClick={handleClick}
 			/>
 		</div>
 	);
