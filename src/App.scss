@@ -1,6 +1,6 @@
 body {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 #content {
@@ -9,9 +9,9 @@ body {
 }
 
 @media screen and (max-width: 650px) {
-  #content {
-    position: absolute;
-    left: 80px;
-    width: calc(100vw - 80px);
-  }
+	#content {
+		position: absolute;
+		left: 80px;
+		width: calc(100vw - 80px);
+	}
 }

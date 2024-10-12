@@ -1,0 +1,76 @@
+.eventInfo {
+	padding: 20px;
+	background-color: #ffffff;
+	width: 100%;
+	height: 100vh;
+	text-align: left;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+
+	@media (max-width: 768px) {
+		height: auto;
+	}
+}
+
+.eventPrice {
+	color: #007bff;
+	font-family: "Roboto", sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 0.5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.eventInfo {
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #f9f9f9;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 0;
+}
+
+.eventType {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.eventImage {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.eventDetails {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  span {
+    align-items: center;
+    margin: 8px 0;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+  }
+}
+
+.eventPrice {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.icon {
+  margin-left: 8px;
+  font-size: 18px;
+}
