@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Card } from 'antd';
 import Text from '../../../../components/Text/Text.tsx';
+import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
 
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 	const navigate = useNavigate();
@@ -15,7 +16,7 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 
 	return (
 		<Card
-			className={styles.list_item}
+			// className={styles.list_item}
 			hoverable
 			cover={
 				<img
@@ -26,7 +27,7 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 			onClick={onItemClick}
 		>
 			<div className={styles.list_item__content}>
-				<Text>Card content</Text>
+				<Text>{convertSportTypeToDisplayValue(event.sportType)}</Text>
 				<Text>Card content</Text>
 				<Text>Card content</Text>
 				<Text>Card content</Text>

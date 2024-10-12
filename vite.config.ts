@@ -25,7 +25,16 @@ export default defineConfig({
 	base: '/',
 	plugins: [react()],
 	server: {
-		port: 8000,
+		port: 3000,
+		proxy: {
+			'/api': {
+				target: 'http://localhost:8080/',
+				changeOrigin: true,
+				secure: false,
+				ws: true,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+			},
+		},
 	},
 	resolve: {
 		alias: parseTsConfigPaths(tsconfig.compilerOptions.paths),

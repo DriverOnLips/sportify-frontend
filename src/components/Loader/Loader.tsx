@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Loader.scss';
 
 export const Loader: React.FC = () => {
+	const [showLoader, setShowLoader] = useState(false);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setShowLoader(true);
+		}, 250);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (!showLoader) {
+		return null; // Пока задержка не прошла, не рендерим лоадер
+	}
+
 	return (
 		<svg
 			className='loader'

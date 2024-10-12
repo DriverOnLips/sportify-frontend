@@ -1,41 +1,32 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { EventTypeModel } from '../../types/types/EventType.ts';
+import {
+	createEventTypeModel,
+	EventTypeModel,
+} from '../../types/types/EventType.ts';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
-import { GameLevels } from '../../types/enums/GameLevels.ts';
 import { Loader } from '../../components/Loader/Loader.tsx';
+import React from 'react';
+import { toast } from 'sonner';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
-	const [event, setEvent] = useState<EventTypeModel | null>(null);
+	if (!id) return <React.Fragment />;
 
-	const e: EventTypeModel = useMemo(() => {
-		return {
-			id: '1',
-			sportType: SportTypes.Football,
-			address: 'London',
-			date: String(new Date()),
-			startTime: String(new Date()),
-			endTime: null,
-			price: 100500,
-			isFree: false,
-			gameLevel: [GameLevels.High, GameLevels.MidPlus],
-			description: null,
-			rawMessage: null,
-			capacity: 15,
-			busy: 5,
-			subscribersId: [],
-		};
-	}, []);
+	const [event, setEvent] = useState<EventTypeModel | null>(null);
 
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
-		// const evts = await eventsService.getEventInfo(id);
-		setTimeout(() => {
-			setEvent(e);
-		}, 1000);
+		try {
+			const e = await eventsService.getEventInfo(id);
+			setEvent(createEventTypeModel(e));
+		} catch (e) {
+			toast.message(`Ошибка при получении данных: ${(e as Error).message}`, {
+				className: 'error',
+				duration: 3000,
+			});
+		}
 	};
 
 	useEffect(() => {
