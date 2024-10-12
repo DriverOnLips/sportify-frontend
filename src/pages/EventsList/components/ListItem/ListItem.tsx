@@ -1,4 +1,4 @@
-import { EventFromListModel } from 'types/EventFromList/EventFromList';
+import { EventFromListModel } from '../../../../types/types/EventFromList.ts';
 import styles from './ListItem.module.scss';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';

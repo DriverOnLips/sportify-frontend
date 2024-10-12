@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { EventTypeModel } from 'types/EventType/EventType';
+import { EventTypeModel } from '../../types/types/EventType.ts';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();

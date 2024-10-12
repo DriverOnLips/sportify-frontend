@@ -1,5 +1,5 @@
 import ListItem from './components/ListItem/ListItem';
-import { EventFromListModel } from 'types/EventFromList/EventFromList';
+import { EventFromListModel } from '../../types/types/EventFromList.ts';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
 import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button/Button.tsx';
