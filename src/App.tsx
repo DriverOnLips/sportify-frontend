@@ -5,10 +5,12 @@ import Sidebar from './components/Menu/Menu.tsx';
 
 import './App.scss';
 import { Toaster } from 'sonner';
+import {UserProvider} from "./contexts/User/userContext.tsx";
 
 function App() {
 	return (
 		<div id='app'>
+			<UserProvider>
 			<BrowserRouter basename='/'>
 				<div id='content'>
 					<Routes>
@@ -33,6 +35,7 @@ function App() {
 				<Toaster position='top-center' />
 				<Sidebar />
 			</BrowserRouter>
+			</UserProvider>
 		</div>
 	);
 }

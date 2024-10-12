@@ -5,19 +5,22 @@ import styles from './EventInfo.module.scss';
 import {
 	TeamOutlined,
 	EnvironmentTwoTone,
-	FieldTimeOutlined,
 	ArrowLeftOutlined,
 } from '@ant-design/icons';
 import Button from 'components/Button/Button.tsx';
-import Text from 'components/Text/Text.tsx';
+import Text from '../../../components/Text/Text.tsx';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
-
+import SubButton from '../../EventsList/components/SubButton/SubButton.tsx';
+import {useUser} from "../../../contexts/User/userContext.tsx";
+import {formatDate, formatTime} from "../../../utils/formatTime.ts";
 
 interface EventInfoProps {
 	event: EventTypeModel;
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
+	const { userId } = useUser();
+
 	const navigate = useNavigate();
 
 	const handleRedirect = () => {
@@ -28,13 +31,21 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		<div className={styles.eventInfo}>
 			<div className={styles.eventType}>
 				<Button
-					className={styles.backButton}
 					onClick={handleRedirect}
 				>
 					<ArrowLeftOutlined />
 				</Button>
-        <Text size={'s3'}>{convertSportTypeToDisplayValue(event.sportType)}</Text>
-				<Button className={styles.registerButton}>Записаться</Button>
+				<Text
+					size={'s3'}
+					weight={'bold'}
+				>
+					{convertSportTypeToDisplayValue(event.sportType)}
+				</Text>
+				<SubButton
+					disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
+					isSub={event.subscribersId?.includes(userId) ?? false}
+					eventId={event.id}
+				/>
 			</div>
 			<img
 				src={event.preview}
@@ -42,30 +53,45 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				className={styles.eventImage}
 			/>
 			<div className={styles.eventDetails}>
-				<span className={styles.eventPrice}>
-          {event.isFree ? 'Бесплатно' : `${event.price} ₽`}
-				</span>
-				<span className={styles.eventDescription}>
+				<Text className={styles.eventPrice}>
+					{event.isFree ? 'Бесплатно' : `${event.price} ₽`}
+				</Text>
+				<Text >
 					Описание:
 					<br />
 					{event.description}
-				</span>
-				<span className={styles.eventCapacity}>
-					<TeamOutlined className={styles.icon} />
-					{event.capacity - event.busy} / {event.capacity}
-				</span>
-				<span className={styles.eventAddress}>
+				</Text>
+				{event.capacity ? (
+					<Text>
+						<TeamOutlined />
+						{event.capacity - event.busy} / {event.capacity}
+					</Text>
+				) : (
+					<Text>
+						<TeamOutlined />
+						{event.busy}
+					</Text>
+				)}
+				<Text >
 					<EnvironmentTwoTone className={styles.icon} />
 					Адрес:
 					<br />
 					{event.address}
-				</span>
-				<span className={styles.eventDate}>
-					<FieldTimeOutlined className={styles.icon} />
-					Время проведения:
-					<br />
-					{event.date}
-				</span>
+				</Text>
+				<Text>
+					{'Дата: '}
+					{formatDate(event.date)}
+				</Text>
+				<Text>
+					{'Начало: '}
+					{formatTime(event.startTime)}
+				</Text>
+				{event.endTime && (
+					<Text>
+						{'Окончание: '}
+						{formatTime(event.endTime)}
+					</Text>
+				)}
 			</div>
 		</div>
 	);

@@ -10,13 +10,17 @@ import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLev
 import { TeamOutlined } from '@ant-design/icons';
 import { formatDate, formatTime } from '../../../../utils/formatTime.ts';
 import SubButton from '../SubButton/SubButton.tsx';
+import {useUser} from "../../../../contexts/User/userContext.tsx";
 
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
+	const { userId } = useUser();
+
 	const navigate = useNavigate();
 
 	const onItemClick = useCallback(() => {
 		navigate(`/event/${event.id}`);
 	}, []);
+
 
 	return (
 		<Card
@@ -57,10 +61,15 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 				<Text>
 					{event.price + ' ₽'} {event.isFree ? '(Бесплатно)' : ''}
 				</Text>
-				{event.capacity && (
+				{event.capacity ? (
 					<Text>
 						<TeamOutlined />
 						{event.capacity - event.busy} / {event.capacity}
+					</Text>
+				) : (
+					<Text>
+						<TeamOutlined />
+					{event.busy}
 					</Text>
 				)}
 				{event.gameLevel && (
@@ -68,8 +77,9 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 				)}
 			</div>
 			<SubButton
-				disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
 				isSub={event.subscribersId?.includes(userId) ?? false}
+				eventId={event.id}
+				disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
 			/>
 		</Card>
 	);

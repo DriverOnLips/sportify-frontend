@@ -9,7 +9,7 @@ import { Loader } from '../../components/Loader/Loader.tsx';
 import React from 'react';
 import { toast } from 'sonner';
 import EventInfo from './components/EventInfo.tsx';
-import YandexMap from './components/YandexMap.tsx';
+
 import styles from './EventPage.module.scss';
 
 const EventPage: React.FC = () => {
@@ -36,14 +36,11 @@ const EventPage: React.FC = () => {
     getEvents();
   }, []);
 
-	return (
-		<div className={styles.eventPage}>
-			<div className={styles.eventContainer}>
-				{event ? <EventInfo event={event} /> : <Loader />}
-			</div>
-		</div>
-	);
-
+  return (
+    <div className={styles.eventPage}>
+      <div>{event ? <EventInfo event={event} /> : <Loader />}</div>
+    </div>
+  );
 };
 
 export default EventPage;

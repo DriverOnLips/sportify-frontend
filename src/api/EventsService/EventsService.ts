@@ -7,6 +7,7 @@ export class EventsService {
 	private config: { name: string; url: string }[] = [
 		{ name: 'getEvents', url: `/api/events` },
 		{ name: 'getEventInfo', url: `/api/event` },
+		{ name: 'subscribeOnEvent', url: `/api/event/sub` },
 	];
 
 	constructor() {
@@ -56,4 +57,28 @@ export class EventsService {
 			throw new Error(error);
 		}
 	}
+
+	async subscribeOnEvent(eventId: string, userId: string, sub: boolean): Promise<any> {
+		const configItem = this.config.find((item) => item.name === 'subscribeOnEvent');
+
+		if (!configItem) {
+			throw new Error('Не найдена конфигурация для subscribeOnEvent');
+		}
+
+		try {
+			return await axios(`${configItem.url}/${eventId}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				data: {
+					user_id: userId,
+					sub: sub,
+				},
+			});
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
 }
