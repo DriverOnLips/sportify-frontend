@@ -3,9 +3,10 @@
 	padding: 20px;
 	border-radius: 8px;
 	background-color: #f9f9f9;
-	width: 80%;
+	width: 100%;
 	max-width: 600px;
 	text-align: left;
+	margin: 0;
 }
 
 .eventPrice {
@@ -26,11 +27,13 @@
 
 .eventDetails {
 	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 
 	span {
-		display: flex;
 		align-items: center;
-		margin: 5px 0;
+		margin: 8px 0;
 		font-size: 16px;
 	}
 }
@@ -38,4 +41,11 @@
 .icon {
 	margin-left: 8px;
 	font-size: 18px;
+}
+
+.eventType {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
 }

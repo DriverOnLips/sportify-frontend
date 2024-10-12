@@ -5,8 +5,9 @@ import { EventsService } from '../../api/EventsService/EventsService.ts';
 import { SportTypes } from '../../types/enums/SportTypes.ts';
 import { GameLevels } from '../../types/enums/GameLevels.ts';
 import { Loader } from '../../components/Loader/Loader.tsx';
-import EventInfo from './components/EventInfo.tsx'; // Импортируем новый компонент
-import styles from './EventPage.module.scss'; // Импортируем стили
+import EventInfo from './components/EventInfo.tsx';
+import YandexMap from './components/YandexMap.tsx';
+import styles from './EventPage.module.scss';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
@@ -49,7 +50,16 @@ const EventPage: React.FC = () => {
 
 	return (
 		<div className={styles.eventPage}>
-			{event ? <EventInfo event={event} /> : <Loader />}
+			<div className={styles.eventContainer}>
+				{event ? <EventInfo event={event} /> : <Loader />}
+			</div>
+			{event && (
+				<YandexMap
+					center={[51.5074, -0.1278]}
+					markerPosition={[51.5074, -0.1278]}
+					markerContent='Лондон'
+				/>
+			)}
 		</div>
 	);
 };
