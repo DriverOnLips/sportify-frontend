@@ -1,5 +1,5 @@
-import { SportTypes } from '../enums/SportTypes.ts';
 import { GameLevels } from '../enums/GameLevels.ts';
+import { SportTypes } from '../enums/SportTypes.ts';
 
 // тип для страницы с подробным описанием
 export type EventTypeModel = {

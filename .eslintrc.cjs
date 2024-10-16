@@ -45,6 +45,11 @@ module.exports = {
                 },
                 pathGroups: [
                     {
+                        pattern: 'styles/**',
+                        group: 'external',
+                        position: 'before',
+                    },
+                    {
                         pattern: './**/*.scss',
                         group: 'sibling',
                         position: 'after',

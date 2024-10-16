@@ -1,16 +1,15 @@
-import { EventFromListModel } from '../../../../types/types/EventFromList.ts';
-import styles from './ListItem.module.scss';
+import { TeamOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { Card } from 'antd';
-import Text from '../../../../components/Text/Text.tsx';
-import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
-import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLevels.ts';
-import { TeamOutlined } from '@ant-design/icons';
-import { formatDate, formatTime } from '../../../../utils/formatTime.ts';
+import Text from 'components/Text/Text.tsx';
+import { useUser } from 'contexts/User/userContext.tsx';
+import { EventFromListModel } from 'types/types/EventFromList.ts';
+import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
+import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
+import { formatDate, formatTime } from 'utils/formatTime.ts';
 import SubButton from '../SubButton/SubButton.tsx';
-import {useUser} from "../../../../contexts/User/userContext.tsx";
+import styles from './ListItem.module.scss';
 
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 	const { userId } = useUser();
@@ -20,7 +19,6 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 	const onItemClick = useCallback(() => {
 		navigate(`/event/${event.id}`);
 	}, []);
-
 
 	return (
 		<Card
@@ -69,7 +67,7 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 				) : (
 					<Text>
 						<TeamOutlined />
-					{event.busy}
+						{event.busy}
 					</Text>
 				)}
 				{event.gameLevel && (

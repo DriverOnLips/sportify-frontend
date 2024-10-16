@@ -31,8 +31,7 @@
       "styles": ["styles/*"],
       "types": ["types/*"],
       "utils": ["utils/*"]
-    },
-    "allowSyntheticDefaultImports": true
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

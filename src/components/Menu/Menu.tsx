@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	TeamOutlined,
 	PlusCircleOutlined,
@@ -10,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
+import React from 'react';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import './Menu.scss';
 import { useNavigate } from 'react-router-dom';

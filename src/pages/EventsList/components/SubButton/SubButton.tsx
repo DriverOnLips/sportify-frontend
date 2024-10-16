@@ -1,8 +1,7 @@
 import React from 'react';
-import Button from '../../../../components/Button/Button.tsx';
 import {EventsService} from "../../../../api/EventsService/EventsService.ts";
+import Button from '../../../../components/Button/Button.tsx';
 import {useUser} from "../../../../contexts/User/userContext.tsx";
-import {toast} from "sonner";
 
 type Props = {
 	isSub: boolean;

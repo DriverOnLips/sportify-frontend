@@ -1,18 +1,18 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { EventTypeModel } from '../../../types/types/EventType.ts';
-import styles from './EventInfo.module.scss';
 import {
-	TeamOutlined,
-	EnvironmentTwoTone,
 	ArrowLeftOutlined,
+	EnvironmentTwoTone,
+	TeamOutlined,
 } from '@ant-design/icons';
 import Button from 'components/Button/Button.tsx';
-import Text from '../../../components/Text/Text.tsx';
+import Text from 'components/Text/Text.tsx';
+import { useUser } from 'contexts/User/userContext.tsx';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EventTypeModel } from 'types/types/EventType.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
+import { formatDate, formatTime } from 'utils/formatTime.ts';
 import SubButton from '../../EventsList/components/SubButton/SubButton.tsx';
-import {useUser} from "../../../contexts/User/userContext.tsx";
-import {formatDate, formatTime} from "../../../utils/formatTime.ts";
+import styles from './EventInfo.module.scss';
 
 interface EventInfoProps {
 	event: EventTypeModel;
@@ -30,9 +30,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	return (
 		<div className={styles.eventInfo}>
 			<div className={styles.eventType}>
-				<Button
-					onClick={handleRedirect}
-				>
+				<Button onClick={handleRedirect}>
 					<ArrowLeftOutlined />
 				</Button>
 				<Text
@@ -56,7 +54,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				<Text className={styles.eventPrice}>
 					{event.isFree ? 'Бесплатно' : `${event.price} ₽`}
 				</Text>
-				<Text >
+				<Text>
 					Описание:
 					<br />
 					{event.description}
@@ -72,7 +70,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						{event.busy}
 					</Text>
 				)}
-				<Text >
+				<Text>
 					<EnvironmentTwoTone className={styles.icon} />
 					Адрес:
 					<br />
