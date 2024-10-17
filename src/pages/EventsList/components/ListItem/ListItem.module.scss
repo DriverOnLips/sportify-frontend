@@ -1,4 +1,11 @@
-.list_item_page {
+.list_item {
+
+  &__content{
 	display: flex;
 	flex-direction: column;
+
+    &__address{
+      padding: 1rem 0;
+    }
+  }
 }

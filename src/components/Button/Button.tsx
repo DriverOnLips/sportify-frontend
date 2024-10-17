@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button as AntdButton, ButtonProps } from 'antd';
+import React from 'react';
 
 interface CustomButtonProps extends ButtonProps {
 	// Здесь можно добавить дополнительные пропсы

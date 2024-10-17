@@ -1,41 +1,46 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { EventTypeModel } from 'types/EventType/EventType';
+import { EventsService } from '../../api/EventsService/EventsService.ts';
+import { Loader } from 'components/Loader/Loader.tsx';
+import { showToast } from '../../components/Toast/Toast.tsx';
+
+import {
+	createEventTypeModel,
+	EventTypeModel,
+} from '../../types/types/EventType.ts';
+import EventInfo from './components/EventInfo.tsx';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState<EventTypeModel | null>(null);
 
-	const events: EventTypeModel[] = useMemo(
-		() => [
-			{
-				id: '1',
-				name: 'Футбольчик',
-				location: 'Бауманская',
-			},
-			{
-				id: '2',
-				name: 'Баскетбол',
-				location: 'Электро',
-			},
-		],
-		[],
-	);
+	const eventsService = new EventsService();
 
-	useEffect(() => setEvent(events.filter((event) => event.id === id)[0]), [id]);
+	const getEvents = async () => {
+		if (!id) {
+			return;
+		}
+
+		try {
+			const e = await eventsService.getEventInfo(id);
+			setEvent(createEventTypeModel(e));
+		} catch (e) {
+			showToast(
+				'error',
+				'Ошибка',
+				`Ошибка при получении данных: ${(e as Error).message}`,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getEvents();
+	}, [getEvents]);
 
 	return (
-		<>
-			{event ? (
-				<div className={'event_page'}>
-					<span>{event.id}</span>
-					<span>{event.name}</span>
-					<span>{event.location}</span>
-				</div>
-			) : (
-				<span>Loading...</span>
-			)}
-		</>
+		<div>
+			<div>{event ? <EventInfo event={event} /> : <Loader />}</div>
+		</div>
 	);
 };
 

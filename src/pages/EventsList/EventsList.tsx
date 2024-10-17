@@ -1,27 +1,30 @@
-import ListItem from './components/ListItem/ListItem';
-import { EventFromListModel } from 'types/EventFromList/EventFromList';
-import { EventsService } from '../../api/EventsService/EventsService.ts';
 import React, { useEffect, useState } from 'react';
-import Button from '../../components/Button/Button.tsx';
+import { EventsService } from 'api/EventsService/EventsService.ts';
+import { Loader } from 'components/Loader/Loader.tsx';
+import { showToast } from 'components/Toast/Toast.tsx';
+import {
+	createEventFromListModel,
+	EventFromListModel,
+} from 'types/types/EventFromList.ts';
+import ListItem from './components/ListItem/ListItem';
+import styles from './EventsList.module.scss';
 
 const EventsList: React.FC = () => {
 	const [events, setEvents] = useState<EventFromListModel[]>();
-	const e: EventFromListModel[] = [
-		{
-			id: '1',
-			name: 'Футбольчик',
-		},
-		{
-			id: '2',
-			name: 'Баскетбол',
-		},
-	];
 
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
-		// const evts = await eventsService.getEvents(10);
-		setEvents(e);
+		try {
+			const evts = await eventsService.getEvents();
+			setEvents(createEventFromListModel(evts));
+		} catch (e) {
+			showToast(
+				'error',
+				'Ошибка',
+				`Ошибка при получении данных: ${(e as Error).message}`,
+			);
+		}
 	};
 
 	useEffect(() => {
@@ -29,17 +32,18 @@ const EventsList: React.FC = () => {
 	}, []);
 
 	return (
-		<div className='events_list'>
-			<Button>Кнопка</Button>
+		<div className={styles.events_list}>
 			{events?.length && events.length > 0 ? (
-				events.map((event) => (
-					<ListItem
-						key={event.id}
-						event={event}
-					/>
-				))
+				<div className={styles.events_list__container}>
+					{events.map((event) => (
+						<ListItem
+							key={event.id}
+							event={event}
+						/>
+					))}
+				</div>
 			) : (
-				<span>Нет событий</span>
+				<Loader />
 			)}
 		</div>
 	);

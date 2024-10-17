@@ -1,0 +1,24 @@
+@import "styles/variables.scss";
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#content {
+  position: absolute;
+  left: 300px;
+}
+
+.ant-btn, .ant-menu {
+	font-size: $size5;
+	font-family: $font;
+}
+
+@media screen and (max-width: 650px) {
+	#content {
+		position: absolute;
+		left: 80px;
+		width: calc(100vw - 80px);
+	}
+}
