@@ -1,3 +1,5 @@
+@import "styles/variables.scss";
+
 body {
 	margin: 0;
 	padding: 0;
@@ -5,7 +7,12 @@ body {
 
 #content {
   position: absolute;
-  left: 256px;
+  left: 300px;
+}
+
+.ant-btn, .ant-menu {
+	font-size: $size5;
+	font-family: $font;
 }
 
 @media screen and (max-width: 650px) {

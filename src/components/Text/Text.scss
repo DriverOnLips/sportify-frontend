@@ -1,64 +1,64 @@
-////@import "styles/variables.scss";
-//
-//// sizes
-//.s0 {
-//  font-size: $size0;
-//}
-//
-//.s1 {
-//  font-size: $size1;
-//}
-//
-//.s2 {
-//  font-size: $size2;
-//}
-//
-//.s3 {
-//  font-size: $size3;
-//}
-//
-//.s4 {
-//  font-size: $size4;
-//}
-//
-//.s5 {
-//  font-size: $size5;
-//}
-//
-//.s6 {
-//  font-size: $size6;
-//}
-//
-//.s7 {
-//  font-size: $size7;
-//}
-//
-//// weights
-//.medium {
-//  font-weight: $medium;
-//}
-//
-//.bold {
-//  font-weight: $bold;
-//}
-//
-//// colors
-//.primary {
-//  color: $text-color-primary;
-//}
-//
-//.secondary {
-//  color: $text-color-secondary;
-//}
-//
-//.main {
-//  color: $text-color-main;
-//}
-//
-//.max_lines {
-//  display: -webkit-box;
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//  -webkit-box-orient: vertical;
-//  -webkit-line-clamp: var(--max-lines-count);
-//}
+@import 'src/styles/variables.scss';
+
+// sizes
+.s0 {
+  font-size: $size0;
+}
+
+.s1 {
+  font-size: $size1;
+}
+
+.s2 {
+  font-size: $size2;
+}
+
+.s3 {
+  font-size: $size3;
+}
+
+.s4 {
+  font-size: $size4;
+}
+
+.s5 {
+  font-size: $size5;
+}
+
+.s6 {
+  font-size: $size6;
+}
+
+.s7 {
+  font-size: $size7;
+}
+
+// weights
+.medium {
+  font-weight: $medium;
+}
+
+.bold {
+  font-weight: $bold;
+}
+
+// colors
+.primary {
+  color: $text-color-primary;
+}
+
+.secondary {
+  color: $text-color-secondary;
+}
+
+.main {
+  color: $text-color-main;
+}
+
+.max_lines {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines-count);
+}

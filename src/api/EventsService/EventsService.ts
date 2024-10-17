@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { EventFromListApi } from '../../types/types/EventFromList.ts';
-import { EventTypeApi } from '../../types/types/EventType.ts';
+import { EventFromListApi } from 'types/types/EventFromList.ts';
+import { EventTypeApi } from 'types/types/EventType.ts';
 
 export class EventsService {
 	private static instance: EventsService;
@@ -58,8 +58,14 @@ export class EventsService {
 		}
 	}
 
-	async subscribeOnEvent(eventId: string, userId: string, sub: boolean): Promise<any> {
-		const configItem = this.config.find((item) => item.name === 'subscribeOnEvent');
+	async subscribeOnEvent(
+		eventId: string,
+		userId: string,
+		sub: boolean,
+	): Promise<any> {
+		const configItem = this.config.find(
+			(item) => item.name === 'subscribeOnEvent',
+		);
 
 		if (!configItem) {
 			throw new Error('Не найдена конфигурация для subscribeOnEvent');
@@ -80,5 +86,4 @@ export class EventsService {
 			throw new Error(error);
 		}
 	}
-
 }

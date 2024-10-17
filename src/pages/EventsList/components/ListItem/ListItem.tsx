@@ -8,7 +8,7 @@ import { EventFromListModel } from 'types/types/EventFromList.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import { formatDate, formatTime } from 'utils/formatTime.ts';
-import SubButton from '../SubButton/SubButton.tsx';
+import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 
 const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
@@ -74,7 +74,7 @@ const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
 					<Text>{convertGameLevelToDisplayValue(event.gameLevel)}</Text>
 				)}
 			</div>
-			<SubButton
+			<SubscribeButton
 				isSub={event.subscribersId?.includes(userId) ?? false}
 				eventId={event.id}
 				disabled={event?.capacity ? event.capacity - event.busy > 0 : false}

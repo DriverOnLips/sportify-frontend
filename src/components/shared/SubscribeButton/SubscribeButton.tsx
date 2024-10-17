@@ -1,7 +1,8 @@
 import React from 'react';
-import {EventsService} from "../../../../api/EventsService/EventsService.ts";
-import Button from '../../../../components/Button/Button.tsx';
-import {useUser} from "../../../../contexts/User/userContext.tsx";
+import { EventsService } from 'api/EventsService/EventsService.ts';
+import Button from 'components/Button/Button.tsx';
+import { useUser } from 'contexts/User/userContext.tsx';
+import { showToast } from 'components/Toast/Toast.tsx';
 
 type Props = {
 	isSub: boolean;
@@ -9,8 +10,7 @@ type Props = {
 	disabled?: boolean;
 };
 
-const SubButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
-
+const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	const { userId } = useUser();
 
 	const eventsService = new EventsService();
@@ -20,19 +20,25 @@ const SubButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 		setLoading(true);
 
 		// Функция для задержки
-		const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+		const delay = (ms: number) =>
+			new Promise((resolve) => setTimeout(resolve, ms));
 
 		// Задержка на 1 секунду
 		await delay(1000);
 
 		try {
-			const response = await eventsService.subscribeOnEvent(eventId, userId, !isSubscribed);
+			const response = await eventsService.subscribeOnEvent(
+				eventId,
+				userId,
+				!isSubscribed,
+			);
 			setIsSubscribed(response.data.subscribers_id?.includes(userId) || false);
 		} catch (e) {
-			toast.message(`Ошибка при получении данных: ${(e as Error).message}`, {
-				className: 'error',
-				duration: 3000,
-			});
+			showToast(
+				'error',
+				'Ошибка',
+				`Ошибка при получении данных: ${(e as Error).message}`,
+			);
 		} finally {
 			setLoading(false);
 		}
@@ -55,4 +61,4 @@ const SubButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	);
 };
 
-export default React.memo(SubButton);
+export default React.memo(SubscribeButton);

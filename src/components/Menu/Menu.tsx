@@ -1,22 +1,21 @@
 import {
-	TeamOutlined,
-	PlusCircleOutlined,
 	CarryOutOutlined,
-	UnorderedListOutlined,
-	OrderedListOutlined,
 	HeatMapOutlined,
+	OrderedListOutlined,
+	PlusCircleOutlined,
+	TeamOutlined,
+	UnorderedListOutlined,
 	UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
 import React from 'react';
-import { useScreenMode } from '../../hooks/useScreenMode.ts';
+import { useScreenMode } from 'hooks/useScreenMode.ts';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Menu.scss';
-import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-// Функция для динамического создания меню в зависимости от ширины экрана
 const items: MenuItem[] = [
 	{
 		key: '1',
@@ -57,15 +56,51 @@ const items: MenuItem[] = [
 ];
 
 const Menu: React.FC = () => {
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	const screenWidth = useScreenMode();
+
 	const isWide = screenWidth > 650;
 
-	const navigate = useNavigate();
+	const getActiveKey = () => {
+		switch (location.pathname) {
+			case '/':
+				return ['2'];
+			case '/map':
+				return ['3'];
+			case '/events':
+				return ['5'];
+			case '/create-event':
+				return ['6'];
+			case '/clubs':
+				return ['7'];
+			case '/profile':
+				return ['8'];
+			default:
+				return ['2'];
+		}
+	};
 
 	const handleClick: MenuProps['onClick'] = (e) => {
 		switch (e.key) {
 			case '2':
 				navigate('/');
+				break;
+			case '3':
+				navigate('/map');
+				break;
+			case '5':
+				navigate('/events');
+				break;
+			case '6':
+				navigate('/create-event');
+				break;
+			case '7':
+				navigate('/clubs');
+				break;
+			case '8':
+				navigate('/profile');
 				break;
 			default:
 				break;
@@ -75,7 +110,7 @@ const Menu: React.FC = () => {
 	return (
 		<div id='menu'>
 			<AntdMenu
-				defaultSelectedKeys={['2']}
+				selectedKeys={getActiveKey()}
 				defaultOpenKeys={['1']}
 				mode={'inline'}
 				theme='light'

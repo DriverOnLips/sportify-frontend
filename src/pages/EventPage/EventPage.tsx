@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from '../../components/Toast/Toast.tsx';
+
 import {
 	createEventTypeModel,
 	EventTypeModel,

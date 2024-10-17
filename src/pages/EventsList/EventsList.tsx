@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {EventsService} from '../../api/EventsService/EventsService.ts';
-import {Loader} from '../../components/Loader/Loader.tsx';
-import {showToast} from '../../components/Toast/Toast.tsx';
-import {createEventFromListModel, EventFromListModel,} from '../../types/types/EventFromList.ts';
+import React, { useEffect, useState } from 'react';
+import { EventsService } from 'api/EventsService/EventsService.ts';
+import { Loader } from 'components/Loader/Loader.tsx';
+import { showToast } from 'components/Toast/Toast.tsx';
+import {
+	createEventFromListModel,
+	EventFromListModel,
+} from 'types/types/EventFromList.ts';
 import ListItem from './components/ListItem/ListItem';
 import styles from './EventsList.module.scss';
 

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { EventTypeModel } from 'types/types/EventType.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDate, formatTime } from 'utils/formatTime.ts';
-import SubButton from '../../EventsList/components/SubButton/SubButton.tsx';
+import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './EventInfo.module.scss';
 
 interface EventInfoProps {
@@ -39,7 +39,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				>
 					{convertSportTypeToDisplayValue(event.sportType)}
 				</Text>
-				<SubButton
+				<SubscribeButton
 					disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
 					isSub={event.subscribersId?.includes(userId) ?? false}
 					eventId={event.id}

@@ -1,5 +1,9 @@
-import {CheckCircleOutlined, CloseCircleOutlined, InfoCircleOutlined,} from '@ant-design/icons';
-import {notification} from 'antd';
+import {
+	CheckCircleOutlined,
+	CloseCircleOutlined,
+	InfoCircleOutlined,
+} from '@ant-design/icons';
+import { notification } from 'antd';
 
 type NotificationType = 'success' | 'info' | 'error';
 type Placement =
@@ -8,11 +12,6 @@ type Placement =
 	| 'topRight'
 	| 'bottom'
 	| 'bottomLeft'
-
-
-
-
-  
 	| 'bottomRight';
 
 const getIconByType = (type: NotificationType) => {
@@ -33,14 +32,11 @@ export const showToast = (
 	message: string,
 	description: string,
 	placement?: Placement,
-	duration?: number
+	duration?: number,
 ): void => {
 	notification.open({
 		icon: getIconByType(type),
 
-
-
-		
 		placement: placement || 'topRight',
 		message,
 		description,
