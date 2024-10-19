@@ -4,15 +4,12 @@ import { EventsService } from '../../api/EventsService/EventsService.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from '../../components/Toast/Toast.tsx';
 
-import {
-	createEventTypeModel,
-	EventTypeModel,
-} from '../../types/types/EventType.ts';
+import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo.tsx';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
-	const [event, setEvent] = useState<EventTypeModel | null>(null);
+	const [event, setEvent] = useState<EventInfoModel | null>(null);
 
 	const eventsService = new EventsService();
 
@@ -22,14 +19,16 @@ const EventPage: React.FC = () => {
 		}
 
 		try {
-			const e = await eventsService.getEventInfo(id);
-			setEvent(createEventTypeModel(e));
-		} catch (e) {
-			showToast(
-				'error',
-				'Ошибка',
-				`Ошибка при получении данных: ${(e as Error).message}`,
-			);
+			const evt = await eventsService.getEventInfo(id);
+			setEvent(evt);
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при получении данных: ${(error as Error).message}`,
+				);
+			}
 		}
 	};
 

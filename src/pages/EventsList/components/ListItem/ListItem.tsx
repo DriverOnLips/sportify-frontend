@@ -4,14 +4,14 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from 'components/Text/Text.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
-import { EventFromListModel } from 'types/types/EventFromList.ts';
+import { EventShortInfoModel } from '../../../../types/types/Event/EventShortInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import { formatDate, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 
-const ListItem: React.FC<{ event: EventFromListModel }> = ({ event }) => {
+const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();
 
 	const navigate = useNavigate();

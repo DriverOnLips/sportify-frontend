@@ -2,28 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from 'components/Toast/Toast.tsx';
-import {
-	createEventFromListModel,
-	EventFromListModel,
-} from 'types/types/EventFromList.ts';
+import { EventShortInfoModel } from '../../types/types/Event/EventShortInfo.ts';
 import ListItem from './components/ListItem/ListItem';
 import styles from './EventsList.module.scss';
 
 const EventsList: React.FC = () => {
-	const [events, setEvents] = useState<EventFromListModel[]>();
+	const [events, setEvents] = useState<EventShortInfoModel[]>();
 
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
 		try {
 			const evts = await eventsService.getEvents();
-			setEvents(createEventFromListModel(evts));
-		} catch (e) {
-			showToast(
-				'error',
-				'Ошибка',
-				`Ошибка при получении данных: ${(e as Error).message}`,
-			);
+			setEvents(evts);
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при получении данных: ${(error as Error).message}`,
+				);
+			}
 		}
 	};
 

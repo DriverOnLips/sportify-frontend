@@ -8,14 +8,14 @@ import Text from 'components/Text/Text.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EventTypeModel } from 'types/types/EventType.ts';
+import { EventInfoModel } from '../../../types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDate, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './EventInfo.module.scss';
 
 interface EventInfoProps {
-	event: EventTypeModel;
+	event: EventInfoModel;
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {

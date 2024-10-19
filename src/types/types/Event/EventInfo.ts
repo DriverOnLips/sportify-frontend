@@ -1,8 +1,8 @@
-import { GameLevels } from '../enums/GameLevels.ts';
-import { SportTypes } from '../enums/SportTypes.ts';
+import { GameLevels } from '../../enums/GameLevels.ts';
+import { SportTypes } from '../../enums/SportTypes.ts';
 
 // тип для страницы с подробным описанием
-export type EventTypeModel = {
+export type EventInfoModel = {
 	id: string;
 	sportType: SportTypes;
 	address: string;
@@ -21,7 +21,7 @@ export type EventTypeModel = {
 	photos: string[];
 };
 
-export type EventTypeApi = {
+export type EventInfoApi = {
 	id: string;
 	sport_type: SportTypes;
 	address: string;
@@ -40,7 +40,7 @@ export type EventTypeApi = {
 	photos: string[];
 };
 
-export const createEventTypeModel = (from: EventTypeApi): EventTypeModel => ({
+export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
 	sportType: from.sport_type,
 	startTime: from.start_time,
@@ -49,15 +49,4 @@ export const createEventTypeModel = (from: EventTypeApi): EventTypeModel => ({
 	gameLevel: from.game_level,
 	rawMessage: from.raw_message,
 	subscribersId: from.subscribers_id,
-});
-
-export const createEventTypeApi = (from: EventTypeModel): EventTypeApi => ({
-	...from,
-	sport_type: from.sportType,
-	start_time: from.startTime,
-	end_time: from.endTime,
-	is_free: from.isFree,
-	game_level: from.gameLevel,
-	raw_message: from.rawMessage,
-	subscribers_id: from.subscribersId,
 });
