@@ -37,10 +37,12 @@ const EventPage: React.FC = () => {
 	}, [id]);
 
 	return (
-		<div style={{ display: 'flex' }}>
-			{event ? <EventInfo event={event} /> : <Loader />}
+		<div style={{ display: 'flex', height: '100vh' }}>
+			<div style={{ flex: 1 }}>
+				{event ? <EventInfo event={event} /> : <Loader />}
+			</div>
 			{event && (
-				<div className='mapContainer'>
+				<div style={{ flex: 1 }}>
 					<YandexMap address={event.address} />
 				</div>
 			)}

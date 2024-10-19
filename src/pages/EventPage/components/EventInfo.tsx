@@ -2,6 +2,9 @@ import {
 	ArrowLeftOutlined,
 	EnvironmentTwoTone,
 	TeamOutlined,
+	FieldTimeOutlined,
+	DeleteOutlined,
+	EditOutlined,
 } from '@ant-design/icons';
 import Button from 'components/Button/Button.tsx';
 import Text from 'components/Text/Text.tsx';
@@ -27,18 +30,28 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		navigate('/');
 	};
 
+	const handleEdit = () => {
+		console.log('Редактировать событие');
+	};
+
+	const handleDelete = () => {
+		console.log('Удалить событие');
+	};
+
 	return (
 		<div className={styles.eventInfo}>
 			<div className={styles.eventType}>
 				<Button onClick={handleRedirect}>
 					<ArrowLeftOutlined />
 				</Button>
-				<Text
-					size={'s3'}
-					weight={'bold'}
-				>
-					{convertSportTypeToDisplayValue(event.sportType)}
-				</Text>
+				<div className={styles.eventDetails}>
+					<Text
+						size={'s4'}
+						color={'primary'}
+					>
+						{convertSportTypeToDisplayValue(event.sportType)}
+					</Text>
+				</div>
 				<SubscribeButton
 					disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
 					isSub={event.subscribersId?.includes(userId) ?? false}
@@ -51,45 +64,99 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				className={styles.eventImage}
 			/>
 			<div className={styles.eventDetails}>
-				<Text className={styles.eventPrice}>
+				<Text
+					size={'s4'}
+					weight={'bold'}
+					color={'primary'}
+				>
 					{event.isFree ? 'Бесплатно' : `${event.price} ₽`}
 				</Text>
-				<Text>
-					Описание:
+				<div className={styles.buttonsContainer}>
+					<Button onClick={handleEdit}>
+						<EditOutlined />
+					</Button>
+					<Button onClick={handleDelete}>
+						<DeleteOutlined />
+					</Button>
+				</div>
+				<Text
+					size={'s6'}
+					color={'secondary'}
+				>
+					<Text
+						size={'s6'}
+						weight={'bold'}
+						color={'primary'}
+					>
+						Описание
+					</Text>
 					<br />
 					{event.description}
 				</Text>
 				{event.capacity ? (
-					<Text>
+					<Text
+						size={'s6'}
+						weight={'bold'}
+						color={'primary'}
+					>
 						<TeamOutlined />
 						{event.capacity - event.busy} / {event.capacity}
 					</Text>
 				) : (
-					<Text>
+					<Text
+						size={'s6'}
+						weight={'bold'}
+						color={'primary'}
+					>
 						<TeamOutlined />
 						{event.busy}
 					</Text>
 				)}
-				<Text>
-					<EnvironmentTwoTone className={styles.icon} />
-					Адрес:
+				<Text
+					size={'s6'}
+					color={'secondary'}
+				>
+					<Text
+						size={'s6'}
+						weight={'bold'}
+						color={'primary'}
+					>
+						<EnvironmentTwoTone className={styles.icon} />
+						Адрес
+					</Text>
 					<br />
 					{event.address}
 				</Text>
-				<Text>
+				<Text
+					size={'s6'}
+					weight={'bold'}
+					color={'primary'}
+				>
 					{'Дата: '}
-					{formatDate(event.date)}
-				</Text>
-				<Text>
-					{'Начало: '}
-					{formatTime(event.startTime)}
-				</Text>
-				{event.endTime && (
-					<Text>
-						{'Окончание: '}
-						{formatTime(event.endTime)}
+					<br />
+					<Text
+						size={'s6'}
+						color={'secondary'}
+					>
+						{formatDate(event.date)}
 					</Text>
-				)}
+				</Text>
+				<Text
+					size={'s6'}
+					weight={'bold'}
+					color={'primary'}
+				>
+					<FieldTimeOutlined className={styles.icon} />
+					{'Время проведения: '}
+					<br />
+					<Text
+						size={'s6'}
+						color={'secondary'}
+					>
+						{event.startTime ? formatTime(event.startTime) : '... '} —
+						{event.endTime ? ' ' + formatTime(event.endTime) : ' ...'}
+					</Text>
+				</Text>
 			</div>
 		</div>
 	);

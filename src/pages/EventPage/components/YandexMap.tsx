@@ -23,7 +23,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 				if (!mapRef.current) {
 					mapRef.current = new window.ymaps.Map('map', {
 						center: coords,
-						zoom: 16,
+						zoom: 14,
 					});
 				} else {
 					mapRef.current.setCenter(coords);
@@ -37,8 +37,8 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 
 		if (!window.ymaps) {
 			const script = document.createElement('script');
-			const APIKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
-			script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${APIKey}`;
+			script.src =
+				'https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=ac665c8a-5d1d-4e60-a1cb-aed834a88e3c';
 			document.body.appendChild(script);
 			script.onload = () => {
 				window.ymaps.ready(initializeMap);

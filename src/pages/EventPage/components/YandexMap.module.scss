@@ -1,13 +1,9 @@
 .mapContainer {
-	flex: 0 0 50%;
-	min-width: 50%;
-	max-width: 50%;
-	min-height: 100vh;
-	max-height: 100vh;
+	flex: 1;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	box-sizing: border-box;
 }
 
 .map {
@@ -17,6 +13,12 @@
 }
 
 @media (max-width: 768px) {
+	.eventInfo {
+		width: 100%;
+		height: auto;
+		margin-bottom: 20px;
+	}
+
 	.mapContainer {
 		width: 100%;
 		height: 300px;
