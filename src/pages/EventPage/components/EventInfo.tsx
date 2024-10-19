@@ -9,7 +9,7 @@ import {
 import Button from 'components/Button/Button.tsx';
 import Text from 'components/Text/Text.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventTypeModel } from 'types/types/EventType.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
@@ -23,19 +23,45 @@ interface EventInfoProps {
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const { userId } = useUser();
-
 	const navigate = useNavigate();
+
+	const [isEditing, setIsEditing] = useState<boolean>(false);
+	const [editedEvent, setEditedEvent] = useState<EventTypeModel>(event);
+
+	useEffect(() => {
+		const storedEvent = localStorage.getItem(`event_${event.id}`);
+		if (storedEvent) {
+			setEditedEvent(JSON.parse(storedEvent));
+		} else {
+			setEditedEvent(event);
+		}
+	}, [event]);
 
 	const handleRedirect = () => {
 		navigate('/');
 	};
 
 	const handleEdit = () => {
-		console.log('Редактировать событие');
+		setIsEditing(!isEditing);
+		if (!isEditing) {
+			navigate(`/event/${event.id}?edit`);
+		}
 	};
 
 	const handleDelete = () => {
 		console.log('Удалить событие');
+	};
+
+	const handleSave = () => {
+		localStorage.setItem(`event_${event.id}`, JSON.stringify(editedEvent));
+		setIsEditing(false);
+		navigate(`/event/${event.id}`);
+	};
+
+	const handleChange = (updatedEvent: Partial<EventTypeModel>) => {
+		const newEvent = { ...editedEvent, ...updatedEvent };
+		setEditedEvent(newEvent);
+		localStorage.setItem(`event_${event.id}`, JSON.stringify(newEvent));
 	};
 
 	return (
@@ -64,20 +90,37 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				className={styles.eventImage}
 			/>
 			<div className={styles.eventDetails}>
-				<Text
-					size={'s4'}
-					weight={'bold'}
-					color={'primary'}
-				>
-					{event.isFree ? 'Бесплатно' : `${event.price} ₽`}
-				</Text>
-				<div className={styles.buttonsContainer}>
-					<Button onClick={handleEdit}>
-						<EditOutlined />
-					</Button>
-					<Button onClick={handleDelete}>
-						<DeleteOutlined />
-					</Button>
+				<div className={styles.eventPriceContainer}>
+					{isEditing ? (
+						<input
+							type='text'
+							value={
+								editedEvent.isFree ? 'Бесплатно' : `${editedEvent.price ?? 0}`
+							}
+							onChange={(e) => {
+								const isFree =
+									e.target.value.trim().toLowerCase() === 'бесплатно';
+								const price = isFree ? 0 : parseFloat(e.target.value) || 0;
+								handleChange({ isFree, price });
+							}}
+						/>
+					) : (
+						<Text
+							size={'s4'}
+							weight={'bold'}
+							color={'primary'}
+						>
+							{editedEvent.isFree ? 'Бесплатно' : `${editedEvent.price} ₽`}{' '}
+						</Text>
+					)}
+					<div className={styles.buttonsContainer}>
+						<Button onClick={isEditing ? handleSave : handleEdit}>
+							{isEditing ? 'Сохранить' : <EditOutlined />}
+						</Button>
+						<Button onClick={handleDelete}>
+							<DeleteOutlined />
+						</Button>
+					</div>
 				</div>
 				<Text
 					size={'s6'}
@@ -91,7 +134,14 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						Описание
 					</Text>
 					<br />
-					{event.description}
+					{isEditing ? (
+						<textarea
+							value={editedEvent.description ?? ''}
+							onChange={(e) => handleChange({ description: e.target.value })}
+						/>
+					) : (
+						editedEvent.description
+					)}
 				</Text>
 				{event.capacity ? (
 					<Text
@@ -125,7 +175,15 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						Адрес
 					</Text>
 					<br />
-					{event.address}
+					{isEditing ? (
+						<input
+							type='text'
+							value={editedEvent.address ?? ''}
+							onChange={(e) => handleChange({ address: e.target.value })}
+						/>
+					) : (
+						editedEvent.address
+					)}
 				</Text>
 				<Text
 					size={'s6'}
@@ -134,12 +192,24 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				>
 					{'Дата: '}
 					<br />
-					<Text
-						size={'s6'}
-						color={'secondary'}
-					>
-						{formatDate(event.date)}
-					</Text>
+					{isEditing ? (
+						<input
+							type='date'
+							value={
+								editedEvent.date
+									? new Date(editedEvent.date).toISOString().split('T')[0]
+									: ''
+							}
+							onChange={(e) => handleChange({ date: e.target.value })}
+						/>
+					) : (
+						<Text
+							size={'s6'}
+							color={'secondary'}
+						>
+							{formatDate(editedEvent.date)}{' '}
+						</Text>
+					)}
 				</Text>
 				<Text
 					size={'s6'}
@@ -149,13 +219,29 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					<FieldTimeOutlined className={styles.icon} />
 					{'Время проведения: '}
 					<br />
-					<Text
-						size={'s6'}
-						color={'secondary'}
-					>
-						{event.startTime ? formatTime(event.startTime) : '... '} —
-						{event.endTime ? ' ' + formatTime(event.endTime) : ' ...'}
-					</Text>
+					{isEditing ? (
+						<div>
+							<input
+								type='time'
+								value={editedEvent.startTime ?? ''}
+								onChange={(e) => handleChange({ startTime: e.target.value })}
+							/>{' '}
+							—
+							<input
+								type='time'
+								value={editedEvent.endTime ?? ''}
+								onChange={(e) => handleChange({ endTime: e.target.value })}
+							/>
+						</div>
+					) : (
+						<Text
+							size={'s6'}
+							color={'secondary'}
+						>
+							{event.startTime ? formatTime(event.startTime) : '...'} —
+							{event.endTime ? ' ' + formatTime(event.endTime) : ' ...'}
+						</Text>
+					)}
 				</Text>
 			</div>
 		</div>

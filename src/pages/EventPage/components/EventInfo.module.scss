@@ -48,8 +48,43 @@
 	}
 }
 
+.eventPriceContainer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin-top: 15px;
+}
+
+.buttonsContainer {
+	display: flex;
+	gap: 10px;
+}
+
 .icon {
 	margin: 0 1rem;
+}
+
+/* Стили для полей редактирования */
+input,
+textarea {
+	width: 280px;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+	margin-top: 10px;
+	transition: border-color 0.3s;
+
+	&:focus {
+		border-color: #007bff;
+		outline: none;
+	}
+}
+
+textarea {
+	resize: none;
+	height: 60px;
 }
 
 @media (max-width: 768px) {
