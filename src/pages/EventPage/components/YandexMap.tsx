@@ -35,26 +35,17 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 			});
 		};
 
-		if (!window.ymaps) {
-			const script = document.createElement('script');
-			const APIKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
-			script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${APIKey}`;
-			document.body.appendChild(script);
-			script.onload = () => {
-				window.ymaps.ready(initializeMap);
-			};
-		} else {
-			initializeMap();
+		if (window.ymaps) {
+			window.ymaps.ready(initializeMap);
 		}
 	}, [address]);
 
 	return (
 		<div className={styles.mapContainer}>
-			{' '}
 			<div
 				id='map'
 				className={styles.map}
-			></div>{' '}
+			></div>
 		</div>
 	);
 };
