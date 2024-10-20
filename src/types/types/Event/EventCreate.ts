@@ -19,4 +19,5 @@ export const createEventCreateApi = (
 	start_time: from.startTime,
 	end_time: from.endTime,
 	game_level: from.gameLevel,
+	creator_id: from.creatorId,
 });

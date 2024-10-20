@@ -7,7 +7,7 @@ import { useUser } from 'contexts/User/userContext.tsx';
 import { EventShortInfoModel } from '../../../../types/types/Event/EventShortInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
-import { formatDate, formatTime } from 'utils/formatTime.ts';
+import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 
@@ -44,7 +44,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 				</Text>
 				<Text>
 					{'Дата: '}
-					{formatDate(event.date)}
+					{formatDateDDMMMMYYYY(event.date)}
 				</Text>
 				<Text>
 					{'Начало: '}

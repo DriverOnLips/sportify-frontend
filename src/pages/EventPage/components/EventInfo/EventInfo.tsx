@@ -11,7 +11,10 @@ import { useUser } from '../../../../contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from '../../../../types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
-import { formatDate, formatTime } from '../../../../utils/formatTime.ts';
+import {
+	formatDateDDMMMMYYYY,
+	formatTime,
+} from '../../../../utils/formatTime.ts';
 import SubscribeButton from '../../../../components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './EventInfo.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -119,7 +122,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				>
 					{'Дата: '}
 					<br />
-					{formatDate(event.date)}
+					{formatDateDDMMMMYYYY(event.date)}
 				</Text>
 				<Text
 					size={'s6'}
