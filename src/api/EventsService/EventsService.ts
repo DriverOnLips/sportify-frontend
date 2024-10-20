@@ -196,11 +196,11 @@ export class EventsService {
 				configItem.method,
 				`${configItem.url}/${eventId}`,
 				{
-					'Content-Type': 'application/json',
-				},
-				{
 					user_id: userId,
 					sub,
+				},
+				{
+					'Content-Type': 'application/json',
 				},
 			);
 		} catch (error: any) {

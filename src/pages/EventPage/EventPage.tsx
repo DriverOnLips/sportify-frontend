@@ -35,7 +35,7 @@ const EventPage: React.FC = () => {
 
 	useEffect(() => {
 		getEvents();
-	}, [id]);
+	}, []);
 
 	return (
 		<div style={{ display: 'flex', height: '100vh' }}>
