@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from '../../components/Toast/Toast.tsx';
-
 import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo.tsx';
+import YandexMap from './components/YandexMap.tsx';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
@@ -37,8 +37,15 @@ const EventPage: React.FC = () => {
 	}, []);
 
 	return (
-		<div>
-			<div>{event ? <EventInfo event={event} /> : <Loader />}</div>
+		<div style={{ display: 'flex', height: '100vh' }}>
+			<div style={{ flex: 1 }}>
+				{event ? <EventInfo event={event} /> : <Loader />}
+			</div>
+			{event && (
+				<div style={{ flex: 1 }}>
+					<YandexMap address={event.address} />
+				</div>
+			)}
 		</div>
 	);
 };
