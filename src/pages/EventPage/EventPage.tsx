@@ -34,7 +34,7 @@ const EventPage: React.FC = () => {
 
 	useEffect(() => {
 		getEvents();
-	}, [getEvents]);
+	}, []);
 
 	return (
 		<div>
