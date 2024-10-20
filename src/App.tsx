@@ -5,15 +5,16 @@ import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
 import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
+import { useEnv } from './contexts/EnvContext.tsx';
 
 function App() {
-	const apiKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
+	const { yandexMapApiKey } = useEnv();
 
 	return (
 		<div id='app'>
 			<Helmet>
 				<script
-					src={`https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${apiKey}`}
+					src={`https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${yandexMapApiKey}`}
 					type='text/javascript'
 				/>
 			</Helmet>

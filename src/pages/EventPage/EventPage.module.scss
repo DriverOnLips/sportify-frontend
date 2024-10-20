@@ -1,0 +1,12 @@
+.event_page {
+  display: flex;
+  width: 100%;
+
+  &__info {
+    flex: 1;
+  }
+
+  &__map {
+    flex: 1;
+  }
+}

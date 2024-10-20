@@ -11,7 +11,7 @@ interface EnvProviderProps {
 }
 
 export const EnvProvider: React.FC<EnvProviderProps> = ({ children }) => {
-	const yandexMapApiKey = process.env.VITE_YANDEX_MAP_API_KEY;
+	const yandexMapApiKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
 
 	if (!yandexMapApiKey) {
 		throw new Error(

@@ -4,6 +4,7 @@ import { SportTypes } from '../../enums/SportTypes.ts';
 // тип для страницы с подробным описанием
 export type EventInfoModel = {
 	id: string;
+	creatorId: string;
 	sportType: SportTypes;
 	address: string;
 	date: string;
@@ -23,6 +24,7 @@ export type EventInfoModel = {
 
 export type EventInfoApi = {
 	id: string;
+	creator_id: string;
 	sport_type: SportTypes;
 	address: string;
 	date: string;
@@ -42,6 +44,7 @@ export type EventInfoApi = {
 
 export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
+	creatorId: from.creator_id,
 	sportType: from.sport_type,
 	startTime: from.start_time,
 	endTime: from.end_time,
