@@ -5,20 +5,20 @@ import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from '../../components/Toast/Toast.tsx';
 
 import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
-import EventInfo from './components/EventInfo.tsx';
-import YandexMap from './components/YandexMap.tsx';
+import EventInfo from './components/EventInfo/EventInfo.tsx';
+import YandexMap from './components/YandexMap/YandexMap.tsx';
+import styles from './EventPage.module.scss';
+import useEditMode from '../../hooks/usePageMode.ts';
+import EventEdit from './components/EventEdit/EventEdit.tsx';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
 	const [event, setEvent] = useState<EventInfoModel | null>(null);
+	const idEditMode = useEditMode();
 
 	const eventsService = new EventsService();
 
-	const getEvents = async () => {
-		if (!id) {
-			return;
-		}
-
+	const getEvents = async (id: string) => {
 		try {
 			const evt = await eventsService.getEventInfo(id);
 			setEvent(evt);
@@ -34,18 +34,35 @@ const EventPage: React.FC = () => {
 	};
 
 	useEffect(() => {
-		getEvents();
-	}, []);
+		if (!id) {
+			return;
+		}
+
+		getEvents(id);
+	}, [id]);
 
 	return (
-		<div style={{ display: 'flex', height: '100vh' }}>
-			<div style={{ flex: 1 }}>
-				{event ? <EventInfo event={event} /> : <Loader />}
-			</div>
-			{event && (
-				<div style={{ flex: 1 }}>
-					<YandexMap address={event.address} />
-				</div>
+		<div className={styles.event_page}>
+			{event ? (
+				<>
+					<>
+						{!idEditMode ? (
+							<>
+								<div className={styles.event_page__info}>
+									<EventInfo event={event} />
+								</div>
+
+								<div className={styles.event_page__map}>
+									<YandexMap address={event.address} />
+								</div>
+							</>
+						) : (
+							<EventEdit event={event} />
+						)}
+					</>
+				</>
+			) : (
+				<Loader />
 			)}
 		</div>
 	);

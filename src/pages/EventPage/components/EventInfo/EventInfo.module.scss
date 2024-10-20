@@ -1,4 +1,6 @@
-.eventInfo {
+@use "src/styles/variables.scss" as *;
+
+.event_info {
 	flex: 1;
 	min-width: 50%;
 	height: 100vh;
@@ -9,6 +11,13 @@
 	box-sizing: border-box;
 	border: 1px solid #ddd;
 	overflow-y: auto;
+
+	&__type {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 5px;
+	}
 }
 
 .eventPrice {
@@ -19,17 +28,12 @@
 	color: #007bff;
 }
 
-.eventType {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 5px;
-}
+
 
 .eventImage {
 	width: 100%;
-	border-radius: 8px;
-	margin-top: 10px;
+	border-radius: $border-radius;
+	//margin-top: 10px;
 }
 
 .eventDetails {
