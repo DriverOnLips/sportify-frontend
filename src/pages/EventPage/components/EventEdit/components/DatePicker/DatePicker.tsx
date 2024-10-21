@@ -1,18 +1,19 @@
 import React, { useMemo, useState } from 'react';
-import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import DatePicker from 'components/DatePicker/DatePicker.tsx';
 import { formatDateYYYYMMDD } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
-	changeEventField: (field: Partial<EventInfoModel>) => void;
+	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
 const EventDatePicker: React.FC<Props> = ({ changeEventField }) => {
 	const [value, setValue] = useState<string | null>(null);
 
 	const updateDate = useMemo(
-		() => (value: string | null) => changeEventField({ date: value }),
+		() => (value: string | null) =>
+			changeEventField({ date: value || undefined }),
 		[],
 	);
 

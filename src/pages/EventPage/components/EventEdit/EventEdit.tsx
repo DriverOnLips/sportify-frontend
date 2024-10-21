@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { EventInfoModel } from '../../../../types/types/Event/EventInfo.ts';
+import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import styles from './EventEdit.module.scss';
 import AddressInput from './components/AddressInput/AddressInput.tsx';
 import SportsTypeSelect from './components/SportTypeSelect/SportTypeSelect.tsx';
 import EventDatePicker from './components/DatePicker/DatePicker.tsx';
 import EventTimePicker from './components/TimePicker/TimePicker.tsx';
 import PriceInput from './components/PriceInput/PriceInput.tsx';
+import GameLevelSelect from './components/GameLevelSelect/GameLevelSelect.tsx';
+import CapacityInput from './components/CapacityInput/CapacityInput.tsx';
+import EventUploadImages from './components/UploadImages/UploadImages.tsx';
 
 interface EventEditProps {
 	event: EventInfoModel;
@@ -29,6 +32,9 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 			<EventDatePicker changeEventField={changeEventField} />
 			<EventTimePicker changeEventField={changeEventField} />
 			<PriceInput changeEventField={changeEventField} />
+			<GameLevelSelect changeEventField={changeEventField} />
+			<CapacityInput changeEventField={changeEventField} />
+			<EventUploadImages changeEventField={changeEventField} />
 		</div>
 	);
 };

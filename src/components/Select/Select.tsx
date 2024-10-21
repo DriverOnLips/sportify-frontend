@@ -1,16 +1,17 @@
 import React from 'react';
 import { Select as AntdSelect } from 'antd';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
 
 type Option = {
-	value: SportTypes | null;
+	value: any;
 	label: string;
 };
 
 type Props = {
-	value: SportTypes | null;
+	value: any | null;
 	options: Option[];
 	placeholder?: string;
+	mode?: 'multiple' | 'tags';
+	allowClear?: boolean;
 	onChange?: (value: any) => void;
 	onSearch?: (value: string) => void;
 };
@@ -19,13 +20,17 @@ const Select: React.FC<Props> = ({
 	value,
 	options,
 	placeholder,
+	mode,
 	onChange,
 	onSearch,
+	allowClear,
 }) => (
 	<AntdSelect
 		showSearch
 		value={value}
 		placeholder={placeholder}
+		mode={mode}
+		allowClear={allowClear}
 		optionFilterProp={'label'}
 		onChange={onChange}
 		onSearch={onSearch}

@@ -1,10 +1,10 @@
 import Input from 'components/Input/Input.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
-	changeEventField: (field: Partial<EventInfoModel>) => void;
+	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
 const AddressInput: React.FC<Props> = ({ changeEventField }) => {

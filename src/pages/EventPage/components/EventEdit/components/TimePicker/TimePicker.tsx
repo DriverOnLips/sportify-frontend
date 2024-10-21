@@ -1,11 +1,11 @@
 import TimePicker from 'antd/es/time-picker'; // АнтДизайн RangePicker
 import React, { useMemo, useState } from 'react';
-import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { formatTime } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
-	changeEventField: (field: Partial<EventInfoModel>) => void;
+	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
 const EventTimePicker: React.FC<Props> = ({ changeEventField }) => {
@@ -16,7 +16,7 @@ const EventTimePicker: React.FC<Props> = ({ changeEventField }) => {
 
 	const updateTimeRange = useMemo(
 		() => (startTime: string | null, endTime: string | null) => {
-			changeEventField({ startTime, endTime });
+			changeEventField({ startTime: startTime || undefined, endTime });
 		},
 		[],
 	);
