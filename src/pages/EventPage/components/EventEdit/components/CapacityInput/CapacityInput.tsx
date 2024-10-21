@@ -7,33 +7,30 @@ type Props = {
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const PriceInput: React.FC<Props> = ({ changeEventField }) => {
-	const [value, setValue] = useState(0);
+const CapacityInput: React.FC<Props> = ({ changeEventField }) => {
+	const [value, setValue] = useState<number | null>(null);
 
 	const updatePrice = useMemo(
-		() => debounce((value: number) => changeEventField({ price: value }), 500),
+		() =>
+			debounce(
+				(value: number | undefined) => changeEventField({ price: value }),
+				500,
+			),
 		[],
 	);
 
 	const changePrice = (value: string | number | null) => {
-		if (typeof value !== 'number') {
-			return;
-		}
-
-		setValue(value);
-		updatePrice(value);
+		setValue(Number(value) || null);
+		updatePrice(Number(value) || undefined);
 	};
 
 	return (
 		<InputNumber
 			value={value}
 			onChange={changePrice}
-			defaultValue={0}
-			min={0}
 			max={10000}
-			addonAfter={'₽'}
 		/>
 	);
 };
 
-export default PriceInput;
+export default CapacityInput;
