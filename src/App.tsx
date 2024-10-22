@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Sidebar from './components/Menu/Menu.tsx';
+import Header from './components/Header/Header.tsx';
 import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
 import { UserProvider } from './contexts/User/userContext.tsx';
@@ -21,7 +22,12 @@ function App() {
 
 			<UserProvider>
 				<BrowserRouter basename='/'>
-					<div id='content'>
+					<Header />
+					<Sidebar />
+					<div
+						id='content'
+						style={{ marginLeft: '300px', paddingTop: '64px' }}
+					>
 						<Routes>
 							<Route
 								path='/'
@@ -33,7 +39,6 @@ function App() {
 							/>
 						</Routes>
 					</div>
-					<Sidebar />
 				</BrowserRouter>
 			</UserProvider>
 		</div>
