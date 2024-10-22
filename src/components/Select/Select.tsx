@@ -7,6 +7,7 @@ type Option = {
 };
 
 type Props = {
+	className?: string;
 	value: any | null;
 	options: Option[];
 	placeholder?: string;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const Select: React.FC<Props> = ({
+	className,
 	value,
 	options,
 	placeholder,
@@ -27,6 +29,7 @@ const Select: React.FC<Props> = ({
 }) => (
 	<AntdSelect
 		showSearch
+		className={className}
 		value={value}
 		placeholder={placeholder}
 		mode={mode}

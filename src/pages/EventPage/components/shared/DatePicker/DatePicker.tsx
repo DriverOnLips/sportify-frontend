@@ -5,34 +5,43 @@ import dayjs from 'dayjs';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
+	className?: string;
+	value?: string;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const EventDatePicker: React.FC<Props> = ({ changeEventField }) => {
-	const [value, setValue] = useState<string | null>(null);
+const EventDatePicker: React.FC<Props> = ({
+	className,
+	value,
+	changeEventField,
+}) => {
+	const [date, setDate] = useState<string | null>(value || null);
 
 	const updateDate = useMemo(
 		() => (value: string | null) =>
-			changeEventField({ date: value || undefined }),
+			changeEventField({
+				date: value ? new Date(value).toISOString() : undefined,
+			}),
 		[],
 	);
 
 	const changeDate = (date: dayjs.Dayjs, _: string | string[]) => {
 		if (!date) {
-			setValue(date);
+			setDate(date);
 			updateDate(date);
 
 			return;
 		}
 
 		const val = formatDateYYYYMMDD(date);
-		setValue(val);
+		setDate(val);
 		updateDate(val);
 	};
 
 	return (
 		<DatePicker
-			value={value}
+			className={className}
+			value={date}
 			onChange={changeDate}
 		/>
 	);

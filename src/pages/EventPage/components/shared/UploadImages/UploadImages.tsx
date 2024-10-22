@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
-import UploadImages from 'components/UploadImages/UploadImages.tsx';
+import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import UploadImages from '../../../../../components/UploadImages/UploadImages.tsx';
 
 type Props = {
+	className?: string;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const EventUploadImages: React.FC<Props> = ({ changeEventField }) => {
+const EventUploadImages: React.FC<Props> = ({
+	className,
+	changeEventField,
+}) => {
 	const [imgsUrls, setImgsUrls] = useState<string[]>([]);
 
 	const updatePhotos = (photos: string[]) =>
@@ -26,6 +30,7 @@ const EventUploadImages: React.FC<Props> = ({ changeEventField }) => {
 
 	return (
 		<UploadImages
+			className={className}
 			setLink={setLink}
 			removeLink={removeLink}
 		/>

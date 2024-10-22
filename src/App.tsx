@@ -7,6 +7,7 @@ import EventsList from 'pages/EventsList/EventsList.tsx';
 import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
+import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
 
 function App() {
 	const { yandexMapApiKey } = useEnv();
@@ -30,12 +31,16 @@ function App() {
 					>
 						<Routes>
 							<Route
-								path='/'
+								path='/events'
 								element={<EventsList />}
 							/>
 							<Route
-								path='/event/:id'
+								path='/events/:id'
 								element={<EventPage />}
+							/>
+							<Route
+								path='/events-create'
+								element={<EventCreate />}
 							/>
 						</Routes>
 					</div>

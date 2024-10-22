@@ -12,7 +12,7 @@ export type EventInfoModel = {
 	endTime: string | null;
 	price: number | null;
 	isFree: boolean;
-	gameLevel: GameLevels | null;
+	gameLevel: GameLevels[];
 	description: string | null;
 	rawMessage: string | null;
 	capacity: number | null;
@@ -32,7 +32,7 @@ export type EventInfoApi = {
 	end_time: string | null;
 	price: number | null;
 	is_free: boolean;
-	game_level: GameLevels | null;
+	game_level: GameLevels[];
 	description: string | null;
 	raw_message: string | null;
 	capacity: number | null;

@@ -10,11 +10,12 @@ import Button from '../Button/Button.tsx';
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 type Props = {
+	className?: string;
 	setLink: (link: string) => void;
 	removeLink: (link: string) => void;
 };
 
-const UploadImages: React.FC<Props> = ({ setLink, removeLink }) => {
+const UploadImages: React.FC<Props> = ({ className, setLink, removeLink }) => {
 	const imageService = new ImageService();
 
 	const [previewOpen, setPreviewOpen] = useState(false);
@@ -125,6 +126,7 @@ const UploadImages: React.FC<Props> = ({ setLink, removeLink }) => {
 	return (
 		<>
 			<Upload
+				className={className}
 				listType='picture-card'
 				fileList={fileList}
 				onPreview={handlePreview}

@@ -1,14 +1,20 @@
-import InputNumber from 'components/InputNumber/InputNumber.tsx';
+import InputNumber from '../../../../../components/InputNumber/InputNumber.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
 
 type Props = {
+	className?: string;
+	value?: number | null;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const PriceInput: React.FC<Props> = ({ changeEventField }) => {
-	const [value, setValue] = useState(0);
+const PriceInput: React.FC<Props> = ({
+	className,
+	value,
+	changeEventField,
+}) => {
+	const [price, setPrice] = useState(value || 0);
 
 	const updatePrice = useMemo(
 		() => debounce((value: number) => changeEventField({ price: value }), 500),
@@ -20,13 +26,14 @@ const PriceInput: React.FC<Props> = ({ changeEventField }) => {
 			return;
 		}
 
-		setValue(value);
+		setPrice(value);
 		updatePrice(value);
 	};
 
 	return (
 		<InputNumber
-			value={value}
+			className={className}
+			value={price}
 			onChange={changePrice}
 			defaultValue={0}
 			min={0}

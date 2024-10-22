@@ -11,14 +11,16 @@ dayjs.extend(advancedFormat);
 dayjs.extend(customParseFormat);
 
 type Props = {
+	className?: string;
 	value: string | null;
 	onChange: DatePickerProps['onChange'];
 };
-const DatePicker: React.FC<Props> = ({ value, onChange }) => {
+const DatePicker: React.FC<Props> = ({ className, value, onChange }) => {
 	const val = value ? dayjs(value) : null;
 
 	return (
 		<DatePickerAntd
+			className={className}
 			value={val}
 			onChange={onChange}
 			format='DD.MM.YYYY'
