@@ -122,7 +122,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				>
 					{'Дата: '}
 					<br />
-					{formatDateDDMMMMYYYY(event.date)}
+					<Text
+						size={'s6'}
+						color={'secondary'}
+					>
+						{formatDateDDMMMMYYYY(event.date)}
+					</Text>
 				</Text>
 				<Text
 					size={'s6'}
@@ -132,7 +137,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					<FieldTimeOutlined className={styles.icon} />
 					{'Время проведения: '}
 					<br />
-					{`${formatTime(event.startTime)} — ${event.endTime ? formatTime(event.endTime) : ''}`}
+					<Text
+						size={'s6'}
+						color={'secondary'}
+					>
+						{`${formatTime(event.startTime)} — ${event.endTime ? formatTime(event.endTime) : ''}`}
+					</Text>
 				</Text>
 			</div>
 		</div>
