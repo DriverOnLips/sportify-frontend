@@ -32,7 +32,7 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 				userId,
 				!isSubscribed,
 			);
-			setIsSubscribed(response.data.subscribers_id?.includes(userId) || false);
+			setIsSubscribed(response.subscribers_id?.includes(userId) || false);
 		} catch (e) {
 			showToast(
 				'error',

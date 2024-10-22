@@ -5,15 +5,17 @@ import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
 import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
+import { useEnv } from './contexts/EnvContext.tsx';
+import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
 
 function App() {
-	const apiKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
+	const { yandexMapApiKey } = useEnv();
 
 	return (
 		<div id='app'>
 			<Helmet>
 				<script
-					src={`https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${apiKey}`}
+					src={`https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${yandexMapApiKey}`}
 					type='text/javascript'
 				/>
 			</Helmet>
@@ -23,12 +25,16 @@ function App() {
 					<div id='content'>
 						<Routes>
 							<Route
-								path='/'
+								path='/events'
 								element={<EventsList />}
 							/>
 							<Route
-								path='/event/:id'
+								path='/events/:id'
 								element={<EventPage />}
+							/>
+							<Route
+								path='/events-create'
+								element={<EventCreate />}
 							/>
 						</Routes>
 					</div>

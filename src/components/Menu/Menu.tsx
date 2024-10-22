@@ -65,13 +65,13 @@ const Menu: React.FC = () => {
 
 	const getActiveKey = () => {
 		switch (location.pathname) {
-			case '/':
+			case '/events':
 				return ['2'];
 			case '/map':
 				return ['3'];
-			case '/events':
+			case '/events-my':
 				return ['5'];
-			case '/create-event':
+			case '/events-create':
 				return ['6'];
 			case '/clubs':
 				return ['7'];
@@ -85,16 +85,16 @@ const Menu: React.FC = () => {
 	const handleClick: MenuProps['onClick'] = (e) => {
 		switch (e.key) {
 			case '2':
-				navigate('/');
+				navigate('/events');
 				break;
 			case '3':
 				navigate('/map');
 				break;
 			case '5':
-				navigate('/events');
+				navigate('/events-my');
 				break;
 			case '6':
-				navigate('/create-event');
+				navigate('/events-create');
 				break;
 			case '7':
 				navigate('/clubs');

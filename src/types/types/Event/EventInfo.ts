@@ -1,9 +1,10 @@
-import { GameLevels } from '../enums/GameLevels.ts';
-import { SportTypes } from '../enums/SportTypes.ts';
+import { GameLevels } from '../../enums/GameLevels.ts';
+import { SportTypes } from '../../enums/SportTypes.ts';
 
 // тип для страницы с подробным описанием
-export type EventTypeModel = {
+export type EventInfoModel = {
 	id: string;
+	creatorId: string;
 	sportType: SportTypes;
 	address: string;
 	date: string;
@@ -11,7 +12,7 @@ export type EventTypeModel = {
 	endTime: string | null;
 	price: number | null;
 	isFree: boolean;
-	gameLevel: GameLevels | null;
+	gameLevel: GameLevels[];
 	description: string | null;
 	rawMessage: string | null;
 	capacity: number | null;
@@ -21,8 +22,9 @@ export type EventTypeModel = {
 	photos: string[];
 };
 
-export type EventTypeApi = {
+export type EventInfoApi = {
 	id: string;
+	creator_id: string;
 	sport_type: SportTypes;
 	address: string;
 	date: string;
@@ -30,7 +32,7 @@ export type EventTypeApi = {
 	end_time: string | null;
 	price: number | null;
 	is_free: boolean;
-	game_level: GameLevels | null;
+	game_level: GameLevels[];
 	description: string | null;
 	raw_message: string | null;
 	capacity: number | null;
@@ -40,8 +42,9 @@ export type EventTypeApi = {
 	photos: string[];
 };
 
-export const createEventTypeModel = (from: EventTypeApi): EventTypeModel => ({
+export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
+	creatorId: from.creator_id,
 	sportType: from.sport_type,
 	startTime: from.start_time,
 	endTime: from.end_time,
@@ -49,15 +52,4 @@ export const createEventTypeModel = (from: EventTypeApi): EventTypeModel => ({
 	gameLevel: from.game_level,
 	rawMessage: from.raw_message,
 	subscribersId: from.subscribers_id,
-});
-
-export const createEventTypeApi = (from: EventTypeModel): EventTypeApi => ({
-	...from,
-	sport_type: from.sportType,
-	start_time: from.startTime,
-	end_time: from.endTime,
-	is_free: from.isFree,
-	game_level: from.gameLevel,
-	raw_message: from.rawMessage,
-	subscribers_id: from.subscribersId,
 });
