@@ -1,8 +1,9 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import Sidebar from './components/Menu/Menu.tsx';
 import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Sidebar from './components/Menu/Menu.tsx';
-
+import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 
