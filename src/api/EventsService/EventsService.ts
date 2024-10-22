@@ -18,6 +18,11 @@ import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
 
 export class EventsService extends ServiceBase {
 	private static instance: EventsService;
+	private config: { name: string; url: string }[] = [
+		{ name: 'getEvents', url: `/api/v1/events` },
+		{ name: 'getEventInfo', url: `/api/v1/event` },
+		{ name: 'subscribeOnEvent', url: `/api/v1/event/sub` },
+	];
 
 	constructor() {
 		super();
