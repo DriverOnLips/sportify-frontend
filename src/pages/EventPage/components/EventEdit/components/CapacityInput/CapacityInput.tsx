@@ -10,24 +10,24 @@ type Props = {
 const CapacityInput: React.FC<Props> = ({ changeEventField }) => {
 	const [value, setValue] = useState<number | null>(null);
 
-	const updatePrice = useMemo(
+	const updateCapacity = useMemo(
 		() =>
 			debounce(
-				(value: number | undefined) => changeEventField({ price: value }),
+				(value: number | undefined) => changeEventField({ capacity: value }),
 				500,
 			),
 		[],
 	);
 
-	const changePrice = (value: string | number | null) => {
+	const changeCapacity = (value: string | number | null) => {
 		setValue(Number(value) || null);
-		updatePrice(Number(value) || undefined);
+		updateCapacity(Number(value) || undefined);
 	};
 
 	return (
 		<InputNumber
 			value={value}
-			onChange={changePrice}
+			onChange={changeCapacity}
 			max={10000}
 		/>
 	);
