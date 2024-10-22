@@ -52,7 +52,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 		}
 	};
 
-	// надо убрать эти костыли
+	// надо убрать эти костыли. тут еще с форматом фигня, не считывает +3 мск. надо пофиксить
 	const startTime = new Date(event.startTime);
 	const startTimeHours = String(startTime.getUTCHours()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
 	const startTimeMinutes = String(startTime.getUTCMinutes()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
