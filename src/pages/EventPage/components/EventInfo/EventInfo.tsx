@@ -52,7 +52,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						{convertSportTypeToDisplayValue(event.sportType)}
 					</Text>
 				</div>
-				{!isCreator ? (
+				{isCreator ? (
 					<Button onClick={navigateToEventEdit}>
 						<EditOutlined />
 					</Button>
