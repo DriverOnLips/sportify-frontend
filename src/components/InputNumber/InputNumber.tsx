@@ -2,6 +2,7 @@ import React from 'react';
 import { InputNumber as InputNumberAntd } from 'antd';
 
 type Props = {
+	className?: string;
 	value: string | number | null;
 	onChange: (value: string | number | null) => void;
 	defaultValue?: string | number;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const InputNumber: React.FC<Props> = ({
+	className,
 	value,
 	onChange,
 	defaultValue,
@@ -21,6 +23,7 @@ const InputNumber: React.FC<Props> = ({
 	addonBefore,
 }) => (
 	<InputNumberAntd
+		className={className}
 		value={value}
 		onChange={onChange}
 		defaultValue={defaultValue}

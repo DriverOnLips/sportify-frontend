@@ -4,11 +4,17 @@ import { debounce } from 'lodash';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
+	className?: string;
+	value?: string;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const AddressInput: React.FC<Props> = ({ changeEventField }) => {
-	const [value, setValue] = useState('');
+const AddressInput: React.FC<Props> = ({
+	className,
+	value,
+	changeEventField,
+}) => {
+	const [address, setAddress] = useState<string>(value || '');
 
 	const updateAddress = useMemo(
 		() =>
@@ -18,13 +24,14 @@ const AddressInput: React.FC<Props> = ({ changeEventField }) => {
 
 	const changeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const val = e.target.value;
-		setValue(val);
+		setAddress(val);
 		updateAddress(val);
 	};
 
 	return (
 		<Input
-			value={value}
+			className={className}
+			value={address}
 			onChange={changeAddress}
 		/>
 	);

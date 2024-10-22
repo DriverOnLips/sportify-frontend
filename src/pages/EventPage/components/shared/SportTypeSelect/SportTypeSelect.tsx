@@ -1,14 +1,20 @@
-import Select from 'components/Select/Select.tsx';
+import Select from '../../../../../components/Select/Select.tsx';
 import React, { useMemo, useState } from 'react';
-import { SportTypes } from 'types/enums/SportTypes.ts';
-import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import { SportTypes } from '../../../../../types/enums/SportTypes.ts';
+import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
 
 type Props = {
+	className?: string;
+	value?: SportTypes | null;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const SportsTypeSelect: React.FC<Props> = ({ changeEventField }) => {
-	const [value, setValue] = useState<SportTypes | null>(null);
+const SportsTypeSelect: React.FC<Props> = ({
+	className,
+	value,
+	changeEventField,
+}) => {
+	const [sportType, setSportType] = useState<SportTypes | null>(value || null);
 
 	const updateAddress = useMemo(
 		() => (value: SportTypes) => changeEventField({ sportType: value }),
@@ -16,13 +22,14 @@ const SportsTypeSelect: React.FC<Props> = ({ changeEventField }) => {
 	);
 
 	const changeAddress = (val: SportTypes | null) => {
-		setValue(val);
+		setSportType(val);
 		val && updateAddress(val);
 	};
 
 	return (
 		<Select
-			value={value}
+			className={className}
+			value={sportType}
 			options={Object.values(SportTypes).map((type) => ({
 				value: type,
 				label: type.charAt(0).toUpperCase() + type.slice(1),

@@ -31,17 +31,17 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 	const isCreator = useMemo(() => userId == event.creatorId, [userId, event]);
 
-	const navigateToHomePage = useCallback(() => navigate('/'), [navigate]);
+	const navigateToEvents = useCallback(() => navigate('/events'), [navigate]);
 
 	const navigateToEventEdit = useCallback(
-		() => window.open(`/event/${event.id}?edit=true`, '_blank'),
+		() => navigate(`/events/${event.id}?edit=true`),
 		[event],
 	);
 
 	return (
 		<div className={styles.event_info}>
 			<div className={styles.event_info__type}>
-				<Button onClick={navigateToHomePage}>
+				<Button onClick={navigateToEvents}>
 					<ArrowLeftOutlined />
 				</Button>
 				<div className={styles.eventDetails}>

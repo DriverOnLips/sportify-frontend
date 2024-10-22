@@ -77,7 +77,7 @@ export class EventsService extends ServiceBase {
 			return await this.makeHttpRequest(
 				configItem.method,
 				configItem.url,
-				{ event: createEventCreateApi(event), user_id: userId },
+				{ event_create: createEventCreateApi(event), user_id: userId },
 				{
 					'Content-Type': 'application/json',
 				},
@@ -93,8 +93,8 @@ export class EventsService extends ServiceBase {
 
 			return await this.makeHttpRequest(
 				configItem.method,
-				`configItem.url/${event.id}`,
-				{ event: createEventUpdateApi(event), user_id: userId },
+				`${configItem.url}/${event.id}`,
+				{ event_edit: createEventUpdateApi(event), user_id: userId },
 				{
 					'Content-Type': 'application/json',
 				},

@@ -17,7 +17,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const navigate = useNavigate();
 
 	const onItemClick = useCallback(() => {
-		navigate(`/event/${event.id}`);
+		navigate(`/events/${event.id}`);
 	}, []);
 
 	return (

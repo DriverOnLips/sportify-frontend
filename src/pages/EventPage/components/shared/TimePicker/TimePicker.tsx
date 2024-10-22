@@ -5,14 +5,19 @@ import dayjs from 'dayjs';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
+	className?: string;
+	value?: [string, string | null];
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const EventTimePicker: React.FC<Props> = ({ changeEventField }) => {
-	const [timeRange, setTimeRange] = useState<[string | null, string | null]>([
-		null,
-		null,
-	]);
+const EventTimePicker: React.FC<Props> = ({
+	className,
+	value,
+	changeEventField,
+}) => {
+	const [timeRange, setTimeRange] = useState<[string | null, string | null]>(
+		value || [null, null],
+	);
 
 	const updateTimeRange = useMemo(
 		() => (startTime: string | null, endTime: string | null) => {
@@ -42,6 +47,7 @@ const EventTimePicker: React.FC<Props> = ({ changeEventField }) => {
 
 	return (
 		<TimePicker.RangePicker
+			className={className}
 			value={
 				timeRange.map((time) => (time ? dayjs(time, 'HH:mm') : null)) as [
 					dayjs.Dayjs | null,
