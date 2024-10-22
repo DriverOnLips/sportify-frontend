@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
 	createEventShortInfoModel,
 	EventShortInfoModel,
@@ -15,95 +14,30 @@ import {
 	createEventUpdateApi,
 	EventUpdateModel,
 } from '../../types/types/Event/EventUpdate.ts';
+import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
 
-enum RequestMethods {
-	GET = 'GET',
-	POST = 'POST',
-	PUT = 'PUT',
-	DELETE = 'DELETE',
-}
-
-type ConfigType = {
-	name: string;
-	url: string;
-	method: RequestMethods;
-};
-
-export class EventsService {
+export class EventsService extends ServiceBase {
 	private static instance: EventsService;
-	private pendingRequests: { [key: string]: boolean } = {};
-	private config: ConfigType[] = [
-		{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
-		{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
-		{
-			name: 'createEvent',
-			url: `/api/event`,
-			method: RequestMethods.POST,
-		},
-		{
-			name: 'updateEvent',
-			url: `/api/event`,
-			method: RequestMethods.PUT,
-		},
-		{
-			name: 'deleteEvent',
-			url: `/api/event`,
-			method: RequestMethods.DELETE,
-		},
-		{
-			name: 'subscribeOnEvent',
-			url: `/api/event/sub`,
-			method: RequestMethods.PUT,
-		},
-	];
 
 	constructor() {
+		super();
 		if (EventsService.instance) {
 			return EventsService.instance;
 		}
 
 		EventsService.instance = this;
-	}
-
-	private getConfigItem(name: string): ConfigType {
-		const configItem = this.config.find((item) => item.name === name);
-
-		if (!configItem) {
-			throw new Error(`Не найдена конфигурация для ${name}`);
-		}
-
-		return configItem;
-	}
-
-	private async makeHttpRequest(
-		method: RequestMethods,
-		url: string,
-		data?: any,
-		headers?: any,
-	): Promise<any> {
-		// Если запрос уже в процессе, игнорируем новый запрос
-		if (this.pendingRequests[url]) {
-			throw new Error('EREQUESTPENDING: Запрос уже в процессе');
-		}
-
-		// Устанавливаем флаг, что запрос активен
-		this.pendingRequests[url] = true;
-
-		try {
-			const res = await axios({
-				method,
-				url,
-				data,
-				headers,
-			});
-			return res?.data;
-		} catch (error) {
-			console.error('Error making HTTP request:', error);
-			throw error;
-		} finally {
-			// Убираем флаг после завершения запроса
-			delete this.pendingRequests[url];
-		}
+		this.config = [
+			{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
+			{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
+			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
+			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
+			{ name: 'deleteEvent', url: `/api/event`, method: RequestMethods.DELETE },
+			{
+				name: 'subscribeOnEvent',
+				url: `/api/event/sub`,
+				method: RequestMethods.PUT,
+			},
+		];
 	}
 
 	async getEvents(): Promise<EventShortInfoModel[]> {
