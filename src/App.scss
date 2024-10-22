@@ -1,29 +1,29 @@
 @use "styles/variables.scss" as *;
 
 body {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 #content {
-  position: absolute;
-  left: 300px;
-  width: calc(100vw - 300px);
+	position: absolute;
+	width: calc(100vw - 300px);
 }
 
-.ant-btn, .ant-menu {
-  font-size: $size5;
-  font-family: $font;
+.ant-btn,
+.ant-menu {
+	font-size: $size5;
+	font-family: $font;
 }
 
 .ant-image-mask {
-  border-radius: $border-radius;
+	border-radius: $border-radius;
 }
 
 @media screen and (max-width: 650px) {
-  #content {
-    position: absolute;
-    left: 80px;
-    width: calc(100vw - 80px);
-  }
+	#content {
+		position: absolute;
+		left: 80px;
+		width: calc(100vw - 80px);
+	}
 }
