@@ -5,9 +5,9 @@ import { EventTypeApi } from 'types/types/EventType.ts';
 export class EventsService {
 	private static instance: EventsService;
 	private config: { name: string; url: string }[] = [
-		{ name: 'getEvents', url: `/api/events` },
-		{ name: 'getEventInfo', url: `/api/event` },
-		{ name: 'subscribeOnEvent', url: `/api/event/sub` },
+		{ name: 'getEvents', url: `/api/v1/events` },
+		{ name: 'getEventInfo', url: `/api/v1/event` },
+		{ name: 'subscribeOnEvent', url: `/api/event/v1/sub` },
 	];
 
 	constructor() {
