@@ -12,10 +12,12 @@ import EventEdit from './components/EventEdit/EventEdit.tsx';
 
 const EventPage: React.FC = () => {
 	const { id } = useParams();
-	const [event, setEvent] = useState<EventInfoModel | null>(null);
+
 	const idEditMode = useEditMode();
 
 	const eventsService = new EventsService();
+
+	const [event, setEvent] = useState<EventInfoModel | null>(null);
 
 	const getEvents = async (id: string) => {
 		try {
@@ -38,7 +40,7 @@ const EventPage: React.FC = () => {
 		}
 
 		getEvents(id);
-	}, [id]);
+	}, [id, idEditMode]);
 
 	return (
 		<div className={styles.event_page}>
