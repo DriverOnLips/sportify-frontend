@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './EventCreate.module.scss';
 import AddressInput from '../shared/AddressInput/AddressInput.tsx';
 import SportsTypeSelect from '../shared/SportTypeSelect/SportTypeSelect.tsx';
@@ -23,27 +23,30 @@ const EventCreate: React.FC = () => {
 
 	const eventsService = new EventsService();
 
-	const [createdEvent, setCreatedEvent] = useState<EventCreateModel | null>(
+	const [eventToCreate, setEventToCreate] = useState<EventCreateModel | null>(
 		null,
 	);
 
-	useEffect(() => {
-		console.log(createdEvent);
-	}, [createdEvent]);
+	// useEffect(() => {
+	// 	console.log(eventToCreate);
+	// }, [eventToCreate]);
 
 	const changeEventField = useCallback((field: Partial<EventCreateModel>) => {
-		setCreatedEvent((prev) => ({ ...prev, ...field }));
+		setEventToCreate((prev) => ({ ...prev, ...field }));
 	}, []);
 
 	const onButtonClick = async () => {
-		if (!createdEvent) {
+		if (!eventToCreate) {
 			return;
 		}
 
 		try {
-			await eventsService.createEvent(createdEvent, userId);
+			const createdEvent = await eventsService.createEvent(
+				eventToCreate,
+				userId,
+			);
 			showToast('success', 'Событие успешно создано');
-			navigate(`/events`);
+			navigate(`/events/${createdEvent.id}`);
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(

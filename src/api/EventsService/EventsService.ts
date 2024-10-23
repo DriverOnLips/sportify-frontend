@@ -110,7 +110,7 @@ export class EventsService extends ServiceBase {
 
 			return await this.makeHttpRequest(
 				configItem.method,
-				`configItem.url/${eventId}`,
+				`${configItem.url}/${eventId}`,
 				{ user_id: userId },
 			);
 		} catch (error: any) {

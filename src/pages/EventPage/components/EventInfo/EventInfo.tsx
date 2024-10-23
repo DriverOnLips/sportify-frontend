@@ -4,6 +4,7 @@ import {
 	TeamOutlined,
 	FieldTimeOutlined,
 	EditOutlined,
+	DeleteOutlined,
 } from '@ant-design/icons';
 import Button from '../../../../components/Button/Button.tsx';
 import Text from '../../../../components/Text/Text.tsx';
@@ -19,6 +20,8 @@ import SubscribeButton from '../../../../components/shared/SubscribeButton/Subsc
 import styles from './EventInfo.module.scss';
 import { useNavigate } from 'react-router-dom';
 import Image from '../../../../components/Image/Image.tsx';
+import { showToast } from '../../../../components/Toast/Toast.tsx';
+import { EventsService } from 'api/EventsService/EventsService.ts';
 
 interface EventInfoProps {
 	event: EventInfoModel;
@@ -26,8 +29,8 @@ interface EventInfoProps {
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const { userId } = useUser();
-
 	const navigate = useNavigate();
+	const eventsService = new EventsService();
 
 	const isCreator = useMemo(() => userId == event.creatorId, [userId, event]);
 
@@ -37,6 +40,22 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		() => navigate(`/events/${event.id}?edit=true`),
 		[event],
 	);
+
+	const onDeleteButtonClick = async () => {
+		try {
+			await eventsService.deleteEvent(event.id, userId);
+			showToast('success', 'Событие удалено');
+			navigate('/events');
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при удалении события: ${(error as Error).message}`,
+				);
+			}
+		}
+	};
 
 	return (
 		<div className={styles.event_info}>
@@ -53,9 +72,18 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					</Text>
 				</div>
 				{isCreator ? (
-					<Button onClick={navigateToEventEdit}>
-						<EditOutlined />
-					</Button>
+					<>
+						<Button onClick={navigateToEventEdit}>
+							<EditOutlined />
+						</Button>
+
+						<Button
+							type={'dashed'}
+							onClick={onDeleteButtonClick}
+						>
+							<DeleteOutlined />
+						</Button>
+					</>
 				) : (
 					<SubscribeButton
 						disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
