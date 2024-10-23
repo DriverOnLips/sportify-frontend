@@ -1,5 +1,5 @@
 .event_create {
-  display: flex;
+	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	width: 100%;
@@ -10,6 +10,10 @@
 	border-radius: 8px;
 	box-sizing: border-box;
 	overflow-y: auto;
+
+	position: absolute;
+	left: 50%;
+	transform: translate(-80%, 10%);
 
 	&__content {
 		display: flex;
@@ -57,4 +61,3 @@
 		}
 	}
 }
-
