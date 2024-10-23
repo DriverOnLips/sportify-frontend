@@ -39,20 +39,44 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 					{convertSportTypeToDisplayValue(event.sportType)}
 				</Text>
 				<Text className={styles.list_item__content__address}>
-					{'Адрес: '}
+					<Text
+						size={'s5'}
+						weight={'bold'}
+						color={'primary'}
+					>
+						{'Адрес: '}
+					</Text>
 					{event.address}
 				</Text>
 				<Text>
-					{'Дата: '}
+					<Text
+						size={'s5'}
+						weight={'bold'}
+						color={'primary'}
+					>
+						{'Дата: '}
+					</Text>
 					{formatDateDDMMMMYYYY(event.date)}
 				</Text>
 				<Text>
-					{'Начало: '}
+					<Text
+						size={'s5'}
+						weight={'bold'}
+						color={'primary'}
+					>
+						{'Начало: '}
+					</Text>
 					{formatTime(event.startTime)}
 				</Text>
 				{event.endTime && (
 					<Text>
-						{'Окончание: '}
+						<Text
+							size={'s5'}
+							weight={'bold'}
+							color={'primary'}
+						>
+							{'Окончание: '}
+						</Text>
 						{formatTime(event.endTime)}
 					</Text>
 				)}
