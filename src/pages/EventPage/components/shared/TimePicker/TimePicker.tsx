@@ -1,4 +1,4 @@
-import TimePicker from 'antd/es/time-picker'; // АнтДизайн RangePicker
+import TimePicker from 'antd/es/time-picker';
 import React, { useMemo, useState } from 'react';
 import { formatTime } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
@@ -55,7 +55,7 @@ const EventTimePicker: React.FC<Props> = ({
 				]
 			}
 			onChange={onChangeRange}
-			format='HH:mm' // Формат времени
+			format='HH:mm'
 		/>
 	);
 };

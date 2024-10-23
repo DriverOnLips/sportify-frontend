@@ -14,9 +14,12 @@ import Button from '../../../../components/Button/Button.tsx';
 import { EventsService } from '../../../../api/EventsService/EventsService.ts';
 import { useUser } from '../../../../contexts/User/userContext.tsx';
 import { showToast } from '../../../../components/Toast/Toast.tsx';
+import { useNavigate } from 'react-router-dom';
 
 const EventCreate: React.FC = () => {
 	const { userId } = useUser();
+
+	const navigate = useNavigate();
 
 	const eventsService = new EventsService();
 
@@ -39,6 +42,8 @@ const EventCreate: React.FC = () => {
 
 		try {
 			await eventsService.createEvent(createdEvent, userId);
+			showToast('success', 'Событие успешно создано');
+			navigate(`/events`);
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(

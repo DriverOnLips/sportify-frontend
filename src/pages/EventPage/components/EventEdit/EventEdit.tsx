@@ -14,6 +14,7 @@ import { EventsService } from '../../../../api/EventsService/EventsService.ts';
 import { showToast } from '../../../../components/Toast/Toast.tsx';
 import Text from '../../../../components/Text/Text.tsx';
 import Button from '../../../../components/Button/Button.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface EventEditProps {
 	event: EventInfoModel;
@@ -21,6 +22,8 @@ interface EventEditProps {
 
 const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 	const { userId } = useUser();
+
+	const navigate = useNavigate();
 
 	const eventsService = new EventsService();
 
@@ -41,6 +44,9 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 		try {
 			await eventsService.updateEvent(editedEvent, userId);
+
+			showToast('success', 'Информация о событии обновлена');
+			navigate(`/events/${event.id}`);
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(
@@ -55,14 +61,14 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 	// надо убрать эти костыли. тут еще с форматом фигня, не считывает +3 мск. надо пофиксить
 	const startTime = new Date(event.startTime);
 	const startTimeHours = String(startTime.getUTCHours()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
-	const startTimeMinutes = String(startTime.getUTCMinutes()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
+	const startTimeMinutes = String(startTime.getUTCMinutes()).padStart(2, '0');
 	const formattedStartTime = `${startTimeHours}:${startTimeMinutes}`;
 
 	let formattedEndTime;
 	if (event.endTime) {
 		const endTime = new Date(event.endTime);
-		const endTimeHours = String(endTime.getUTCHours()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
-		const EndTimeMinutes = String(endTime.getUTCMinutes()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
+		const endTimeHours = String(endTime.getUTCHours()).padStart(2, '0');
+		const EndTimeMinutes = String(endTime.getUTCMinutes()).padStart(2, '0');
 		formattedEndTime = `${endTimeHours}:${EndTimeMinutes}`;
 	}
 
@@ -192,6 +198,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				<EventUploadImages
 					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
+					initialFiles={event.photos}
 				/>
 			</div>
 		</div>
