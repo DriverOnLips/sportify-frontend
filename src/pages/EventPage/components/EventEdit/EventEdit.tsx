@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import styles from './EventEdit.module.scss';
 import AddressInput from '../shared/AddressInput/AddressInput.tsx';
@@ -29,9 +29,9 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 	const [editedEvent, setEditedEvent] = useState<EventInfoModel>(event);
 
-	useEffect(() => {
-		console.log(editedEvent);
-	}, [setEditedEvent, editedEvent]);
+	// useEffect(() => {
+	// 	console.log(editedEvent);
+	// }, [setEditedEvent, editedEvent]);
 
 	const changeEventField = useCallback((field: Partial<EventInfoModel>) => {
 		setEditedEvent((prev) => ({ ...prev, ...field }));
@@ -44,7 +44,6 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 		try {
 			await eventsService.updateEvent(editedEvent, userId);
-
 			showToast('success', 'Информация о событии обновлена');
 			navigate(`/events/${event.id}`);
 		} catch (error: any) {

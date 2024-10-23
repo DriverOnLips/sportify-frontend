@@ -5,10 +5,13 @@ body {
   padding: 0;
 }
 
+$scrollbar-width: 20px;
+
+
 #content {
   position: absolute;
   left: 300px;
-  width: calc(100vw - 300px);
+  width: calc(100vw - 300px - $scrollbar-width);
 }
 
 .ant-btn, .ant-menu {
@@ -24,6 +27,6 @@ body {
   #content {
     position: absolute;
     left: 80px;
-    width: calc(100vw - 80px);
+    width: calc(100vw - 80px - $scrollbar-width);
   }
 }
