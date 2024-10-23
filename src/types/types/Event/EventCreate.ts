@@ -22,7 +22,7 @@ export type EventCreateApi = {
 	date: string;
 	start_time: string;
 	end_time: string | null;
-	price: number | null;
+	price: number;
 	game_level: GameLevels[];
 	description: string | null;
 	capacity: number | null;
@@ -62,7 +62,7 @@ export const createEventCreateApi = (
 		date: from.date,
 		start_time: timeStart.toISOString(),
 		end_time: from.endTime ? timeEnd.toISOString() : null,
-		price: from.price || null,
+		price: from.price || 0,
 		game_level: from.gameLevel || [],
 		description: from.description || null,
 		capacity: from.capacity || null,

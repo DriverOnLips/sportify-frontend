@@ -5,7 +5,7 @@ import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.t
 
 type Props = {
 	className?: string;
-	value?: number | null;
+	value?: number;
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 

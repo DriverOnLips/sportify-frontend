@@ -23,7 +23,6 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 		const delay = (ms: number) =>
 			new Promise((resolve) => setTimeout(resolve, ms));
 
-		// Задержка на 1 секунду
 		await delay(1000);
 
 		try {

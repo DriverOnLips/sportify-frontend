@@ -30,17 +30,16 @@ const getIconByType = (type: NotificationType) => {
 export const showToast = (
 	type: NotificationType,
 	message: string,
-	description: string,
+	description?: string,
 	placement?: Placement,
 	duration?: number,
 ): void => {
 	notification.open({
 		icon: getIconByType(type),
-
 		placement: placement || 'topRight',
 		message,
 		description,
-		duration: duration !== undefined ? duration : 3,
+		duration: duration || 3,
 		showProgress: true,
 	});
 };

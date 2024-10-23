@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Image, Upload, GetProp } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
+import { GetProp, Image, Upload } from 'antd';
 import { ImageService } from '../../api/ImageService/ImageService.ts';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { showToast } from '../Toast/Toast.tsx';
@@ -13,14 +13,30 @@ type Props = {
 	className?: string;
 	setLink: (link: string) => void;
 	removeLink: (link: string) => void;
+	initialFiles?: string[];
 };
 
-const UploadImages: React.FC<Props> = ({ className, setLink, removeLink }) => {
+const UploadImages: React.FC<Props> = ({
+	className,
+	setLink,
+	removeLink,
+	initialFiles,
+}) => {
 	const imageService = new ImageService();
 
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
-	const [fileList, setFileList] = useState<UploadFile[]>([]);
+	const [fileList, setFileList] = useState<UploadFile[]>(() => {
+		return (
+			initialFiles?.map((file, index) => ({
+				uid: `-initial-${index}`,
+				name: `image-${index + 1}`,
+				status: 'done',
+				url: file,
+			})) || []
+		);
+	});
+
 	const [filesWithUrls, setFilesWithUrls] = useState<
 		{ file: string; url: string }[]
 	>([]);
@@ -81,7 +97,7 @@ const UploadImages: React.FC<Props> = ({ className, setLink, removeLink }) => {
 				}
 			}
 		},
-		[getBase64, imageService, setFilesWithUrls, setLink, showToast], // Зависимости для useCallback
+		[getBase64, imageService, setFilesWithUrls, setLink, showToast],
 	);
 
 	const handleRemoveFiles = useCallback(
@@ -91,21 +107,21 @@ const UploadImages: React.FC<Props> = ({ className, setLink, removeLink }) => {
 			);
 
 			for (const file of removedFiles) {
-				if (file.originFileObj) {
-					const fileLink = filesWithUrls?.find(
-						(fileWithUrl) => fileWithUrl.file === file.uid,
-					)?.url;
+				// Удаление добавленной картинки : удаление существующей картинки
+				let fileLink = file.originFileObj
+					? filesWithUrls?.find((fileWithUrl) => fileWithUrl.file === file.uid)
+							?.url
+					: file.url;
 
-					if (fileLink) {
-						removeLink(fileLink);
-						setFilesWithUrls((prevState) =>
-							prevState.filter((fileWithUrl) => fileWithUrl.url !== fileLink),
-						);
-					}
+				if (fileLink) {
+					removeLink(fileLink);
+					setFilesWithUrls((prevState) =>
+						prevState.filter((fileWithUrl) => fileWithUrl.url !== fileLink),
+					);
 				}
 			}
 		},
-		[filesWithUrls, removeLink, setFilesWithUrls], // Зависимости для useCallback
+		[filesWithUrls, removeLink, setFilesWithUrls],
 	);
 
 	const handleChange: UploadProps['onChange'] = useCallback(
@@ -114,13 +130,11 @@ const UploadImages: React.FC<Props> = ({ className, setLink, removeLink }) => {
 
 			setFileList(newFileList);
 
-			// Обработка добавления файлов
 			await handleAddFiles(newFileList);
 
-			// Обработка удаления файлов
 			handleRemoveFiles(fileList);
 		},
-		[handleAddFiles, handleRemoveFiles, fileList, setFileList], // Зависимости для useCallback
+		[handleAddFiles, handleRemoveFiles, fileList, setFileList],
 	);
 
 	return (
