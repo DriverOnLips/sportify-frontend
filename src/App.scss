@@ -5,9 +5,12 @@ body {
 	padding: 0;
 }
 
+$scrollbar-width: 20px;
+
 #content {
 	position: absolute;
-	width: calc(100vw - 300px);
+	left: 300px;
+	width: calc(100vw - 300px - $scrollbar-width);
 }
 
 .ant-btn,
@@ -24,6 +27,6 @@ body {
 	#content {
 		position: absolute;
 		left: 80px;
-		width: calc(100vw - 80px);
+		width: calc(100vw - 80px - $scrollbar-width);
 	}
 }

@@ -11,10 +11,7 @@ const Image: React.FC<Props> = ({ width, src, className }) => (
 	<AntdImage
 		className={className}
 		width={width || 200}
-		src={
-			src ||
-			'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-		}
+		src={src || 'http://127.0.0.1:8080/api/v1/img/default_football.jpeg'}
 	/>
 );
 

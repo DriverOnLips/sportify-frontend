@@ -22,7 +22,6 @@ const GameLevelSelect: React.FC<Props> = ({
 	);
 
 	const changeAddress = (val: GameLevels[]) => {
-		console.log(val);
 		setGameLevels(val);
 		val && updateGameLevel(val);
 	};
