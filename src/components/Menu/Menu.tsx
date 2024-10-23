@@ -1,7 +1,7 @@
 import {
 	CarryOutOutlined,
-	HeatMapOutlined,
-	OrderedListOutlined,
+	GlobalOutlined,
+	AppstoreOutlined,
 	PlusCircleOutlined,
 	TeamOutlined,
 	UnorderedListOutlined,
@@ -24,13 +24,13 @@ const items: MenuItem[] = [
 		children: [
 			{
 				key: '2',
-				label: 'Список',
-				icon: <OrderedListOutlined />,
+				label: 'Лента',
+				icon: <AppstoreOutlined />,
 			},
 			{
 				key: '3',
 				label: 'Карта',
-				icon: <HeatMapOutlined />,
+				icon: <GlobalOutlined />,
 			},
 		],
 	},

@@ -15,6 +15,8 @@ import {
 	EventUpdateModel,
 } from '../../types/types/Event/EventUpdate.ts';
 import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
+import { SportTypes } from '../../types/enums/SportTypes.ts';
+
 
 export class EventsService extends ServiceBase {
 	private static instance: EventsService;
@@ -48,6 +50,22 @@ export class EventsService extends ServiceBase {
 				configItem.method,
 				configItem.url,
 			);
+
+			return createEventShortInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async getEventsBySportType(
+		sportType: SportTypes,
+	): Promise<EventShortInfoModel[]> {
+		try {
+			const configItem = this.getConfigItem('getEvents');
+
+			const url = `${configItem.url}?sport_type=${sportType}`;
+
+			const response = await this.makeHttpRequest(configItem.method, url);
 
 			return createEventShortInfoModel(response);
 		} catch (error: any) {

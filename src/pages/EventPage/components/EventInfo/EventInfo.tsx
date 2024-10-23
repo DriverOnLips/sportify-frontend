@@ -12,10 +12,7 @@ import { useUser } from '../../../../contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from '../../../../types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
-import {
-	formatDateDDMMMMYYYY,
-	formatTime,
-} from '../../../../utils/formatTime.ts';
+import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from '../../../../components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './EventInfo.module.scss';
 import { useNavigate } from 'react-router-dom';
@@ -86,7 +83,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					</>
 				) : (
 					<SubscribeButton
-						disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
+						disabled={event?.capacity ? event.busy >= event.capacity : false}
 						isSub={!!event.subscribersId?.includes(userId)}
 						eventId={event.id}
 					/>
@@ -124,9 +121,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					color={'primary'}
 				>
 					<TeamOutlined />
-					{event.capacity
-						? `${event.capacity - event.busy} / ${event.capacity}`
-						: event.busy}
+					{event.capacity ? `${event.busy} / ${event.capacity}` : event.busy}
 				</Text>
 				<Text
 					size={'s6'}
