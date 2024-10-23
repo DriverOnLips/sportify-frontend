@@ -86,7 +86,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 				{event.capacity ? (
 					<Text>
 						<TeamOutlined />
-						{event.capacity - event.busy} / {event.capacity}
+						{event.busy} / {event.capacity}
 					</Text>
 				) : (
 					<Text>
@@ -106,7 +106,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			<SubscribeButton
 				isSub={event.subscribersId?.includes(userId) ?? false}
 				eventId={event.id}
-				disabled={event?.capacity ? event.capacity - event.busy > 0 : false}
+				disabled={event?.capacity ? event.busy >= event.capacity : false}
 			/>
 		</Card>
 	);
