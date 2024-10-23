@@ -23,7 +23,7 @@ $scrollbar-width: 20px;
 }
 
 @media screen and (max-width: 650px) {
-	#content {
+  #content {
 		position: absolute;
 		left: 80px;
 		width: calc(100vw - 80px - $scrollbar-width);

@@ -17,6 +17,7 @@ import {
 import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
 import { SportTypes } from '../../types/enums/SportTypes.ts';
 
+
 export class EventsService extends ServiceBase {
 	private static instance: EventsService;
 

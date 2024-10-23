@@ -4,7 +4,6 @@ import Sidebar from './components/Menu/Menu.tsx';
 import Header from './components/Header/Header.tsx';
 import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
-import EventResults from 'pages/EventResult/EventResult.tsx'; // Новый компонент для результатов поиска
 import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
@@ -31,10 +30,6 @@ function App() {
 						style={{ marginLeft: '300px', paddingTop: '64px' }}
 					>
 						<Routes>
-							<Route
-								path='/'
-								element={<EventsList />}
-							/>
 							<Route
 								path='/events'
 								element={<EventsList />}

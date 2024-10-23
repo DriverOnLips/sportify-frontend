@@ -67,6 +67,7 @@ const EventCreate: React.FC = () => {
 			>
 				Создание мероприятия
 			</Text>
+
 			<div className={styles.event_create__item}>
 				<Text
 					className={styles.event_create__item_label}
@@ -178,7 +179,7 @@ const EventCreate: React.FC = () => {
 					changeEventField={changeEventField}
 				/>
 				<Button onClick={onButtonClick}>Создать</Button>
-			</div>
+  		</div>
 		</div>
 	);
 };
