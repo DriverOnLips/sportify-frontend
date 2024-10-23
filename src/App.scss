@@ -9,7 +9,6 @@ $scrollbar-width: 20px;
 
 #content {
 	position: absolute;
-	left: 300px;
 	width: calc(100vw - 300px - $scrollbar-width);
 }
 

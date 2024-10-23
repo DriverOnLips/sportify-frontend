@@ -70,8 +70,13 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 						{event.busy}
 					</Text>
 				)}
+
 				{event.gameLevel && (
-					<Text>{convertGameLevelToDisplayValue(event.gameLevel)}</Text>
+					<Text>
+						{event.gameLevel
+							.map((level) => convertGameLevelToDisplayValue(level))
+							.join(', ')}
+					</Text>
 				)}
 			</div>
 			<SubscribeButton
