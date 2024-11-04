@@ -9,7 +9,7 @@ $scrollbar-width: 20px;
 
 #content {
 	position: absolute;
-	width: calc(100vw - 300px - $scrollbar-width);
+	width: calc(100vw - 260px - $scrollbar-width);
 }
 
 .ant-btn,
@@ -23,7 +23,7 @@ $scrollbar-width: 20px;
 }
 
 @media screen and (max-width: 650px) {
-  #content {
+	#content {
 		position: absolute;
 		left: 80px;
 		width: calc(100vw - 80px - $scrollbar-width);
