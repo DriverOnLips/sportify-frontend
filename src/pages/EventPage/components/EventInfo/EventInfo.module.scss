@@ -1,0 +1,100 @@
+@use "src/styles/variables.scss" as *;
+
+.event_info {
+	flex: 1;
+	min-width: 50%;
+	height: 100vh;
+	padding: 20px;
+	background-color: #f9f9f9;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	border: 1px solid #ddd;
+	overflow-y: auto;
+
+	&__type {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 5px;
+	}
+}
+
+.eventPrice {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	color: #007bff;
+}
+
+
+
+.eventImage {
+	width: 100%;
+	border-radius: $border-radius;
+	//margin-top: 10px;
+}
+
+.eventDetails {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	span {
+		align-items: center;
+		margin: 8px 0;
+		font-family: "Roboto", sans-serif;
+		line-height: 1.5;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+			"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+			"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	}
+}
+
+.eventPriceContainer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin-top: 15px;
+}
+
+.buttonsContainer {
+	display: flex;
+	gap: 10px;
+}
+
+.icon {
+	margin: 0 1rem;
+}
+
+/* Стили для полей редактирования */
+input,
+textarea {
+	width: 280px;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 14px;
+	margin-top: 10px;
+	transition: border-color 0.3s;
+
+	&:focus {
+		border-color: #007bff;
+		outline: none;
+	}
+}
+
+textarea {
+	resize: none;
+	height: 60px;
+}
+
+@media (max-width: 768px) {
+	.eventInfo {
+		width: 100%;
+		height: auto;
+		margin-bottom: 20px;
+	}
+}

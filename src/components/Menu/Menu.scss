@@ -1,0 +1,14 @@
+#menu {
+	width: 300px;
+	position: fixed;
+	top: 64px;
+	left: 0;
+	height: calc(100% - 64px);
+	overflow-y: auto;
+}
+
+@media screen and (max-width: 650px) {
+	#menu {
+		width: 80px;
+	}
+}
