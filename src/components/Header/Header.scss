@@ -1,3 +1,5 @@
+@use "styles/variables.scss" as *;
+
 * {
 	box-sizing: border-box;
 }
@@ -44,12 +46,12 @@
 	color: #cdec53;
 
 	@media screen and (max-width: 768px) {
-		font-size: 18px;
+		font-size: $size5;
 		margin-right: 10px;
 	}
 
 	@media screen and (max-width: 480px) {
-		font-size: 12px;
+		font-size: $size5;
 		margin-right: 0;
 	}
 }
