@@ -1,11 +1,11 @@
-import Select from '../../../../../components/Select/Select.tsx';
+import Select from 'components/lib/Select/Select.tsx';
 import React, { useMemo, useState } from 'react';
-import { GameLevels } from '../../../../../types/enums/GameLevels.ts';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import { GameLevels } from 'types/enums/GameLevels.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 import {
 	convertGameLevelToDisplayValue,
 	convertDisplayValueToGameLevel,
-} from '../../../../../utils/convertGameLevels.ts';
+} from 'utils/convertGameLevels.ts';
 
 type Props = {
 	className?: string;

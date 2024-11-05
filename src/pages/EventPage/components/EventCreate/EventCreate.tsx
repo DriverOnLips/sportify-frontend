@@ -9,11 +9,11 @@ import GameLevelSelect from '../shared/GameLevelSelect/GameLevelSelect.tsx';
 import CapacityInput from '../shared/CapacityInput/CapacityInput.tsx';
 import EventUploadImages from '../shared/UploadImages/UploadImages.tsx';
 import { EventCreateModel } from '../../../../types/types/Event/EventCreate.ts';
-import Text from '../../../../components/Text/Text.tsx';
-import Button from '../../../../components/Button/Button.tsx';
-import { EventsService } from '../../../../api/EventsService/EventsService.ts';
-import { useUser } from '../../../../contexts/User/userContext.tsx';
-import { showToast } from '../../../../components/Toast/Toast.tsx';
+import Text from 'components/lib/Text/Text.tsx';
+import Button from 'components/lib/Button/Button.tsx';
+import { EventsService } from 'api/EventsService/EventsService.ts';
+import { useUser } from 'contexts/User/userContext.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { useNavigate } from 'react-router-dom';
 
 const EventCreate: React.FC = () => {
@@ -101,7 +101,7 @@ const EventCreate: React.FC = () => {
 					Дата:
 				</Text>
 				<EventDatePicker
-					className={`${styles.event_create__item_value} ${styles.date_picker}`}
+					className={`${styles.event_create__item_value}`}
 					changeEventField={changeEventField}
 				/>
 			</div>
@@ -115,7 +115,7 @@ const EventCreate: React.FC = () => {
 					Время начала и окончания:
 				</Text>
 				<EventTimePicker
-					className={`${styles.event_create__item_value} ${styles.time_picker}`}
+					className={`${styles.event_create__item_value}`}
 					changeEventField={changeEventField}
 				/>
 			</div>

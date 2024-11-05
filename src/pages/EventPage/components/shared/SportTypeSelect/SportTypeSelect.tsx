@@ -1,11 +1,11 @@
-import Select from '../../../../../components/Select/Select.tsx';
+import Select from 'components/lib/Select/Select.tsx';
 import React, { useMemo, useState } from 'react';
-import { SportTypes } from '../../../../../types/enums/SportTypes.ts';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import { SportTypes } from 'types/enums/SportTypes.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 import {
 	convertSportTypeToDisplayValue,
 	convertDisplayValueToSportType,
-} from '../../../../../utils/converSportTypes.ts';
+} from 'utils/converSportTypes.ts';
 
 type Props = {
 	className?: string;

@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.scss';
+import Text from '../lib/Text/Text.tsx';
+import HeaderSearch from './components/Search/HeaderSearch.tsx';
 
 const Header: React.FC = () => {
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const handleLogoClick = useCallback(() => {
+		if (location.pathname === '/events') {
+			const eventsList = document.querySelector('.events_list-js');
+
+			// почему-то пока не работает
+			eventsList?.scrollTo({ top: 0, behavior: 'smooth' });
+		} else {
+			navigate('/events');
+		}
+	}, []);
+
 	return (
 		<>
-			<header className='header'>
-				<div className='header__logo'>Sportify</div>
+			<header className={'header'}>
+				<Text
+					weight={'bold'}
+					size={'s3'}
+					className={'header__logo'}
+					onClick={handleLogoClick}
+				>
+					Sportify
+				</Text>
+				<HeaderSearch />
 				{/*<Input*/}
 				{/*	placeholder='Поиск'*/}
 				{/*// value={searchTerm}*/}

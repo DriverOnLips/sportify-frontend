@@ -12,11 +12,20 @@ const useQueryParams = () => {
 	const address = searchParams.get(SearchParams.address);
 	const edit = searchParams.get(SearchParams.edit);
 
-	const setQueryParam = (key: SearchParams, value: string) => {
-		if (!value || value.trim().length === 0) {
+	const setQueryParam = (key: SearchParams, value: string | string[]) => {
+		if (Array.isArray(value)) {
 			searchParams.delete(key);
+			value.forEach((val) => {
+				if (val && val.length > 0) {
+					searchParams.append(key, val);
+				}
+			});
 		} else {
-			searchParams.set(key, value);
+			if (!value || value.length === 0) {
+				searchParams.delete(key);
+			} else {
+				searchParams.set(key, value);
+			}
 		}
 		setSearchParams(searchParams);
 	};

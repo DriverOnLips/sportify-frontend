@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import DatePicker from 'components/DatePicker/DatePicker.tsx';
+import DatePicker from 'components/lib/DatePicker/DatePicker.tsx';
 import { formatDateYYYYMMDD } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';

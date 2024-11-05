@@ -6,18 +6,17 @@ import {
 	EditOutlined,
 	DeleteOutlined,
 } from '@ant-design/icons';
-import Button from '../../../../components/Button/Button.tsx';
-import Text from '../../../../components/Text/Text.tsx';
-import { useUser } from '../../../../contexts/User/userContext.tsx';
+import Button from 'components/lib/Button/Button.tsx';
+import Text from 'components/lib/Text/Text.tsx';
+import { useUser } from 'contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
-import { EventInfoModel } from '../../../../types/types/Event/EventInfo.ts';
-import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
+import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
+import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
-import SubscribeButton from '../../../../components/shared/SubscribeButton/SubscribeButton.tsx';
-import styles from './EventInfo.module.scss';
+import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
-import Image from '../../../../components/Image/Image.tsx';
-import { showToast } from '../../../../components/Toast/Toast.tsx';
+import Image from 'components/lib/Image/Image.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 
 interface EventInfoProps {
@@ -55,12 +54,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	};
 
 	return (
-		<div className={styles.event_info}>
-			<div className={styles.event_info__type}>
+		<div>
+			<div>
 				<Button onClick={navigateToEvents}>
 					<ArrowLeftOutlined />
 				</Button>
-				<div className={styles.eventDetails}>
+				<div>
 					<Text
 						size={'s4'}
 						color={'primary'}
@@ -89,11 +88,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					/>
 				)}
 			</div>
-			<Image
-				src={event.preview}
-				className={styles.eventImage}
-			/>
-			<div className={styles.eventDetails}>
+			<Image src={event.preview} />
+			<div>
 				<Text
 					size={'s4'}
 					weight={'bold'}
@@ -132,7 +128,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						weight={'bold'}
 						color={'primary'}
 					>
-						<EnvironmentTwoTone className={styles.icon} />
+						<EnvironmentTwoTone />
 						Адрес
 					</Text>
 					<br />
@@ -152,7 +148,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					weight={'bold'}
 					color={'primary'}
 				>
-					<FieldTimeOutlined className={styles.icon} />
+					<FieldTimeOutlined />
 					{'Время проведения: '}
 					<br />
 					{`${formatTime(event.startTime)} — ${event.endTime ? formatTime(event.endTime) : ''}`}

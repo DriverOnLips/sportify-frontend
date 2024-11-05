@@ -1,4 +1,4 @@
-import Input from 'components/Input/Input.tsx';
+import Input from 'components/lib/Input/Input.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
