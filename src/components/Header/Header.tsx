@@ -25,7 +25,7 @@ const Header: React.FC = () => {
 			<header className={'header'}>
 				<Text
 					weight={'bold'}
-					size={'s3'}
+					size={'s5'}
 					className={'header__logo'}
 					onClick={handleLogoClick}
 				>

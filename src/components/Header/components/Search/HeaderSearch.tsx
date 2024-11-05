@@ -20,6 +20,7 @@ const HeaderSearch = () => {
 
 	return (
 		<Search
+			className='header__search'
 			value={address || ''}
 			placeholder={'Введите адрес'}
 			onChange={handleAddressChange}

@@ -28,10 +28,7 @@ function App() {
 					<BrowserRouter basename='/'>
 						<Header />
 						<Sidebar />
-						<div
-							id='content'
-							style={{ marginLeft: '300px', paddingTop: '64px' }}
-						>
+						<div id='content'>
 							<Routes>
 								<Route
 									path='/events'
