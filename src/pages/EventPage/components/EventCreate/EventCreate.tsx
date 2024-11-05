@@ -18,17 +18,21 @@ import { useNavigate } from 'react-router-dom';
 
 const EventCreate: React.FC = () => {
 	const { userId } = useUser();
-
 	const navigate = useNavigate();
-
 	const eventsService = new EventsService();
 
 	const [eventToCreate, setEventToCreate] = useState<EventCreateModel | null>(
 		null,
 	);
+	const [showAddCard, setShowAddCard] = useState(false);
 
 	const changeEventField = useCallback((field: Partial<EventCreateModel>) => {
 		setEventToCreate((prev) => ({ ...prev, ...field }));
+		if (field.price && field.price > 0) {
+			setShowAddCard(true);
+		} else if (field.price === 0) {
+			setShowAddCard(false);
+		}
 	}, []);
 
 	const onButtonClick = async () => {
@@ -174,6 +178,8 @@ const EventCreate: React.FC = () => {
 					className={styles.event_create__item_value}
 					changeEventField={changeEventField}
 				/>
+
+				{showAddCard && <Button onClick={() => {}}>Добавить карту</Button>}
 				<Button onClick={onButtonClick}>Создать</Button>
 			</div>
 		</div>
