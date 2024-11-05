@@ -11,9 +11,9 @@ import CapacityInput from '../shared/CapacityInput/CapacityInput.tsx';
 import EventUploadImages from '../shared/UploadImages/UploadImages.tsx';
 import { useUser } from '../../../../contexts/User/userContext.tsx';
 import { EventsService } from '../../../../api/EventsService/EventsService.ts';
-import { showToast } from '../../../../components/Toast/Toast.tsx';
-import Text from '../../../../components/Text/Text.tsx';
-import Button from '../../../../components/Button/Button.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
+import Text from 'components/lib/Text/Text.tsx';
+import Button from 'components/lib/Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 
 interface EventEditProps {
@@ -28,10 +28,6 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 	const eventsService = new EventsService();
 
 	const [editedEvent, setEditedEvent] = useState<EventInfoModel>(event);
-
-	// useEffect(() => {
-	// 	console.log(editedEvent);
-	// }, [setEditedEvent, editedEvent]);
 
 	const changeEventField = useCallback((field: Partial<EventInfoModel>) => {
 		setEditedEvent((prev) => ({ ...prev, ...field }));

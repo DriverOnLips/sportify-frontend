@@ -1,7 +1,7 @@
-import InputNumber from '../../../../../components/InputNumber/InputNumber.tsx';
+import InputNumber from 'components/lib/InputNumber/InputNumber.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
 	className?: string;

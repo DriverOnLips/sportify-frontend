@@ -61,7 +61,7 @@ const Menu: React.FC = () => {
 
 	const screenWidth = useScreenMode();
 
-	const isWide = screenWidth > 650;
+	const isWide = screenWidth > 820;
 
 	const getActiveKey = () => {
 		switch (location.pathname) {

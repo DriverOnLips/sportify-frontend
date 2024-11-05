@@ -8,6 +8,8 @@ import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
+import { Provider } from 'react-redux';
+import store from './states/store.ts';
 
 function App() {
 	const { yandexMapApiKey } = useEnv();
@@ -21,31 +23,33 @@ function App() {
 				/>
 			</Helmet>
 
-			<UserProvider>
-				<BrowserRouter basename='/'>
-					<Header />
-					<Sidebar />
-					<div
-						id='content'
-						style={{ marginLeft: '300px', paddingTop: '64px' }}
-					>
-						<Routes>
-							<Route
-								path='/events'
-								element={<EventsList />}
-							/>
-							<Route
-								path='/events/:id'
-								element={<EventPage />}
-							/>
-							<Route
-								path='/events-create'
-								element={<EventCreate />}
-							/>
-						</Routes>
-					</div>
-				</BrowserRouter>
-			</UserProvider>
+			<Provider store={store}>
+				<UserProvider>
+					<BrowserRouter basename='/'>
+						<Header />
+						<Sidebar />
+						<div
+							id='content'
+							style={{ marginLeft: '300px', paddingTop: '64px' }}
+						>
+							<Routes>
+								<Route
+									path='/events'
+									element={<EventsList />}
+								/>
+								<Route
+									path='/events/:id'
+									element={<EventPage />}
+								/>
+								<Route
+									path='/events-create'
+									element={<EventCreate />}
+								/>
+							</Routes>
+						</div>
+					</BrowserRouter>
+				</UserProvider>
+			</Provider>
 		</div>
 	);
 }

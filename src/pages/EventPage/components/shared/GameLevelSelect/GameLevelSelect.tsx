@@ -1,7 +1,11 @@
-import Select from '../../../../../components/Select/Select.tsx';
+import Select from 'components/lib/Select/Select.tsx';
 import React, { useMemo, useState } from 'react';
-import { GameLevels } from '../../../../../types/enums/GameLevels.ts';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import { GameLevels } from 'types/enums/GameLevels.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import {
+	convertGameLevelToDisplayValue,
+	convertDisplayValueToGameLevel,
+} from 'utils/convertGameLevels.ts';
 
 type Props = {
 	className?: string;
@@ -21,22 +25,26 @@ const GameLevelSelect: React.FC<Props> = ({
 		[],
 	);
 
-	const changeAddress = (val: GameLevels[]) => {
-		setGameLevels(val);
-		val && updateGameLevel(val);
+	const handleChange = (displayValues: string[]) => {
+		const gameLevels = displayValues.map((displayValue) =>
+			convertDisplayValueToGameLevel(displayValue),
+		);
+		setGameLevels(gameLevels);
+		updateGameLevel(gameLevels);
 	};
 
 	return (
 		<Select
 			className={className}
-			value={gameLevels}
-			options={Object.values(GameLevels).map((type) => ({
-				value: type,
-				label: type.charAt(0).toUpperCase() + type.slice(1),
+			value={gameLevels.map(convertGameLevelToDisplayValue)}
+			options={Object.values(GameLevels).map((level) => ({
+				value: convertGameLevelToDisplayValue(level),
+				label: convertGameLevelToDisplayValue(level),
 			}))}
 			mode={'multiple'}
 			allowClear={true}
-			onChange={changeAddress}
+			onChange={handleChange}
+			placeholder='Выберите уровень игры'
 		/>
 	);
 };

@@ -56,6 +56,7 @@ const EventTimePicker: React.FC<Props> = ({
 			}
 			onChange={onChangeRange}
 			format='HH:mm'
+			placeholder={['Время начала', 'Время окончания']}
 		/>
 	);
 };

@@ -1,44 +1,50 @@
-import React, { useState } from 'react';
-import { Input, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import ModalSportSelector from './ModalSportSelector';
+import React, { useCallback } from 'react';
+import { Button } from 'antd';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.scss';
+import Text from '../lib/Text/Text.tsx';
+import HeaderSearch from './components/Search/HeaderSearch.tsx';
 
 const Header: React.FC = () => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
 
-	const handleSearch = (value: string) => {
-		console.log('Searching for:', value);
-	};
+	const handleLogoClick = useCallback(() => {
+		if (location.pathname === '/events') {
+			const eventsList = document.querySelector('.events_list-js');
 
-	const showModal = () => {
-		setIsModalVisible(true);
-	};
-
-	const hideModal = () => {
-		setIsModalVisible(false);
-	};
+			// почему-то пока не работает
+			eventsList?.scrollTo({ top: 0, behavior: 'smooth' });
+		} else {
+			navigate('/events');
+		}
+	}, []);
 
 	return (
 		<>
-			<header className='header'>
-				<div className='header__logo'>Sportify</div>
-				<Input
-					placeholder='Поиск'
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					onPressEnter={() => handleSearch(searchTerm)}
-					className='header__search'
-					onClick={showModal}
-					suffix={
-						<SearchOutlined
-							onClick={() => handleSearch(searchTerm)}
-							style={{ cursor: 'pointer' }}
-						/>
-					}
-				/>
+			<header className={'header'}>
+				<Text
+					weight={'bold'}
+					size={'s3'}
+					className={'header__logo'}
+					onClick={handleLogoClick}
+				>
+					Sportify
+				</Text>
+				<HeaderSearch />
+				{/*<Input*/}
+				{/*	placeholder='Поиск'*/}
+				{/*// value={searchTerm}*/}
+				{/*// onChange={(e) => setSearchTerm(e.target.value)}*/}
+				{/*// onPressEnter={() => getEvents()}*/}
+				{/*// className='header__search' // onClick={showModal}*/}
+				{/*suffix={*/}
+				{/*	<SearchOutlined*/}
+				{/*		onClick={() => getEvents()}*/}
+				{/*		style={{ cursor: 'pointer' }}*/}
+				{/*	/>*/}
+				{/*}*/}
+				{/*/>*/}
 				<nav className='header__nav'>
 					<ul className='header__nav-list'>
 						<li className='header__nav-item'>
@@ -54,11 +60,6 @@ const Header: React.FC = () => {
 					</ul>
 				</nav>
 			</header>
-
-			<ModalSportSelector
-				isVisible={isModalVisible}
-				onClose={hideModal}
-			/>
 		</>
 	);
 };

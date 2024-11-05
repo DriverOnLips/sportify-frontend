@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import type { UploadFile, UploadProps } from 'antd';
 import { GetProp, Image, Upload } from 'antd';
-import { ImageService } from '../../api/ImageService/ImageService.ts';
+import { ImageService } from 'api/ImageService/ImageService.ts';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { showToast } from '../Toast/Toast.tsx';
 import Button from '../Button/Button.tsx';

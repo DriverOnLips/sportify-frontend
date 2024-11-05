@@ -2,11 +2,13 @@ import React from 'react';
 import { Input as AntInput } from 'antd';
 
 type Props = {
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	value?: string;
+	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	placeholder?: string;
 	className?: string;
 	disabled?: boolean;
+	addonBefore?: React.ReactNode;
+	enterButton?: React.ReactNode;
 	children?: React.ReactNode;
 };
 
@@ -16,6 +18,7 @@ const Input: React.FC<Props> = ({
 	placeholder,
 	className,
 	disabled,
+	addonBefore,
 	children,
 }) => (
 	<AntInput
@@ -24,6 +27,7 @@ const Input: React.FC<Props> = ({
 		placeholder={placeholder}
 		className={className}
 		disabled={disabled}
+		addonBefore={addonBefore}
 	>
 		{children}
 	</AntInput>

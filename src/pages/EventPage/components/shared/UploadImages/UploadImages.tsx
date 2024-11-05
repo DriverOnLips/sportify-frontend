@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
-import UploadImages from '../../../../../components/UploadImages/UploadImages.tsx';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import UploadImages from 'components/lib/UploadImages/UploadImages.tsx';
 
 type Props = {
 	className?: string;
