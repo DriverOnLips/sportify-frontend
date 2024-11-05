@@ -9,7 +9,6 @@
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	border: 1px solid #ddd;
 	overflow-y: auto;
 
 	&__type {
@@ -27,8 +26,6 @@
 	font-weight: bold;
 	color: #007bff;
 }
-
-
 
 .eventImage {
 	width: 100%;
@@ -69,7 +66,6 @@
 	margin: 0 1rem;
 }
 
-/* Стили для полей редактирования */
 input,
 textarea {
 	width: 280px;

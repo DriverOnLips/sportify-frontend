@@ -30,6 +30,7 @@ const AddressInput: React.FC<Props> = ({
 
 	return (
 		<Input
+			placeholder='Введите адрес'
 			className={className}
 			value={address}
 			onChange={changeAddress}

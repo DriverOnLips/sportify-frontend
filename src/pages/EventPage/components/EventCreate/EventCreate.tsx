@@ -101,7 +101,7 @@ const EventCreate: React.FC = () => {
 					Дата:
 				</Text>
 				<EventDatePicker
-					className={styles.event_create__item_value}
+					className={`${styles.event_create__item_value} ${styles.date_picker}`}
 					changeEventField={changeEventField}
 				/>
 			</div>
@@ -115,7 +115,7 @@ const EventCreate: React.FC = () => {
 					Время начала и окончания:
 				</Text>
 				<EventTimePicker
-					className={styles.event_create__item_value}
+					className={`${styles.event_create__item_value} ${styles.time_picker}`}
 					changeEventField={changeEventField}
 				/>
 			</div>
