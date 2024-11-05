@@ -23,7 +23,7 @@ const Header: React.FC = () => {
 
 	return (
 		<>
-			<header className='header'>
+			<header className={'header'}>
 				<div className='header__logo'>Sportify</div>
 				<Input
 					placeholder='Поиск'

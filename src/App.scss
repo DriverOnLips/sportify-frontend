@@ -12,6 +12,9 @@ $scrollbar-width: 20px;
 	padding-top: 104px;
 	position: absolute;
 	width: calc(100vw - 280px - $scrollbar-width);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 	@media screen and (max-width: 1024px) {
 		margin-left: 230px;
@@ -59,5 +62,15 @@ $scrollbar-width: 20px;
 
 	@media screen and (max-width: 480px) {
 		font-size: $size3;
+	}
+}
+
+.ant-menu-item {
+	@media screen and (max-width: 768px) {
+		font-size: $size4;
+	}
+
+	@media screen and (max-width: 480px) {
+		font-size: $size5;
 	}
 }

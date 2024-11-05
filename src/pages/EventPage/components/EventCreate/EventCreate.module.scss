@@ -1,3 +1,5 @@
+@use "src/styles/variables.scss" as *;
+
 .event_create {
 	display: flex;
 	flex-direction: column;
@@ -28,9 +30,6 @@
 	}
 
 	&__item_label {
-		font-size: 1rem;
-		font-weight: 600;
-		color: #333333;
 		margin-bottom: 4px;
 
 		@media screen and (max-width: 768px) {
