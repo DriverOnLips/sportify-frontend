@@ -32,6 +32,14 @@
 		font-weight: 600;
 		color: #333333;
 		margin-bottom: 4px;
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9rem;
+		}
+
+		@media screen and (max-width: 480px) {
+			font-size: 0.8rem;
+		}
 	}
 
 	&__item_value {
@@ -51,6 +59,16 @@
 		&:focus {
 			border-color: #1890ff;
 		}
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9rem;
+			padding: 10px;
+		}
+
+		@media screen and (max-width: 480px) {
+			font-size: 0.8rem;
+			min-height: 60px;
+		}
 	}
 
 	&__button {
@@ -67,6 +85,16 @@
 
 		&:hover {
 			background-color: #40a9ff;
+		}
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9rem;
+			padding: 10px;
+		}
+
+		@media screen and (max-width: 480px) {
+			font-size: 0.8rem;
+			padding: 8px;
 		}
 	}
 }

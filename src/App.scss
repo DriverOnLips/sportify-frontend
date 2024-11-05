@@ -8,8 +8,31 @@ body {
 $scrollbar-width: 20px;
 
 #content {
+	margin-left: 300px;
+	padding-top: 104px;
 	position: absolute;
-	width: calc(100vw - 260px - $scrollbar-width);
+	width: calc(100vw - 280px - $scrollbar-width);
+
+	@media screen and (max-width: 1024px) {
+		margin-left: 230px;
+		width: calc(100vw - 200px - $scrollbar-width);
+	}
+
+	@media screen and (max-width: 768px) {
+		margin-left: 150px;
+		width: calc(100vw - 100px - $scrollbar-width);
+	}
+
+	@media screen and (max-width: 650px) {
+		margin-left: 90px;
+		width: calc(100vw - 80px - $scrollbar-width);
+	}
+
+	@media screen and (max-width: 480px) {
+		padding-top: 84px;
+		margin-left: 90px;
+		width: 75vw;
+	}
 }
 
 .ant-btn,
@@ -22,10 +45,19 @@ $scrollbar-width: 20px;
 	border-radius: $border-radius;
 }
 
-@media screen and (max-width: 650px) {
-	#content {
-		position: absolute;
-		left: 80px;
-		width: calc(100vw - 80px - $scrollbar-width);
+.ant-btn {
+	@media screen and (max-width: 480px) {
+		font-size: $size4;
+		padding: 8px 12px;
+	}
+}
+
+.ant-menu {
+	@media screen and (max-width: 768px) {
+		font-size: $size4;
+	}
+
+	@media screen and (max-width: 480px) {
+		font-size: $size3;
 	}
 }
