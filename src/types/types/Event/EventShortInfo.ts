@@ -22,5 +22,6 @@ export const createEventShortInfoModel = (
 		isFree: event.is_free,
 		gameLevel: event.game_level,
 		subscribersId: event.subscribers_id,
+		creatorId: event.creator_id,
 	}));
 };

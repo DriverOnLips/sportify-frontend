@@ -27,10 +27,6 @@ const EventCreate: React.FC = () => {
 		null,
 	);
 
-	// useEffect(() => {
-	// 	console.log(eventToCreate);
-	// }, [eventToCreate]);
-
 	const changeEventField = useCallback((field: Partial<EventCreateModel>) => {
 		setEventToCreate((prev) => ({ ...prev, ...field }));
 	}, []);
@@ -179,7 +175,7 @@ const EventCreate: React.FC = () => {
 					changeEventField={changeEventField}
 				/>
 				<Button onClick={onButtonClick}>Создать</Button>
-  		</div>
+			</div>
 		</div>
 	);
 };

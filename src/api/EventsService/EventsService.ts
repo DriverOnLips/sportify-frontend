@@ -15,8 +15,6 @@ import {
 	EventUpdateModel,
 } from '../../types/types/Event/EventUpdate.ts';
 import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
-
 
 export class EventsService extends ServiceBase {
 	private static instance: EventsService;
@@ -30,6 +28,11 @@ export class EventsService extends ServiceBase {
 		EventsService.instance = this;
 		this.config = [
 			{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
+			{
+				name: 'getFilteredEvents',
+				url: `/api/events/find`,
+				method: RequestMethods.GET,
+			},
 			{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
 			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
 			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
@@ -57,13 +60,53 @@ export class EventsService extends ServiceBase {
 		}
 	}
 
-	async getEventsBySportType(
-		sportType: SportTypes,
+	async getFilteredEvents(
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
 	): Promise<EventShortInfoModel[]> {
 		try {
-			const configItem = this.getConfigItem('getEvents');
+			const configItem = this.getConfigItem('getFilteredEvents');
 
-			const url = `${configItem.url}?sport_type=${sportType}`;
+			const params: string[] = [];
+
+			if (sportType.length > 0) {
+				const sportTypesParams = sportType
+					.map((type) => `sport_type=${type}`)
+					.join('&');
+				params.push(sportTypesParams);
+			}
+
+			if (gameLevel.length > 0) {
+				const gameLevelsParams = gameLevel
+					.map((level) => `game_level=${level}`)
+					.join('&');
+				params.push(gameLevelsParams);
+			}
+
+			if (dates.length > 0) {
+				const dateStartParams = dates
+					.map((date) => `date_start=${date}`)
+					.join('&');
+				params.push(dateStartParams);
+			}
+
+			if (priceMin && Number(priceMin) > 0) {
+				params.push(`price_min=${priceMin}`);
+			}
+
+			if (priceMax && Number(priceMax) > 0) {
+				params.push(`price_max=${priceMax}`);
+			}
+
+			if (address) {
+				params.push(`address=${encodeURIComponent(address)}`);
+			}
+
+			const url = `${configItem.url}?${params.join('&')}`;
 
 			const response = await this.makeHttpRequest(configItem.method, url);
 

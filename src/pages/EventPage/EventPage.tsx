@@ -7,7 +7,7 @@ import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo/EventInfo.tsx';
 import YandexMap from './components/YandexMap/YandexMap.tsx';
 import styles from './EventPage.module.scss';
-import useEditMode from '../../hooks/usePageMode.ts';
+import useEditMode from '../../hooks/useQueryParams.ts';
 import EventEdit from './components/EventEdit/EventEdit.tsx';
 
 const EventPage: React.FC = () => {

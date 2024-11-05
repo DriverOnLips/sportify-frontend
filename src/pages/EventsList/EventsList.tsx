@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 import { Loader } from 'components/Loader/Loader.tsx';
 import { showToast } from 'components/Toast/Toast.tsx';
-import { EventShortInfoModel } from '../../types/types/Event/EventShortInfo.ts';
 import ListItem from './components/ListItem/ListItem';
 import styles from './EventsList.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	selectEvents,
+	setEventsAction,
+} from 'states/EventListState/EventListState.ts';
+import useQueryParams from '../../hooks/useQueryParams.ts';
 
 const EventsList: React.FC = () => {
-	const [events, setEvents] = useState<EventShortInfoModel[]>([]);
-	const [filteredEvents, setFilteredEvents] = useState<EventShortInfoModel[]>(
-		[],
-	);
+	const events = useSelector(selectEvents);
+
+	const dispatch = useDispatch();
+
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	const [searchParams] = useSearchParams();
-	const sportType = searchParams.get('sport_type');
+	const { sportType, gameLevel, date, priceMin, priceMax, address } =
+		useQueryParams();
 
 	const eventsService = new EventsService();
 
 	const getEvents = async () => {
 		try {
-			const evts = await eventsService.getEvents();
-			setEvents(evts);
+			const evts = await eventsService.getFilteredEvents(
+				sportType,
+				gameLevel,
+				date,
+				priceMin,
+				priceMax,
+				address,
+			);
+			dispatch(setEventsAction(evts));
 			setIsLoading(false);
 		} catch (error: any) {
 			setIsLoading(false);
@@ -36,32 +47,17 @@ const EventsList: React.FC = () => {
 		}
 	};
 
-	const filterEventsBySportType = (sportType: string | null) => {
-		if (sportType && events.length > 0) {
-			const filtered = events.filter(
-				(event) => event.sportType?.toLowerCase() === sportType.toLowerCase(),
-			);
-			setFilteredEvents(filtered);
-		} else {
-			setFilteredEvents(events);
-		}
-	};
-
 	useEffect(() => {
 		getEvents();
 	}, []);
-
-	useEffect(() => {
-		filterEventsBySportType(sportType);
-	}, [sportType, events]);
 
 	return (
 		<div className={styles.events_list}>
 			{isLoading ? (
 				<Loader />
-			) : filteredEvents.length > 0 ? (
+			) : events?.length > 0 ? (
 				<div className={styles.events_list__container}>
-					{filteredEvents.map((event) => (
+					{events.map((event) => (
 						<ListItem
 							key={event.id}
 							event={event}
