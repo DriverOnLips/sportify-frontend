@@ -214,7 +214,7 @@ export class EventsService extends ServiceBase {
 	): Promise<{ confirmation_url: string }> {
 		try {
 			const configItem = this.getConfigItem('payForEvent');
-			const redirectUrl = `http://localhost/events/${eventId}`;
+			const redirectUrl = `http://91.219.227.107//events/${eventId}`;
 
 			const response = await this.makeHttpRequest(
 				configItem.method,
