@@ -24,15 +24,50 @@ const EventCreate: React.FC = () => {
 	const [eventToCreate, setEventToCreate] = useState<EventCreateModel | null>(
 		null,
 	);
-	const [showAddCard, setShowAddCard] = useState(false);
+
+	interface PayoutData {
+		payout_token: string;
+		first6: string;
+		last4: string;
+		issuer_country: string;
+		issuer_name: string;
+		card_type: string;
+	}
+
+	const initializePaymentWidget = () => {
+		const payouts = new window.PayoutsData({
+			type: 'payout',
+			account_id: '507166',
+			success_callback: (data: PayoutData) => {
+				console.log('Статус оплаты:', data.payout_token);
+				console.log('Оплата успешна', data);
+				if (data) {
+					console.log('Оплата успешна', data);
+				} else {
+					console.error('Данные результата оплаты отсутствуют');
+				}
+			},
+			error_callback: (error: Error) => console.error('Ошибка оплаты', error),
+		});
+
+		payouts.clearListeners();
+		payouts.render('payoutsContainer');
+	};
 
 	const changeEventField = useCallback((field: Partial<EventCreateModel>) => {
-		setEventToCreate((prev) => ({ ...prev, ...field }));
-		if (field.price && field.price > 0) {
-			setShowAddCard(true);
-		} else if (field.price === 0) {
-			setShowAddCard(false);
-		}
+		setEventToCreate((prev) => {
+			const updatedEvent = { ...prev, ...field };
+
+			if (field.price && field.price > 0) {
+				initializePaymentWidget();
+			} else if (field.price === 0) {
+				const payoutsContainer = document.getElementById('payoutsContainer');
+				if (payoutsContainer) {
+					payoutsContainer.innerHTML = '';
+				}
+			}
+			return updatedEvent;
+		});
 	}, []);
 
 	const onButtonClick = async () => {
@@ -105,7 +140,7 @@ const EventCreate: React.FC = () => {
 					Дата:
 				</Text>
 				<EventDatePicker
-					className={`${styles.event_create__item_value}`}
+					className={styles.event_create__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
@@ -119,7 +154,7 @@ const EventCreate: React.FC = () => {
 					Время начала и окончания:
 				</Text>
 				<EventTimePicker
-					className={`${styles.event_create__item_value}`}
+					className={styles.event_create__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
@@ -179,7 +214,12 @@ const EventCreate: React.FC = () => {
 					changeEventField={changeEventField}
 				/>
 
-				{showAddCard && <Button onClick={() => {}}>Добавить карту</Button>}
+				<div id='payoutsContainer'></div>
+
+				<Button onClick={() => initializePaymentWidget()}>
+					Изменить карту
+				</Button>
+
 				<Button onClick={onButtonClick}>Создать</Button>
 			</div>
 		</div>
