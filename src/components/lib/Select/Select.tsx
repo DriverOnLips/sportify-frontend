@@ -41,7 +41,6 @@ const Select: React.FC<Props> = ({
 		onChange={onChange}
 		onSearch={onSearch}
 		options={options}
-		style={{ minWidth: 150 }} //TODO: remove
 	/>
 );
 
