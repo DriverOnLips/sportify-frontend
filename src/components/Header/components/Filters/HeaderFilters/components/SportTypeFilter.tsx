@@ -19,7 +19,8 @@ const HeaderSportsTypeFilter = () => {
 
 	return (
 		<Select
-			placeholder='Выберите вид спорта'
+			style={{ minWidth: 200 }}
+			placeholder='Вид спорта'
 			mode={'multiple'}
 			value={(sportType as SportTypes[]).map(convertSportTypeToDisplayValue)}
 			options={Object.values(SportTypes).map((type) => ({

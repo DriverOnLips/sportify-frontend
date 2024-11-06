@@ -6,7 +6,6 @@ import 'dayjs/locale/ru';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localeData from 'antd/es/date-picker/locale/ru_RU';
-import styles from './DatePicker.module.scss';
 
 dayjs.locale('ru');
 dayjs.extend(advancedFormat);
@@ -14,8 +13,8 @@ dayjs.extend(customParseFormat);
 
 type Props = {
 	className?: string;
-	value: string | null;
-	onChange: DatePickerProps['onChange'];
+	value?: string | null;
+	onChange?: DatePickerProps['onChange'];
 };
 
 const DatePicker: React.FC<Props> = ({ className, value, onChange }) => {
@@ -23,7 +22,7 @@ const DatePicker: React.FC<Props> = ({ className, value, onChange }) => {
 
 	return (
 		<DatePickerAntd
-			className={`${className} ${styles.custom_datepicker}`}
+			className={`${className}`}
 			value={val}
 			onChange={onChange}
 			format='DD.MM.YYYY'
