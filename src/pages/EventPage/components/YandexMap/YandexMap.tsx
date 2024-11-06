@@ -23,7 +23,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 				if (!mapRef.current) {
 					mapRef.current = new window.ymaps.Map('map', {
 						center: coords,
-						zoom: 18,
+						zoom: 17,
 					});
 				} else {
 					mapRef.current.setCenter(coords);
