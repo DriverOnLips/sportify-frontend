@@ -15,6 +15,7 @@ type Props = {
 	allowClear?: boolean;
 	onChange?: (value: any) => void;
 	onSearch?: (value: string) => void;
+	style?: React.CSSProperties;
 };
 
 const Select: React.FC<Props> = ({
@@ -26,9 +27,11 @@ const Select: React.FC<Props> = ({
 	onChange,
 	onSearch,
 	allowClear,
+	style,
 }) => (
 	<AntdSelect
 		showSearch
+		style={style}
 		className={className}
 		value={value}
 		placeholder={placeholder}

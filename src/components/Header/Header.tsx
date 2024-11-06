@@ -1,23 +1,26 @@
 import React, { useCallback } from 'react';
 import { Button } from 'antd';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import Text from '../lib/Text/Text.tsx';
 import HeaderSearch from './components/Search/HeaderSearch.tsx';
+import useEventsList from '../../hooks/useEventsList.tsx';
 
 const Header: React.FC = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
+	// const location = useLocation();
+	const { getEvents } = useEventsList();
 
 	const handleLogoClick = useCallback(() => {
-		if (location.pathname === '/events') {
-			const eventsList = document.querySelector('.events_list-js');
-
-			// почему-то пока не работает
-			eventsList?.scrollTo({ top: 0, behavior: 'smooth' });
-		} else {
-			navigate('/events');
-		}
+		// if (location.pathname === '/events') {
+		// 	const eventsList = document.querySelector('.events_list-js');
+		//
+		// 	// почему-то пока не работает
+		// 	eventsList?.scrollTo({ top: 0, behavior: 'smooth' });
+		// } else {
+		navigate('/events');
+		getEvents();
+		// }
 	}, []);
 
 	return (
