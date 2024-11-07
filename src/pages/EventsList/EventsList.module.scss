@@ -18,16 +18,9 @@
 
 @media (max-width: 1400px) {
 	.events_list__container > * {
-		width: calc(33% - 2rem);
-	}
-}
-
-@media (max-width: 1100px) {
-	.events_list__container > * {
 		width: calc(50% - 2rem);
 	}
 }
-
 
 @media (max-width: 650px) {
 	.events_list {
