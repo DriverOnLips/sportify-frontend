@@ -9,10 +9,12 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './Menu.scss';
+import styles from './Menu.module.scss';
+import Text from '../lib/Text/Text.tsx';
+import useEventsList from '../../hooks/useEventsList.tsx';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -43,6 +45,7 @@ const items: MenuItem[] = [
 				key: '5',
 				label: 'Мои мероприятия',
 				icon: <UnorderedListOutlined />,
+				disabled: true,
 			},
 			{
 				key: '6',
@@ -51,8 +54,8 @@ const items: MenuItem[] = [
 			},
 		],
 	},
-	{ key: '7', icon: <TeamOutlined />, label: 'Клубы' },
-	{ key: '8', icon: <UserOutlined />, label: 'Профиль' },
+	{ key: '7', icon: <TeamOutlined />, label: 'Клубы', disabled: true },
+	{ key: '8', icon: <UserOutlined />, label: 'Профиль', disabled: true },
 ];
 
 const Menu: React.FC = () => {
@@ -60,8 +63,15 @@ const Menu: React.FC = () => {
 	const location = useLocation();
 
 	const screenWidth = useScreenMode();
-
 	const isWide = screenWidth > 820;
+
+	const { getEvents } = useEventsList();
+
+	const handleLogoClick = useCallback(() => {
+		navigate('/events');
+
+		getEvents();
+	}, []);
 
 	const getActiveKey = () => {
 		switch (location.pathname) {
@@ -108,7 +118,18 @@ const Menu: React.FC = () => {
 	};
 
 	return (
-		<div id='menu'>
+		<div className={styles.menu}>
+			<div className={styles.menu__logo}>
+				<Text
+					weight={'bold'}
+					size={'s3'}
+					className={styles.menu__logo_span}
+					onClick={handleLogoClick}
+				>
+					{isWide ? 'Sportify' : 'S'}
+				</Text>
+			</div>
+
 			<AntdMenu
 				selectedKeys={getActiveKey()}
 				defaultOpenKeys={['1']}

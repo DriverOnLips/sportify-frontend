@@ -1,7 +1,7 @@
 import React from 'react';
 import ListItem from './components/ListItem/ListItem';
-import styles from './EventsList.module.scss';
 import useEventsList from '../../hooks/useEventsList.tsx';
+import styles from './EventsList.module.scss';
 
 const EventsList: React.FC = () => {
 	const { events } = useEventsList();
