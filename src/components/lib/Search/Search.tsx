@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input as AntInput } from 'antd';
+import { SizeType } from 'antd/es/config-provider/SizeContext';
 
 const { Search: AntSearch } = AntInput;
 
@@ -11,6 +12,7 @@ type Props = {
 	placeholder?: string;
 	className?: string;
 	disabled?: boolean;
+	size?: SizeType;
 	addonBefore?: React.ReactNode;
 	enterButton?: React.ReactNode;
 	children?: React.ReactNode;
@@ -24,6 +26,7 @@ const Search: React.FC<Props> = ({
 	placeholder,
 	className,
 	disabled,
+	size,
 	addonBefore,
 	enterButton,
 	children,
@@ -38,6 +41,7 @@ const Search: React.FC<Props> = ({
 		addonBefore={addonBefore}
 		enterButton={enterButton}
 		onSearch={onSearch}
+		size={size}
 	>
 		{children}
 	</AntSearch>
