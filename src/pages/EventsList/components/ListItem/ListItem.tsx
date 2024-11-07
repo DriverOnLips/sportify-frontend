@@ -9,7 +9,6 @@ import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
-import PayButton from 'components/shared/PayButton/PayButton';
 import styles from './ListItem.module.scss';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
@@ -104,19 +103,11 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 					</Text>
 				)}
 			</div>
-			{event.price > 0 ? (
-				<PayButton
-					isSub={event.subscribersId?.includes(userId) ?? false}
-					eventId={event.id}
-					disabled={event?.capacity ? event.busy >= event.capacity : false}
-				/>
-			) : (
-				<SubscribeButton
-					isSub={event.subscribersId?.includes(userId) ?? false}
-					eventId={event.id}
-					disabled={event?.capacity ? event.busy >= event.capacity : false}
-				/>
-			)}
+			<SubscribeButton
+				isSub={event.subscribersId?.includes(userId) ?? false}
+				eventId={event.id}
+				disabled={event?.capacity ? event.busy >= event.capacity : false}
+			/>
 		</Card>
 	);
 };
