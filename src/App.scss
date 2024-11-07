@@ -21,6 +21,7 @@ $scrollbar-width: 20px;
 .ant-menu {
 	font-size: $size5;
 	font-family: $font;
+	border-inline-end: none !important;
 }
 
 .ant-menu {
@@ -31,42 +32,7 @@ $scrollbar-width: 20px;
 	border-radius: $border-radius;
 }
 
-.ant-descriptions-item-label::after {
-	content: "" !important;
-}
-
-.ant-descriptions .ant-descriptions-view table {
-	width: auto !important;
-}
-
-// collapse
-
-.ant-collapse-item{
-	position: relative;
-}
-
-.ant-collapse-header {
-	padding: 0 !important;
-}
-
-.ant-collapse-expand-icon{
-	position: absolute;
-	bottom: 15px;
-	right: 5px;
-	z-index: 999;
-}
-
-.ant-collapse-arrow{
-	font-size: 20px !important;
-}
-
-// card
-.ant-card-body{
-	padding: 1rem !important;
-}
-
-
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 820px) {
 	#content {
 		margin-left: 80px;
 		width: calc(100vw - 80px - $scrollbar-width);

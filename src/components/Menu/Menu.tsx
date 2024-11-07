@@ -63,7 +63,7 @@ const Menu: React.FC = () => {
 	const location = useLocation();
 
 	const screenWidth = useScreenMode();
-	const isWide = screenWidth > 850;
+	const isWide = screenWidth > 820;
 
 	const { getEvents } = useEventsList();
 

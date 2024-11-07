@@ -39,9 +39,6 @@ const CapacityInput: React.FC<Props> = ({
 			className={className}
 			value={capacity}
 			onChange={changeCapacity}
-			defaultValue={0}
-			min={0}
-			max={10000}
 		/>
 	);
 };
