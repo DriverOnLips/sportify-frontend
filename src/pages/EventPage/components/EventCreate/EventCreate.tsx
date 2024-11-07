@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './EventCreate.module.scss';
 import { Divider } from 'antd';
 import Explanation from '../../../../components/lib/Explanation/Explanation.tsx';
+import DescriptionInput from '../shared/DescriptionInput/DescriptionInput.tsx';
 
 const EventCreate: React.FC = () => {
 	const { userId } = useUser();
@@ -147,7 +148,20 @@ const EventCreate: React.FC = () => {
 					size={'s4'}
 					color={'primary'}
 				>
+					Описание:
+				</Text>
+				<DescriptionInput changeEventField={changeEventField} />
+			</div>
+
+			<div className={styles.event_create__item}>
+				<Text
+					size={'s4'}
+					color={'primary'}
+				>
 					Фотографии площадки:
+					<Explanation
+						title={'Первая фотография будет отображаться в качестве основной'}
+					/>
 				</Text>
 				<EventUploadImages changeEventField={changeEventField} />
 			</div>

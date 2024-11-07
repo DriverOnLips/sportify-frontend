@@ -1,6 +1,7 @@
 import {
 	selectEvents,
 	setEventsAction,
+	deleteEventsAction,
 } from '../states/EventListState/EventListState.ts';
 import { showToast } from '../components/lib/Toast/Toast.tsx';
 import useQueryParams from './useQueryParams.ts';
@@ -39,11 +40,15 @@ const useEventsList = () => {
 		}
 	};
 
+	const deleteEvents = () => {
+		dispatch(deleteEventsAction());
+	};
+
 	useEffect(() => {
 		getEvents();
 	}, []);
 
-	return { events, getEvents };
+	return { events, getEvents, deleteEvents };
 };
 
 export default useEventsList;
