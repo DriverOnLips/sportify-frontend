@@ -20,7 +20,7 @@ const useEventsList = () => {
 
 	const getEvents = async () => {
 		try {
-			const evts = await eventsService.getFilteredEvents(
+			const evts = await eventsService.getEvents(
 				sportType,
 				gameLevel,
 				date,
