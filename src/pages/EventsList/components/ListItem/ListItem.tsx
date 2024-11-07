@@ -1,5 +1,5 @@
-import { TeamOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
+import { TeamOutlined, LeftOutlined } from '@ant-design/icons';
+import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from 'components/lib/Text/Text.tsx';
@@ -21,17 +21,20 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 		navigate(`/events/${event.id}`);
 	}, []);
 
-	const fields = [
+	const fieldsPath1 = [
 		{
 			label: 'Дата',
 			value: formatDateDDMMMMYYYY(event.date),
 		},
 		{ label: 'Адрес', value: event.address },
+	];
+
+	const fieldsPath2 = [
 		{ label: 'Начало', value: formatTime(event.startTime) },
 		{ label: 'Окончание', value: formatTime(event.endTime) },
 		{
 			label: 'Стоимость',
-			value: `${event.price}₽ ${event.isFree ? '(Бесплатно)' : ''}`,
+			value: `${event.price}₽`,
 		},
 		{
 			label: 'Участники',
@@ -48,7 +51,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			),
 		},
 		{
-			label: 'Уровень игры',
+			label: 'Уровень',
 			value: event.gameLevel
 				.map((level) => convertGameLevelToDisplayValue(level))
 				.join(', '),
@@ -56,34 +59,60 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	];
 
 	return (
-		<Card
-			className={styles.list_item}
-			hoverable
-			cover={
-				<img
-					className={styles.list_item__img}
-					src={event.preview}
+		<Collapse
+			bordered={false}
+			expandIcon={({ isActive }) => (
+				<LeftOutlined
+					// color={'#1677ff'}
+					rotate={isActive ? -90 : 0}
+					style={{ fontSize: '24px !important' }}
 				/>
-			}
-			onClick={onItemClick}
-		>
-			<div className={styles.list_item__content}>
-				<Text
-					size={'s3'}
-					weight={'bold'}
-				>
-					{convertSportTypeToDisplayValue(event.sportType)}
-				</Text>
+			)}
+			items={[
+				{
+					key: '1',
+					label: (
+						<Card
+							className={styles.list_item}
+							hoverable
+							cover={
+								<img
+									className={styles.list_item__img}
+									src={event.preview}
+								/>
+							}
+							onClick={onItemClick}
+						>
+							<div className={styles.list_item__content}>
+								<Text
+									size={'s3'}
+									weight={'bold'}
+								>
+									{convertSportTypeToDisplayValue(event.sportType)}
+								</Text>
 
-				<LabelValue items={fields} />
-			</div>
+								<LabelValue items={fieldsPath1} />
+							</div>
+						</Card>
+					),
+					children: (
+						<>
+							<div className={styles.list_item__content}>
+								<LabelValue items={fieldsPath2} />
+							</div>
 
-			<SubscribeButton
-				isSub={event.subscribersId?.includes(userId) ?? false}
-				eventId={event.id}
-				disabled={event?.capacity ? event.busy >= event.capacity : false}
-			/>
-		</Card>
+							<SubscribeButton
+								isSub={event.subscribersId?.includes(userId) ?? false}
+								eventId={event.id}
+								disabled={
+									event?.capacity ? event.busy >= event.capacity : false
+								}
+							/>
+						</>
+					),
+				},
+			]}
+		/>
 	);
 };
 

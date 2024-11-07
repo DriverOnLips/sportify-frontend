@@ -28,11 +28,6 @@ export class EventsService extends ServiceBase {
 		EventsService.instance = this;
 		this.config = [
 			{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
-			{
-				name: 'getFilteredEvents',
-				url: `/api/events/find`,
-				method: RequestMethods.GET,
-			},
 			{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
 			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
 			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
@@ -50,22 +45,7 @@ export class EventsService extends ServiceBase {
 		];
 	}
 
-	async getEvents(): Promise<EventShortInfoModel[]> {
-		try {
-			const configItem = this.getConfigItem('getEvents');
-
-			const response = await this.makeHttpRequest(
-				configItem.method,
-				configItem.url,
-			);
-
-			return createEventShortInfoModel(response);
-		} catch (error: any) {
-			throw new Error(error);
-		}
-	}
-
-	async getFilteredEvents(
+	async getEvents(
 		sportType: string[],
 		gameLevel: string[],
 		dates: string[],
@@ -74,7 +54,7 @@ export class EventsService extends ServiceBase {
 		address: string | null,
 	): Promise<EventShortInfoModel[]> {
 		try {
-			const configItem = this.getConfigItem('getFilteredEvents');
+			const configItem = this.getConfigItem('getEvents');
 
 			const params: string[] = [];
 
