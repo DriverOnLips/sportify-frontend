@@ -21,6 +21,9 @@ $scrollbar-width: 20px;
 .ant-menu {
 	font-size: $size5;
 	font-family: $font;
+}
+
+.ant-menu {
 	border-inline-end: none !important;
 }
 
@@ -30,6 +33,10 @@ $scrollbar-width: 20px;
 
 .ant-image-mask {
 	border-radius: $border-radius;
+}
+
+.ant-descriptions-item-label::after {
+	content: "" !important;
 }
 
 @media screen and (max-width: 820px) {

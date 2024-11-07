@@ -3,7 +3,7 @@ import React from 'react';
 import Text from '../Text/Text.tsx';
 
 type Items = {
-	label?: React.ReactNode;
+	label: string;
 	value: React.ReactNode;
 };
 
@@ -18,18 +18,16 @@ const LabelValue: React.FC<Props> = ({ title, items }) => {
 			title={title}
 			column={1}
 		>
-			{items?.map((item, index) => (
+			{items?.map((item) => (
 				<Descriptions.Item
-					key={index}
+					style={{ paddingBottom: 10 }}
 					label={
-						item.label && (
-							<Text
-								color={'primary'}
-								weight={'bold'}
-							>
-								{item.label}
-							</Text>
-						)
+						<Text
+							color={'primary'}
+							weight={'bold'}
+						>
+							{item.label}:
+						</Text>
 					}
 				>
 					<Text maxLines={3}>{item.value}</Text>
