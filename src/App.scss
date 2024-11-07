@@ -21,11 +21,18 @@ $scrollbar-width: 20px;
 .ant-menu {
 	font-size: $size5;
 	font-family: $font;
+}
+
+.ant-menu {
 	border-inline-end: none !important;
 }
 
 .ant-image-mask {
 	border-radius: $border-radius;
+}
+
+.ant-descriptions-item-label::after {
+	content: "" !important;
 }
 
 

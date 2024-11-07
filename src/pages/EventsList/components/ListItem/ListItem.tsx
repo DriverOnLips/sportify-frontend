@@ -10,6 +10,7 @@ import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
+import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();
@@ -20,12 +21,47 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 		navigate(`/events/${event.id}`);
 	}, []);
 
+	const fields = [
+		{
+			label: 'Дата',
+			value: formatDateDDMMMMYYYY(event.date),
+		},
+		{ label: 'Адрес', value: event.address },
+		{ label: 'Начало', value: formatTime(event.startTime) },
+		{ label: 'Окончание', value: formatTime(event.endTime) },
+		{
+			label: 'Стоимость',
+			value: `${event.price}₽ ${event.isFree ? '(Бесплатно)' : ''}`,
+		},
+		{
+			label: 'Участники',
+			value: event.capacity ? (
+				<>
+					<TeamOutlined />
+					{event.busy} / {event.capacity}
+				</>
+			) : (
+				<>
+					<TeamOutlined />
+					{event.busy}
+				</>
+			),
+		},
+		{
+			label: 'Уровень игры',
+			value: event.gameLevel
+				.map((level) => convertGameLevelToDisplayValue(level))
+				.join(', '),
+		},
+	];
+
 	return (
 		<Card
+			className={styles.list_item}
 			hoverable
 			cover={
 				<img
-					alt='example'
+					className={styles.list_item__img}
 					src={event.preview}
 				/>
 			}
@@ -38,71 +74,10 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 				>
 					{convertSportTypeToDisplayValue(event.sportType)}
 				</Text>
-				<Text className={styles.list_item__content__address}>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Адрес: '}
-					</Text>
-					{event.address}
-				</Text>
-				<Text>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Дата: '}
-					</Text>
-					{formatDateDDMMMMYYYY(event.date)}
-				</Text>
-				<Text>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Начало: '}
-					</Text>
-					{formatTime(event.startTime)}
-				</Text>
-				{event.endTime && (
-					<Text>
-						<Text
-							size={'s5'}
-							weight={'bold'}
-							color={'primary'}
-						>
-							{'Окончание: '}
-						</Text>
-						{formatTime(event.endTime)}
-					</Text>
-				)}
-				<Text>
-					{event.price + ' ₽'} {event.isFree ? '(Бесплатно)' : ''}
-				</Text>
-				{event.capacity ? (
-					<Text>
-						<TeamOutlined />
-						{event.busy} / {event.capacity}
-					</Text>
-				) : (
-					<Text>
-						<TeamOutlined />
-						{event.busy}
-					</Text>
-				)}
 
-				{event.gameLevel && (
-					<Text>
-						{event.gameLevel
-							.map((level) => convertGameLevelToDisplayValue(level))
-							.join(', ')}
-					</Text>
-				)}
+				<LabelValue items={fields} />
 			</div>
+
 			<SubscribeButton
 				isSub={event.subscribersId?.includes(userId) ?? false}
 				eventId={event.id}
