@@ -15,6 +15,8 @@ import { showToast } from 'components/lib/Toast/Toast.tsx';
 import Text from 'components/lib/Text/Text.tsx';
 import Button from 'components/lib/Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
+import { Divider } from 'antd';
+import Explanation from '../../../../components/lib/Explanation/Explanation.tsx';
 
 interface EventEditProps {
 	event: EventInfoModel;
@@ -70,16 +72,17 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 	return (
 		<div className={styles.event_edit}>
 			<Text
+				className={styles.event_edit__name}
 				size={'s3'}
 				color={'primary'}
 				weight={'bold'}
 			>
 				Редактирование мероприятия
 			</Text>
-			<Button onClick={onButtonClick}>Сохранить</Button>
+			<Divider style={{ margin: 0 }} />
+
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
@@ -87,14 +90,12 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				</Text>
 				<SportsTypeSelect
 					value={event.sportType}
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
@@ -102,14 +103,12 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				</Text>
 				<AddressInput
 					value={event.address}
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
@@ -117,14 +116,12 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				</Text>
 				<EventDatePicker
 					value={event.date}
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
@@ -132,14 +129,12 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				</Text>
 				<EventTimePicker
 					value={[formattedStartTime, formattedEndTime || null]}
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
@@ -147,21 +142,18 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				</Text>
 				<PriceInput
 					value={event.price}
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 				/>
 			</div>
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
 					Уровень игры:
 				</Text>
 				<GameLevelSelect
-					className={styles.event_edit__item_value}
 					value={event.gameLevel}
 					changeEventField={changeEventField}
 				/>
@@ -169,14 +161,16 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
+					className={styles.event_edit__capacity}
 					size={'s4'}
 					color={'primary'}
 				>
 					Максимальное количество участников:
+					<Explanation
+						title={'Если количество участников не ограничено, то поставьте 0'}
+					/>
 				</Text>
 				<CapacityInput
-					className={styles.event_edit__item_value}
 					value={event.capacity || undefined}
 					changeEventField={changeEventField}
 				/>
@@ -184,17 +178,18 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 			<div className={styles.event_edit__item}>
 				<Text
-					className={styles.event_edit__item_label}
 					size={'s4'}
 					color={'primary'}
 				>
 					Фотографии площадки:
 				</Text>
 				<EventUploadImages
-					className={styles.event_edit__item_value}
 					changeEventField={changeEventField}
 					initialFiles={event.photos}
 				/>
+
+				<Divider style={{ margin: 0 }} />
+				<Button onClick={onButtonClick}>Сохранить</Button>
 			</div>
 		</div>
 	);

@@ -16,6 +16,7 @@ import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './EventCreate.module.scss';
 import { Divider } from 'antd';
+import Explanation from '../../../../components/lib/Explanation/Explanation.tsx';
 
 const EventCreate: React.FC = () => {
 	const { userId } = useUser();
@@ -129,10 +130,14 @@ const EventCreate: React.FC = () => {
 
 			<div className={styles.event_create__item}>
 				<Text
+					className={styles.event_create__capacity}
 					size={'s4'}
 					color={'primary'}
 				>
 					Максимальное количество участников:
+					<Explanation
+						title={'Если количество участников не ограничено, то поставьте 0'}
+					/>
 				</Text>
 				<CapacityInput changeEventField={changeEventField} />
 			</div>
@@ -148,7 +153,6 @@ const EventCreate: React.FC = () => {
 			</div>
 
 			<Divider style={{ margin: 0 }} />
-
 			<Button
 				type={'primary'}
 				onClick={onButtonClick}

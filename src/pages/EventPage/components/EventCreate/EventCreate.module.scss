@@ -20,7 +20,12 @@
 	&__item {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
 		width: 100%;
+		gap: 0.5rem;
+	}
+
+	&__capacity{
+		display: flex;
+		align-items: center;
 	}
 }
