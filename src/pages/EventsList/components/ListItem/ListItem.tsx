@@ -1,4 +1,11 @@
-import { TeamOutlined, LeftOutlined } from '@ant-design/icons';
+import {
+	TeamOutlined,
+	LeftOutlined,
+	ClockCircleOutlined,
+	CalendarOutlined,
+	EnvironmentOutlined,
+	RiseOutlined,
+} from '@ant-design/icons';
 import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,40 +28,39 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 		navigate(`/events/${event.id}`);
 	}, []);
 
-	const fieldsPath1 = [
+	const leftField = [
 		{
-			label: 'Дата',
-			value: formatDateDDMMMMYYYY(event.date),
+			label: <RiseOutlined />,
+			value:
+				event.gameLevel.length > 0
+					? event.gameLevel
+							.map((level) => convertGameLevelToDisplayValue(level))
+							.join(', ')
+					: 'Любой',
 		},
-		{ label: 'Адрес', value: event.address },
 	];
 
-	const fieldsPath2 = [
-		{ label: 'Начало', value: formatTime(event.startTime) },
-		{ label: 'Окончание', value: formatTime(event.endTime) },
+	const rightField = [
 		{
-			label: 'Стоимость',
+			label: null,
 			value: `${event.price}₽`,
 		},
+	];
+
+	const fieldsPath1 = [
 		{
-			label: 'Участники',
-			value: event.capacity ? (
-				<>
-					<TeamOutlined />
-					{event.busy} / {event.capacity}
-				</>
-			) : (
-				<>
-					<TeamOutlined />
-					{event.busy}
-				</>
-			),
+			label: <CalendarOutlined />,
+			value: formatDateDDMMMMYYYY(event.date),
 		},
+		{ label: <EnvironmentOutlined />, value: event.address },
 		{
-			label: 'Уровень',
-			value: event.gameLevel
-				.map((level) => convertGameLevelToDisplayValue(level))
-				.join(', '),
+			label: <ClockCircleOutlined />,
+			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+		},
+
+		{
+			label: <TeamOutlined />,
+			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
 		},
 	];
 
@@ -63,7 +69,6 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			bordered={false}
 			expandIcon={({ isActive }) => (
 				<LeftOutlined
-					// color={'#1677ff'}
 					rotate={isActive ? -90 : 0}
 					style={{ fontSize: '24px !important' }}
 				/>
@@ -71,6 +76,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			items={[
 				{
 					key: '1',
+					showArrow: false,
 					label: (
 						<Card
 							className={styles.list_item}
@@ -79,37 +85,46 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 								<img
 									className={styles.list_item__img}
 									src={event.preview}
+									alt={''}
 								/>
 							}
 							onClick={onItemClick}
 						>
+							<div className={styles.list_item__img_text_left}>
+								<LabelValue items={leftField} />
+							</div>
+
+							<div className={styles.list_item__img_text_right}>
+								<LabelValue items={rightField} />
+							</div>
+
 							<div className={styles.list_item__content}>
-								<Text
-									size={'s3'}
-									weight={'bold'}
-								>
-									{convertSportTypeToDisplayValue(event.sportType)}
-								</Text>
+								<div className={styles.list_item__content_header}>
+									<Text
+										size={'s4'}
+										weight={'bold'}
+									>
+										{convertSportTypeToDisplayValue(event.sportType)}
+									</Text>
+
+									<SubscribeButton
+										isSub={event.subscribersId?.includes(userId) ?? false}
+										eventId={event.id}
+										disabled={
+											event?.capacity ? event.busy >= event.capacity : false
+										}
+									/>
+								</div>
 
 								<LabelValue items={fieldsPath1} />
 							</div>
 						</Card>
 					),
-					children: (
-						<>
-							<div className={styles.list_item__content}>
-								<LabelValue items={fieldsPath2} />
-							</div>
-
-							<SubscribeButton
-								isSub={event.subscribersId?.includes(userId) ?? false}
-								eventId={event.id}
-								disabled={
-									event?.capacity ? event.busy >= event.capacity : false
-								}
-							/>
-						</>
-					),
+					// children: (
+					// 		<div className={styles.list_item__content}>
+					// 			<LabelValue items={fieldsPath2} />
+					// 		</div>
+					// ),
 				},
 			]}
 		/>
