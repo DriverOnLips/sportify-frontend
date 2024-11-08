@@ -39,6 +39,10 @@ $scrollbar-width: 20px;
 	content: "" !important;
 }
 
+.ant-descriptions .ant-descriptions-view table {
+	width: auto !important;
+}
+
 // collapse
 
 .ant-collapse-item {
@@ -60,7 +64,12 @@ $scrollbar-width: 20px;
 	font-size: 20px !important;
 }
 
-@media screen and (max-width: 820px) {
+// card
+.ant-card-body {
+	padding: 1rem !important;
+}
+
+@media screen and (max-width: 850px) {
 	#content {
 		margin-left: 80px;
 		width: calc(100vw - 80px - $scrollbar-width);
