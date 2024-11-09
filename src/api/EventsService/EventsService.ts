@@ -130,8 +130,6 @@ export class EventsService extends ServiceBase {
 				tg,
 			};
 
-			console.log(data);
-
 			return await this.makeHttpRequest(
 				configItem.method,
 				configItem.url,
