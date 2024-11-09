@@ -60,8 +60,19 @@
 			justify-content: space-between;
 		}
 
-		&__address {
-			padding: 1rem 0;
-		}
-	}
+  &__content{
+	display: flex;
+	flex-direction: column;
+    gap: 1rem;
+
+    &_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__address{
+      padding: 1rem 0;
+    }
+  }
 }
