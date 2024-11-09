@@ -33,7 +33,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 
 	useEffect(() => {
 		const initializeMap = () => {
-			const mapCenter = center || [55.751244, 37.618423];
+			const mapCenter = center || [55.7960599, 37.5380087];
 
 			if (!mapRef.current) {
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
