@@ -4,6 +4,7 @@ import Sidebar from './components/Menu/Menu.tsx';
 import Header from './components/Header/Header.tsx';
 import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
+import MapPage from 'pages/MapPage/MapPage.tsx';
 import { UserProvider } from './contexts/User/userContext.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
@@ -41,6 +42,10 @@ function App() {
 								<Route
 									path='/events-create'
 									element={<EventCreate />}
+								/>
+								<Route
+									path='/map'
+									element={<MapPage />}
 								/>
 							</Routes>
 						</div>

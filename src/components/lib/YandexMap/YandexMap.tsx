@@ -9,9 +9,15 @@ declare global {
 
 interface YandexMapProps {
 	address: string;
+	center?: [number, number];
+	zoom?: number;
 }
 
-const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
+const YandexMap: React.FC<YandexMapProps> = ({
+	address,
+	center,
+	zoom = 17,
+}) => {
 	const mapRef = useRef<any>(null);
 
 	useEffect(() => {
@@ -20,13 +26,16 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 			geocoder.then((res: any) => {
 				const coords = res.geoObjects.get(0).geometry.getCoordinates();
 
+				const mapCenter = center || coords;
+
 				if (!mapRef.current) {
 					mapRef.current = new window.ymaps.Map('map', {
-						center: coords,
-						zoom: 17,
+						center: mapCenter,
+						zoom,
 					});
 				} else {
-					mapRef.current.setCenter(coords);
+					mapRef.current.setCenter(mapCenter);
+					mapRef.current.setZoom(zoom);
 				}
 
 				mapRef.current.geoObjects.removeAll();
@@ -38,7 +47,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 		if (window.ymaps) {
 			window.ymaps.ready(initializeMap);
 		}
-	}, [address]);
+	}, [address, center, zoom]);
 
 	return (
 		<div className={styles.mapContainer}>
