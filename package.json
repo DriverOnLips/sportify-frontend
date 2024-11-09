@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "preview": "vite preview",
+    "preview": "vite preview --port 3000",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/vite.svg"
   },
   "dependencies": {
