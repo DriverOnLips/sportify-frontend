@@ -116,14 +116,24 @@ export class EventsService extends ServiceBase {
 		}
 	}
 
-	async createEvent(event: EventCreateModel, userId: string): Promise<any> {
+	async createEvent(
+		event: EventCreateModel,
+		userId: string,
+		tg?: { user_id: string; chat_id: string },
+	): Promise<any> {
 		try {
 			const configItem = this.getConfigItem('createEvent');
+
+			const data = {
+				event_create: createEventCreateApi(event),
+				user_id: userId,
+				tg,
+			};
 
 			return await this.makeHttpRequest(
 				configItem.method,
 				configItem.url,
-				{ event_create: createEventCreateApi(event), user_id: userId },
+				data,
 				{
 					'Content-Type': 'application/json',
 				},

@@ -27,13 +27,23 @@ $scrollbar-width: 20px;
 	border-inline-end: none !important;
 }
 
-.ant-menu {
-	border-inline-end: none !important;
+//.ant-image-mask {
+//	border-radius: $border-radius;
+//}
+
+.ant-image {
+	width: 100%;
+	aspect-ratio: 16 / 9;
 }
 
-.ant-image-mask {
-	border-radius: $border-radius;
+.slick-slide {
+	height: auto;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
 }
+
+// description
 
 .ant-descriptions-item-label::after {
 	content: "" !important;
@@ -41,6 +51,10 @@ $scrollbar-width: 20px;
 
 .ant-descriptions .ant-descriptions-view table {
 	width: auto !important;
+}
+
+.ant-descriptions-item {
+	padding-bottom: 0 !important;
 }
 
 // collapse

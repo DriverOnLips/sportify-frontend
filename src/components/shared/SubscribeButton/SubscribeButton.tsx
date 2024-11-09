@@ -4,6 +4,7 @@ import Button from 'components/lib/Button/Button.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 
 type Props = {
 	isSub: boolean;
@@ -42,7 +43,7 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	const [isSubscribed, setIsSubscribed] = React.useState(isSub);
 
 	return (
-		<>
+		<Tooltip title={isSubscribed ? 'Отписаться' : 'Подписаться'}>
 			<Button
 				onClick={handleClick}
 				type={isSubscribed ? 'default' : 'primary'}
@@ -51,7 +52,7 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 			>
 				{isSubscribed ? <UserDeleteOutlined /> : <UserAddOutlined />}
 			</Button>
-		</>
+		</Tooltip>
 	);
 };
 

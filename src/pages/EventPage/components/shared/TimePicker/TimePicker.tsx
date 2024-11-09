@@ -21,7 +21,10 @@ const EventTimePicker: React.FC<Props> = ({
 
 	const updateTimeRange = useMemo(
 		() => (startTime: string | null, endTime: string | null) => {
-			changeEventField({ startTime: startTime || undefined, endTime });
+			changeEventField({
+				startTime: startTime || undefined,
+				endTime: endTime || undefined,
+			});
 		},
 		[],
 	);

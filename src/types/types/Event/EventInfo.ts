@@ -14,7 +14,6 @@ export type EventInfoModel = {
 	isFree: boolean;
 	gameLevel: GameLevels[];
 	description: string | null;
-	rawMessage: string | null;
 	capacity: number | null;
 	busy: number;
 	subscribersId: string[] | null;
@@ -31,7 +30,7 @@ export type EventInfoApi = {
 	address: string;
 	date: string;
 	start_time: string;
-	end_time: string | null;
+	end_time: string;
 	price: number;
 	is_free: boolean;
 	game_level: GameLevels[];
@@ -52,6 +51,5 @@ export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	endTime: from.end_time || new Date().toISOString(), // TODO: remove
 	isFree: from.is_free,
 	gameLevel: from.game_level,
-	rawMessage: from.raw_message,
 	subscribersId: from.subscribers_id,
 });
