@@ -26,6 +26,10 @@ const CapacityInput: React.FC<Props> = ({
 	);
 
 	const changeCapacity = (value: string | number | null) => {
+		if (typeof value !== 'number') {
+			return;
+		}
+
 		setCapacity(Number(value) || null);
 		updateCapacity(Number(value) || undefined);
 	};
@@ -35,6 +39,8 @@ const CapacityInput: React.FC<Props> = ({
 			className={className}
 			value={capacity}
 			onChange={changeCapacity}
+			defaultValue={0}
+			min={0}
 			max={10000}
 		/>
 	);

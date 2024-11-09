@@ -9,33 +9,12 @@ $scrollbar-width: 20px;
 
 #content {
 	margin-left: 300px;
-	padding-top: 64px;
+	padding-top: 80px;
 	position: absolute;
-	width: calc(100vw - 280px - $scrollbar-width);
+	width: calc(100vw - 300px - $scrollbar-width);
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 		"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
-	@media screen and (max-width: 1024px) {
-		margin-left: 230px;
-		width: calc(100vw - 200px - $scrollbar-width);
-	}
-
-	@media screen and (max-width: 768px) {
-		margin-left: 150px;
-		width: calc(100vw - 100px - $scrollbar-width);
-	}
-
-	@media screen and (max-width: 650px) {
-		margin-left: 90px;
-		width: calc(100vw - 80px - $scrollbar-width);
-	}
-
-	@media screen and (max-width: 480px) {
-		padding-top: 84px;
-		margin-left: 90px;
-		width: 75vw;
-	}
 }
 
 .ant-btn,
@@ -44,33 +23,52 @@ $scrollbar-width: 20px;
 	font-family: $font;
 }
 
+.ant-menu {
+	border-inline-end: none !important;
+}
+
 .ant-image-mask {
 	border-radius: $border-radius;
 }
 
-.ant-btn {
-	@media screen and (max-width: 480px) {
-		font-size: $size5;
-		padding: 8px 12px;
-	}
+.ant-descriptions-item-label::after {
+	content: "" !important;
 }
 
-.ant-menu {
-	@media screen and (max-width: 768px) {
-		font-size: $size4;
-	}
-
-	@media screen and (max-width: 480px) {
-		font-size: $size5;
-	}
+.ant-descriptions .ant-descriptions-view table {
+	width: auto !important;
 }
 
-.ant-menu-item {
-	@media screen and (max-width: 768px) {
-		font-size: $size5;
-	}
+// collapse
 
-	@media screen and (max-width: 480px) {
-		font-size: $size6;
+.ant-collapse-item{
+	position: relative;
+}
+
+.ant-collapse-header {
+	padding: 0 !important;
+}
+
+.ant-collapse-expand-icon{
+	position: absolute;
+	bottom: 15px;
+	right: 5px;
+	z-index: 999;
+}
+
+.ant-collapse-arrow{
+	font-size: 20px !important;
+}
+
+// card
+.ant-card-body{
+	padding: 1rem !important;
+}
+
+
+@media screen and (max-width: 850px) {
+	#content {
+		margin-left: 80px;
+		width: calc(100vw - 80px - $scrollbar-width);
 	}
 }

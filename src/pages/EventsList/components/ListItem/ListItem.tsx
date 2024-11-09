@@ -1,5 +1,12 @@
-import { TeamOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
+import {
+	TeamOutlined,
+	LeftOutlined,
+	ClockCircleOutlined,
+	CalendarOutlined,
+	EnvironmentOutlined,
+	RiseOutlined,
+} from '@ant-design/icons';
+import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from 'components/lib/Text/Text.tsx';
@@ -10,6 +17,7 @@ import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
+import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();
@@ -20,95 +28,106 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 		navigate(`/events/${event.id}`);
 	}, []);
 
-	return (
-		<Card
-			hoverable
-			cover={
-				<img
-					alt='example'
-					src={event.preview}
-				/>
-			}
-			onClick={onItemClick}
-		>
-			<div className={styles.list_item__content}>
-				<Text
-					size={'s3'}
-					weight={'bold'}
-				>
-					{convertSportTypeToDisplayValue(event.sportType)}
-				</Text>
-				<Text className={styles.list_item__content__address}>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Адрес: '}
-					</Text>
-					{event.address}
-				</Text>
-				<Text>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Дата: '}
-					</Text>
-					{formatDateDDMMMMYYYY(event.date)}
-				</Text>
-				<Text>
-					<Text
-						size={'s5'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						{'Начало: '}
-					</Text>
-					{formatTime(event.startTime)}
-				</Text>
-				{event.endTime && (
-					<Text>
-						<Text
-							size={'s5'}
-							weight={'bold'}
-							color={'primary'}
-						>
-							{'Окончание: '}
-						</Text>
-						{formatTime(event.endTime)}
-					</Text>
-				)}
-				<Text>
-					{event.price + ' ₽'} {event.isFree ? '(Бесплатно)' : ''}
-				</Text>
-				{event.capacity ? (
-					<Text>
-						<TeamOutlined />
-						{event.busy} / {event.capacity}
-					</Text>
-				) : (
-					<Text>
-						<TeamOutlined />
-						{event.busy}
-					</Text>
-				)}
-
-				{event.gameLevel && (
-					<Text>
-						{event.gameLevel
+	const leftField = [
+		{
+			label: <RiseOutlined />,
+			value:
+				event.gameLevel.length > 0
+					? event.gameLevel
 							.map((level) => convertGameLevelToDisplayValue(level))
-							.join(', ')}
-					</Text>
-				)}
-			</div>
-			<SubscribeButton
-				isSub={event.subscribersId?.includes(userId) ?? false}
-				eventId={event.id}
-				disabled={event?.capacity ? event.busy >= event.capacity : false}
-			/>
-		</Card>
+							.join(', ')
+					: 'Любой',
+		},
+	];
+
+	const rightField = [
+		{
+			label: null,
+			value: `${event.price}₽`,
+		},
+	];
+
+	const fieldsPath1 = [
+		{
+			label: <CalendarOutlined />,
+			value: formatDateDDMMMMYYYY(event.date),
+		},
+		{ label: <EnvironmentOutlined />, value: event.address },
+		{
+			label: <ClockCircleOutlined />,
+			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+		},
+
+		{
+			label: <TeamOutlined />,
+			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
+		},
+	];
+
+	return (
+		<Collapse
+			bordered={false}
+			expandIcon={({ isActive }) => (
+				<LeftOutlined
+					rotate={isActive ? -90 : 0}
+					style={{ fontSize: '24px !important' }}
+				/>
+			)}
+			items={[
+				{
+					key: '1',
+					showArrow: false,
+					label: (
+						<Card
+							className={styles.list_item}
+							hoverable
+							cover={
+								<img
+									className={styles.list_item__img}
+									src={event.preview}
+									alt={''}
+								/>
+							}
+							onClick={onItemClick}
+						>
+							<div className={styles.list_item__img_text_left}>
+								<LabelValue items={leftField} />
+							</div>
+
+							<div className={styles.list_item__img_text_right}>
+								<LabelValue items={rightField} />
+							</div>
+
+							<div className={styles.list_item__content}>
+								<div className={styles.list_item__content_header}>
+									<Text
+										size={'s4'}
+										weight={'bold'}
+									>
+										{convertSportTypeToDisplayValue(event.sportType)}
+									</Text>
+
+									<SubscribeButton
+										isSub={event.subscribersId?.includes(userId) ?? false}
+										eventId={event.id}
+										disabled={
+											event?.capacity ? event.busy >= event.capacity : false
+										}
+									/>
+								</div>
+
+								<LabelValue items={fieldsPath1} />
+							</div>
+						</Card>
+					),
+					// children: (
+					// 		<div className={styles.list_item__content}>
+					// 			<LabelValue items={fieldsPath2} />
+					// 		</div>
+					// ),
+				},
+			]}
+		/>
 	);
 };
 

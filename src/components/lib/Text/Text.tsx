@@ -11,6 +11,7 @@ type TextProps = {
 	weight?: 'medium' | 'bold';
 	color?: 'primary' | 'secondary' | 'main';
 	display?: 'flex';
+	ref?: React.RefObject<HTMLSpanElement>;
 	gap?: string;
 	decoration?: string;
 	cursor?: string;
@@ -26,6 +27,7 @@ const Text: React.FC<TextProps> = ({
 	weight = 'medium',
 	color,
 	display,
+	ref,
 	gap,
 	decoration,
 	cursor,
@@ -52,6 +54,7 @@ const Text: React.FC<TextProps> = ({
 				!!color && color,
 				!!maxLines && 'max_lines',
 			)}
+			ref={ref}
 			style={style}
 			onClick={onClick}
 		>

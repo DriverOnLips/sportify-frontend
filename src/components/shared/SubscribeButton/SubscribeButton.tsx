@@ -3,6 +3,7 @@ import { EventsService } from 'api/EventsService/EventsService.ts';
 import Button from 'components/lib/Button/Button.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
+import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 
 type Props = {
 	isSub: boolean;
@@ -18,12 +19,6 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	const handleClick = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		e.stopPropagation();
 		setLoading(true);
-
-		// Функция для задержки
-		const delay = (ms: number) =>
-			new Promise((resolve) => setTimeout(resolve, ms));
-
-		await delay(1000);
 
 		try {
 			const response = await eventsService.subscribeOnEvent(
@@ -54,7 +49,7 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 				loading={loading}
 				disabled={disabled}
 			>
-				{isSubscribed ? 'Отписаться' : 'Записаться'}
+				{isSubscribed ? <UserDeleteOutlined /> : <UserAddOutlined />}
 			</Button>
 		</>
 	);

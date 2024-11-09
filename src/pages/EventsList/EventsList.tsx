@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListItem from './components/ListItem/ListItem';
-import styles from './EventsList.module.scss';
 import useEventsList from '../../hooks/useEventsList.tsx';
+import styles from './EventsList.module.scss';
 
 const EventsList: React.FC = () => {
-	const { events } = useEventsList();
+	const { events, deleteEvents } = useEventsList();
+
+	useEffect(() => {
+		return () => deleteEvents();
+	}, []);
 
 	return (
 		<div className={`${styles.events_list} events_list-js`}>

@@ -9,7 +9,7 @@ export type EventInfoModel = {
 	address: string;
 	date: string;
 	startTime: string;
-	endTime: string | null;
+	endTime: string;
 	price: number;
 	isFree: boolean;
 	gameLevel: GameLevels[];
@@ -47,7 +47,7 @@ export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	creatorId: from.creator_id,
 	sportType: from.sport_type,
 	startTime: from.start_time,
-	endTime: from.end_time,
+	endTime: from.end_time || new Date().toISOString(), // TODO: remove
 	isFree: from.is_free,
 	gameLevel: from.game_level,
 	rawMessage: from.raw_message,
