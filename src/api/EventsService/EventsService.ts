@@ -124,10 +124,18 @@ export class EventsService extends ServiceBase {
 		try {
 			const configItem = this.getConfigItem('createEvent');
 
+			const data = {
+				event_create: createEventCreateApi(event),
+				user_id: userId,
+				tg,
+			};
+
+			console.log(data);
+
 			return await this.makeHttpRequest(
 				configItem.method,
 				configItem.url,
-				{ event_create: createEventCreateApi(event), user_id: userId, tg },
+				data,
 				{
 					'Content-Type': 'application/json',
 				},
