@@ -1,6 +1,7 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import tsconfig from './tsconfig.json';
 
@@ -22,7 +23,40 @@ const parseTsConfigPaths = (
 
 export default defineConfig({
 	base: '/',
-	plugins: [react()],
+	plugins: [
+		react(),
+		VitePWA({
+			registerType: 'autoUpdate',
+			includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+			manifest: {
+				name: 'Food Client',
+				short_name: 'Food Client',
+				description: 'Food Client PWA',
+				icons: [
+					{
+						src: 'https://127.0.0.1/api/v1/img/default_football.jpeg',
+						sizes: '512x512',
+						type: 'image/png',
+					},
+					{
+						src: 'https://127.0.0.1/api/v1/img/default_football.jpeg',
+						sizes: '512x512',
+						type: 'any',
+					},
+					{
+						src: 'https://127.0.0.1/api/v1/img/default_football.jpeg',
+						sizes: '512x512',
+						type: 'maskable',
+					},
+				],
+				theme_color: '#ffffff',
+				background_color: '#ffffff',
+				// display: 'standalone',
+				// scope: '/',
+				// start_url: '/',
+			},
+		}),
+	],
 	server: {
 		host: '0.0.0.0',
 		port: 3000,
