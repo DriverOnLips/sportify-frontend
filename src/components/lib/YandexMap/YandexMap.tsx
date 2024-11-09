@@ -22,7 +22,7 @@ interface YandexMapProps {
 }
 
 const YandexMap: React.FC<YandexMapProps> = ({
-	address,
+	// address,
 	center,
 	zoom = 17,
 	isUserLocation = false,

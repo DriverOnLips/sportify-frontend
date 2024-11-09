@@ -41,6 +41,8 @@ export type EventInfoApi = {
 	subscribers_id: string[] | null;
 	preview: string;
 	photos: string[];
+	latitude: string | null;
+	longitude: string | null;
 };
 
 export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
