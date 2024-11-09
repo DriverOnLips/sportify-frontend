@@ -28,7 +28,7 @@ export type EventInfoApi = {
 	address: string;
 	date: string;
 	start_time: string;
-	end_time: string | null;
+	end_time: string;
 	price: number;
 	is_free: boolean;
 	game_level: GameLevels[];
