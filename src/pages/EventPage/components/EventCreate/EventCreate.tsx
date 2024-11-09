@@ -18,8 +18,16 @@ import styles from './EventCreate.module.scss';
 import { Divider } from 'antd';
 import Explanation from '../../../../components/lib/Explanation/Explanation.tsx';
 import DescriptionInput from '../shared/DescriptionInput/DescriptionInput.tsx';
+import { useSelector } from 'react-redux';
+import {
+	selectTGWebAppUserId,
+	selectTGWebAppChatId,
+} from '../../../../states/TGWebApp/TGWebAppState.ts';
 
 const EventCreate: React.FC = () => {
+	const tgUserId = useSelector(selectTGWebAppUserId);
+	const tgChatId = useSelector(selectTGWebAppChatId);
+
 	const { userId } = useUser();
 
 	const navigate = useNavigate();
@@ -40,9 +48,18 @@ const EventCreate: React.FC = () => {
 		}
 
 		try {
+			let tg;
+			if (tgUserId !== '' && tgChatId !== '') {
+				tg = {
+					user_id: tgUserId,
+					chat_id: tgChatId,
+				};
+			}
+
 			const createdEvent = await eventsService.createEvent(
 				eventToCreate,
 				userId,
+				tg,
 			);
 			showToast('success', 'Событие успешно создано');
 			navigate(`/events/${createdEvent.id}`);
