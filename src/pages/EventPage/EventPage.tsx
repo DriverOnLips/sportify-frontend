@@ -9,8 +9,13 @@ import YandexMap from './components/YandexMap/YandexMap.tsx';
 import styles from './EventPage.module.scss';
 import useQueryParams from '../../hooks/useQueryParams.ts';
 import EventEdit from './components/EventEdit/EventEdit.tsx';
+import { useScreenMode } from '../../hooks/useScreenMode.ts';
+import { Divider } from 'antd';
 
 const EventPage: React.FC = () => {
+	const screenWidth = useScreenMode();
+	const isWide = screenWidth > 650;
+
 	const { id } = useParams();
 
 	const { edit } = useQueryParams();
@@ -46,21 +51,21 @@ const EventPage: React.FC = () => {
 		<div className={styles.event_page}>
 			{event ? (
 				<>
-					<>
-						{edit !== 'true' ? (
-							<>
-								<div className={styles.event_page__info}>
-									<EventInfo event={event} />
-								</div>
+					{edit !== 'true' ? (
+						<>
+							<div className={styles.event_page__info}>
+								<EventInfo event={event} />
+							</div>
 
-								<div className={styles.event_page__map}>
-									<YandexMap address={event.address} />
-								</div>
-							</>
-						) : (
-							<EventEdit event={event} />
-						)}
-					</>
+							{!isWide && <Divider />}
+
+							<div className={styles.event_page__map}>
+								<YandexMap address={event.address} />
+							</div>
+						</>
+					) : (
+						<EventEdit event={event} />
+					)}
 				</>
 			) : (
 				<Loader />

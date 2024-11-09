@@ -14,7 +14,6 @@ export type EventInfoModel = {
 	isFree: boolean;
 	gameLevel: GameLevels[];
 	description: string | null;
-	rawMessage: string | null;
 	capacity: number | null;
 	busy: number;
 	subscribersId: string[] | null;

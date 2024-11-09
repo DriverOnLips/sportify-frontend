@@ -1,24 +1,33 @@
 import {
 	ArrowLeftOutlined,
-	EnvironmentTwoTone,
 	TeamOutlined,
-	FieldTimeOutlined,
 	EditOutlined,
 	DeleteOutlined,
+	DollarOutlined,
+	RiseOutlined,
+	CalendarOutlined,
+	EnvironmentOutlined,
+	ClockCircleOutlined,
+	FileTextOutlined,
 } from '@ant-design/icons';
-import Button from '../../../../components/lib/Button/Button.tsx';
-import Text from '../../../../components/lib/Text/Text.tsx';
-import { useUser } from '../../../../contexts/User/userContext.tsx';
+import Button from 'components/lib/Button/Button.tsx';
+import Text from 'components/lib/Text/Text.tsx';
+import { useUser } from 'contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
-import { EventInfoModel } from '../../../../types/types/Event/EventInfo.ts';
-import { convertSportTypeToDisplayValue } from '../../../../utils/converSportTypes.ts';
+import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
+import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
-import SubscribeButton from '../../../../components/shared/SubscribeButton/SubscribeButton.tsx';
-import styles from './EventInfo.module.scss';
+import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
-import Image from '../../../../components/lib/Image/Image.tsx';
-import { showToast } from '../../../../components/lib/Toast/Toast.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
+import styles from './EventInfo.module.scss';
+import Tooltip from 'components/lib/Tooltip/Tooltip.tsx';
+import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
+import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
+import { Divider } from 'antd';
+import Carousel from './components/Carousel.tsx';
+import { useScreenMode } from '../../../../hooks/useScreenMode.ts';
 
 interface EventInfoProps {
 	event: EventInfoModel;
@@ -29,7 +38,43 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const navigate = useNavigate();
 	const eventsService = new EventsService();
 
+	const screenWidth = useScreenMode();
+	const isWide = screenWidth > 650;
+
 	const isCreator = useMemo(() => userId == event.creatorId, [userId, event]);
+
+	const eventFields = [
+		{
+			label: <DollarOutlined />,
+			value: `${event.price}₽`,
+		},
+		{
+			label: <CalendarOutlined />,
+			value: formatDateDDMMMMYYYY(event.date),
+		},
+		{
+			label: <ClockCircleOutlined />,
+			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+		},
+		{
+			label: <RiseOutlined />,
+			value:
+				event.gameLevel.length > 0
+					? event.gameLevel
+							.map((level) => convertGameLevelToDisplayValue(level))
+							.join(', ')
+					: 'Любой',
+		},
+		{ label: <EnvironmentOutlined />, value: event.address, itemMaxLines: 3 },
+		{
+			label: <TeamOutlined />,
+			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
+		},
+		{
+			label: <FileTextOutlined />,
+			value: event.description,
+		},
+	];
 
 	const navigateToEvents = useCallback(() => navigate('/events'), [navigate]);
 
@@ -56,31 +101,44 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 	return (
 		<div className={styles.event_info}>
-			<div className={styles.event_info__type}>
-				<Button onClick={navigateToEvents}>
-					<ArrowLeftOutlined />
-				</Button>
-				<div className={styles.eventDetails}>
-					<Text
-						size={'s4'}
-						color={'primary'}
-					>
-						{convertSportTypeToDisplayValue(event.sportType)}
-					</Text>
-				</div>
-				{isCreator ? (
-					<>
-						<Button onClick={navigateToEventEdit}>
-							<EditOutlined />
-						</Button>
+			<div className={styles.event_info__header}>
+				{isWide && (
+					<Button onClick={navigateToEvents}>
+						<ArrowLeftOutlined />
+					</Button>
+				)}
 
-						<Button
-							type={'dashed'}
-							onClick={onDeleteButtonClick}
+				<Text
+					size={'s3'}
+					weight={'bold'}
+					color={'primary'}
+				>
+					{convertSportTypeToDisplayValue(event.sportType)}
+				</Text>
+
+				{isCreator ? (
+					<div className={styles.event_info__header_buttons}>
+						<Tooltip
+							title={'Редактировать'}
+							placement={'bottom'}
 						>
-							<DeleteOutlined />
-						</Button>
-					</>
+							<Button onClick={navigateToEventEdit}>
+								<EditOutlined />
+							</Button>
+						</Tooltip>
+
+						<Tooltip
+							title={'Удалить'}
+							placement={'bottom'}
+						>
+							<Button
+								type={'dashed'}
+								onClick={onDeleteButtonClick}
+							>
+								<DeleteOutlined />
+							</Button>
+						</Tooltip>
+					</div>
 				) : (
 					<SubscribeButton
 						disabled={event?.capacity ? event.busy >= event.capacity : false}
@@ -89,75 +147,16 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					/>
 				)}
 			</div>
-			<Image
-				src={event.preview}
-				className={styles.eventImage}
+
+			<Divider />
+			<Carousel
+				photos={event.photos}
+				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
-			<div className={styles.eventDetails}>
-				<Text
-					size={'s4'}
-					weight={'bold'}
-					color={'primary'}
-				>
-					{event.isFree ? 'Бесплатно' : `${event.price} ₽`}
-				</Text>
-				<Text
-					size={'s6'}
-					color={'secondary'}
-				>
-					<Text
-						size={'s6'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						Описание
-					</Text>
-					<br />
-					{event.description}
-				</Text>
-				<Text
-					size={'s6'}
-					weight={'bold'}
-					color={'primary'}
-				>
-					<TeamOutlined />
-					{event.capacity ? `${event.busy} / ${event.capacity}` : event.busy}
-				</Text>
-				<Text
-					size={'s6'}
-					color={'secondary'}
-				>
-					<Text
-						size={'s6'}
-						weight={'bold'}
-						color={'primary'}
-					>
-						<EnvironmentTwoTone className={styles.icon} />
-						Адрес
-					</Text>
-					<br />
-					{event.address}
-				</Text>
-				<Text
-					size={'s6'}
-					weight={'bold'}
-					color={'primary'}
-				>
-					{'Дата: '}
-					<br />
-					{formatDateDDMMMMYYYY(event.date)}
-				</Text>
-				<Text
-					size={'s6'}
-					weight={'bold'}
-					color={'primary'}
-				>
-					<FieldTimeOutlined className={styles.icon} />
-					{'Время проведения: '}
-					<br />
-					{`${formatTime(event.startTime)} — ${event.endTime ? formatTime(event.endTime) : ''}`}
-				</Text>
-			</div>
+
+			<Divider />
+
+			<LabelValue items={eventFields} />
 		</div>
 	);
 };
