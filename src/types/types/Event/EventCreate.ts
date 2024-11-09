@@ -7,7 +7,7 @@ export type EventCreateModel = {
 	address?: string;
 	date?: string;
 	startTime?: string;
-	endTime?: string | null;
+	endTime?: string;
 	price?: number;
 	gameLevel?: GameLevels[];
 	description?: string | null;
@@ -21,7 +21,7 @@ export type EventCreateApi = {
 	address: string;
 	date: string;
 	start_time: string;
-	end_time: string | null;
+	end_time: string;
 	price: number;
 	game_level: GameLevels[];
 	description: string | null;
@@ -38,6 +38,7 @@ export const createEventCreateApi = (
 		!from.address ||
 		!from.date ||
 		!from.startTime ||
+		!from.endTime ||
 		!from.preview ||
 		!from.photos
 	) {
@@ -61,7 +62,7 @@ export const createEventCreateApi = (
 		address: from.address,
 		date: from.date,
 		start_time: timeStart.toISOString(),
-		end_time: from.endTime ? timeEnd.toISOString() : null,
+		end_time: from.endTime,
 		price: from.price || 0,
 		game_level: from.gameLevel || [],
 		description: from.description || null,
