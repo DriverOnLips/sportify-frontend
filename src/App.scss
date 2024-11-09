@@ -57,10 +57,9 @@ $scrollbar-width: 20px;
 	padding-bottom: 0 !important;
 }
 
-
 // collapse
 
-.ant-collapse-item{
+.ant-collapse-item {
 	position: relative;
 }
 
@@ -68,22 +67,21 @@ $scrollbar-width: 20px;
 	padding: 0 !important;
 }
 
-.ant-collapse-expand-icon{
+.ant-collapse-expand-icon {
 	position: absolute;
 	bottom: 15px;
 	right: 5px;
 	z-index: 999;
 }
 
-.ant-collapse-arrow{
+.ant-collapse-arrow {
 	font-size: 20px !important;
 }
 
 // card
-.ant-card-body{
+.ant-card-body {
 	padding: 1rem !important;
 }
-
 
 @media screen and (max-width: 850px) {
 	#content {

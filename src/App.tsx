@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
+import MapPage from './pages/MapPage/MapPage.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -59,6 +60,10 @@ function App() {
 						<Route
 							path='/events-create'
 							element={<EventCreate />}
+						/>
+						<Route
+							path='/map'
+							element={<MapPage />}
 						/>
 					</Routes>
 				</div>
