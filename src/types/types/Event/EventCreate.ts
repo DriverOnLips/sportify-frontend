@@ -62,7 +62,7 @@ export const createEventCreateApi = (
 		address: from.address,
 		date: from.date,
 		start_time: timeStart.toISOString(),
-		end_time: from.endTime,
+		end_time: timeEnd.toISOString(),
 		price: from.price || 0,
 		game_level: from.gameLevel || [],
 		description: from.description || null,
