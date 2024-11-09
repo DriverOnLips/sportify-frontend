@@ -49,6 +49,5 @@ export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	endTime: from.end_time || new Date().toISOString(), // TODO: remove
 	isFree: from.is_free,
 	gameLevel: from.game_level,
-	rawMessage: from.raw_message,
 	subscribersId: from.subscribers_id,
 });
