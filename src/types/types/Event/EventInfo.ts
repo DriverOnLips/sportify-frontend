@@ -20,6 +20,8 @@ export type EventInfoModel = {
 	subscribersId: string[] | null;
 	preview: string;
 	photos: string[];
+	latitude: string | null;
+	longitude: string | null;
 };
 
 export type EventInfoApi = {

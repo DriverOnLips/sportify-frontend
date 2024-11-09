@@ -57,6 +57,7 @@ const EventPage: React.FC = () => {
 									<YandexMap
 										address={event.address}
 										zoom={17}
+										isUserLocation={false}
 									/>
 								</div>
 							</>
