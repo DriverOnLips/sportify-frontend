@@ -51,7 +51,7 @@ const EventCreate: React.FC = () => {
 			let tg;
 			if (tgUserId !== '' && tgChatId !== '') {
 				tg = {
-					user_id: tgUserId,
+					user_id: String(tgUserId),
 					chat_id: tgChatId,
 				};
 			}
