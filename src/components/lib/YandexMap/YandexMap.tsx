@@ -30,6 +30,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
 					center: mapCenter,
 					zoom,
+					controls: [],
 				});
 			} else {
 				mapRef.current.setCenter(mapCenter);
