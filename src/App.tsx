@@ -10,9 +10,22 @@ import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
 import { Provider } from 'react-redux';
 import store from './states/store.ts';
+import { useEffect } from 'react';
 
 function App() {
 	const { yandexMapApiKey } = useEnv();
+
+	useEffect(() => {
+		if (window.Telegram?.WebApp) {
+			window.Telegram.WebApp.ready();
+
+			const userData = window.Telegram.WebApp.initDataUnsafe;
+			console.log('User data from Telegram:', userData);
+			console.log(window.Telegram.WebApp);
+		} else {
+			console.warn('Telegram WebApp API не доступен.');
+		}
+	}, []);
 
 	return (
 		<div id='app'>
