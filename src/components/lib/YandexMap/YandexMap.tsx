@@ -8,7 +8,7 @@ declare global {
 }
 
 interface YandexMapProps {
-	address: string;
+	address?: string;
 	center?: [number, number];
 	zoom?: number;
 }
@@ -19,43 +19,51 @@ const YandexMap: React.FC<YandexMapProps> = ({
 	zoom = 17,
 }) => {
 	const mapRef = useRef<any>(null);
+	const mapContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const initializeMap = () => {
-			const geocoder = window.ymaps.geocode(address);
-			geocoder.then((res: any) => {
-				const coords = res.geoObjects.get(0).geometry.getCoordinates();
+			// Дефотный центр - Москва
+			const mapCenter = center || [55.751244, 37.618423];
 
-				const mapCenter = center || coords;
+			if (!mapRef.current) {
+				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
+					center: mapCenter,
+					zoom,
+				});
+			} else {
+				mapRef.current.setCenter(mapCenter);
+				mapRef.current.setZoom(zoom);
+			}
 
-				if (!mapRef.current) {
-					mapRef.current = new window.ymaps.Map('map', {
-						center: mapCenter,
-						zoom,
-					});
-				} else {
-					mapRef.current.setCenter(mapCenter);
-					mapRef.current.setZoom(zoom);
-				}
+			// Удаляем старые метки и добавляем новую
+			mapRef.current.geoObjects.removeAll();
+			const placemark = new window.ymaps.Placemark(mapCenter);
+			mapRef.current.geoObjects.add(placemark);
 
-				mapRef.current.geoObjects.removeAll();
-				const placemark = new window.ymaps.Placemark(coords);
-				mapRef.current.geoObjects.add(placemark);
-			});
+			if (address) {
+				const geocoder = window.ymaps.geocode(address);
+				geocoder.then((res: any) => {
+					const coords = res.geoObjects.get(0).geometry.getCoordinates();
+					mapRef.current.setCenter(coords);
+					const addressPlacemark = new window.ymaps.Placemark(coords);
+					mapRef.current.geoObjects.add(addressPlacemark);
+				});
+			}
 		};
 
 		if (window.ymaps) {
 			window.ymaps.ready(initializeMap);
+		} else {
+			console.error('Yandex Maps API не загружен.');
 		}
 	}, [address, center, zoom]);
 
 	return (
-		<div className={styles.mapContainer}>
-			<div
-				id='map'
-				className={styles.map}
-			></div>
-		</div>
+		<div
+			ref={mapContainerRef}
+			className={styles.map}
+		/>
 	);
 };
 
