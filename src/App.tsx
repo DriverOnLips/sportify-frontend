@@ -13,6 +13,7 @@ import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
 import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
+import Login from './pages/Login/Login.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -65,6 +66,10 @@ function App() {
 						<Route
 							path='/map'
 							element={<MapPage />}
+						/>
+						<Route
+							path='/login'
+							element={<Login />}
 						/>
 					</Routes>
 				</div>

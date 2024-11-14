@@ -7,6 +7,9 @@ import {
 	UserOutlined,
 	ClockCircleOutlined,
 	OrderedListOutlined,
+	LoginOutlined,
+	LogoutOutlined,
+	SmileOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
@@ -66,7 +69,30 @@ const items: MenuItem[] = [
 			},
 		],
 	},
-	{ key: '9', icon: <UserOutlined />, label: 'Профиль', disabled: true },
+	{
+		key: '9',
+		label: 'Аккаунт',
+		icon: <SmileOutlined />,
+		children: [
+			{
+				key: '10',
+				label: 'Профиль',
+				icon: <UserOutlined />,
+				disabled: true,
+			},
+			{
+				key: '11',
+				label: 'Войти',
+				icon: <LoginOutlined />,
+			},
+			{
+				key: '12',
+				label: 'Выйти',
+				icon: <LogoutOutlined />,
+				disabled: true,
+			},
+		],
+	},
 ];
 
 const Menu: React.FC = () => {
@@ -102,6 +128,8 @@ const Menu: React.FC = () => {
 				return ['7'];
 			case '/profile':
 				return ['8'];
+			case '/login':
+				return ['11'];
 			default:
 				return ['2'];
 		}
@@ -127,6 +155,9 @@ const Menu: React.FC = () => {
 			case '8':
 				navigate('/profile');
 				break;
+			case '11':
+				navigate('/login');
+				break;
 			default:
 				break;
 		}
@@ -147,7 +178,7 @@ const Menu: React.FC = () => {
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
-				defaultOpenKeys={isWide ? ['1', '4'] : []}
+				defaultOpenKeys={isWide ? ['1'] : []}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}

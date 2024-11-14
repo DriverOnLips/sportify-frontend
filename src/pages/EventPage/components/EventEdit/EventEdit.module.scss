@@ -11,6 +11,8 @@
 	border-radius: 12px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	gap: 1rem;
+	backdrop-filter: blur(5px);
+	background: rgba(230, 230, 230, 0.75);
 
 	&__name {
 		margin-top: 1rem;
@@ -27,5 +29,12 @@
 	&__capacity{
 		display: flex;
 		align-items: center;
+	}
+}
+
+
+@media screen and (max-width: 850px) {
+	.event_edit {
+		width: 75vw;
 	}
 }
