@@ -8,7 +8,7 @@ import styles from './HeaderSearch.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const HeaderSearch = () => {
-	const { getEvents } = useEventsList();
+	const { getAllEvents, getMyEvents } = useEventsList();
 	const location = useLocation();
 
 	const navigate = useNavigate();
@@ -20,8 +20,18 @@ const HeaderSearch = () => {
 	};
 
 	const handlePressEnter = () => {
-		navigate(`/events${location.search}`);
-		getEvents();
+		switch (location.pathname) {
+			case '/events':
+				getAllEvents();
+				break;
+			case '/events-my':
+				getMyEvents();
+				break;
+			default:
+				navigate(`/events${location.search}`);
+				getAllEvents();
+				break;
+		}
 	};
 
 	return (

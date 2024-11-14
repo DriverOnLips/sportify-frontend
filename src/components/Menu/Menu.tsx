@@ -51,7 +51,6 @@ const items: MenuItem[] = [
 				key: '6',
 				label: 'Мои',
 				icon: <UnorderedListOutlined />,
-				disabled: true,
 			},
 			{
 				key: '7',
@@ -77,13 +76,17 @@ const Menu: React.FC = () => {
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 850;
 
-	const { getEvents } = useEventsList();
+	const { getAllEvents } = useEventsList();
 
-	const handleLogoClick = useCallback(() => {
+	const handleLogoClick = () => {
+		if (location.pathname === '/events') {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+			return;
+		}
+
 		navigate('/events');
-
-		getEvents();
-	}, []);
+		getAllEvents();
+	};
 
 	const getActiveKey = () => {
 		switch (location.pathname) {
@@ -91,9 +94,9 @@ const Menu: React.FC = () => {
 				return ['2'];
 			case '/map':
 				return ['3'];
-			case '/events-my':
-				return ['5'];
 			case '/events-create':
+				return ['5'];
+			case '/events-my':
 				return ['6'];
 			case '/clubs':
 				return ['7'];
@@ -113,10 +116,10 @@ const Menu: React.FC = () => {
 				navigate('/map');
 				break;
 			case '5':
-				navigate('/events-my');
+				navigate('/events-create');
 				break;
 			case '6':
-				navigate('/events-create');
+				navigate('/events-my');
 				break;
 			case '7':
 				navigate('/clubs');
@@ -144,7 +147,6 @@ const Menu: React.FC = () => {
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
-				defaultOpenKeys={['1']}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}

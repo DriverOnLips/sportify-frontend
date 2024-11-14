@@ -8,9 +8,11 @@ const MapPage: React.FC = () => {
 	const [userLocation, setUserLocation] = useState<[number, number] | null>(
 		null,
 	);
-	const { events, deleteEvents } = useEventsList();
+	const { events, getAllEvents, deleteAllEvents } = useEventsList();
 
 	useEffect(() => {
+		getAllEvents();
+
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -27,7 +29,7 @@ const MapPage: React.FC = () => {
 			setUserLocation([55.751244, 37.618423]);
 		}
 
-		return () => deleteEvents();
+		return () => deleteAllEvents();
 	}, []);
 
 	const eventCoordinates = events.map((event) => ({

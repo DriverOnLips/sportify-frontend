@@ -10,16 +10,16 @@ import {
 import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Text from 'components/lib/Text/Text.tsx';
-import { useUser } from 'contexts/User/userContext.tsx';
-import { EventShortInfoModel } from 'types/types/Event/EventShortInfo.ts';
-import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
-import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
-import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
-import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
+import Text from '../../lib/Text/Text.tsx';
+import { useUser } from '../../../contexts/User/userContext.tsx';
+import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.ts';
+import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
+import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
+import { formatDateDDMMMMYYYY, formatTime } from '../../../utils/formatTime.ts';
+import SubscribeButton from '../SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
-import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
-import Tooltip from 'components/lib/Tooltip/Tooltip.tsx';
+import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
+import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();

@@ -3,30 +3,87 @@ import { EventShortInfoModel } from 'types/types/Event/EventShortInfo.ts';
 import { RootState } from '../store.ts';
 
 export type EventListState = {
-	events: EventShortInfoModel[];
+	allEvents: EventShortInfoModel[];
+	myEvents: EventShortInfoModel[];
+	upcomingEvents: EventShortInfoModel[];
+	pastEvents: EventShortInfoModel[];
 };
 
 const initialState: EventListState = {
-	events: [],
+	allEvents: [],
+	myEvents: [],
+	upcomingEvents: [],
+	pastEvents: [],
 };
 
 export const eventListSlice = createSlice({
 	name: 'eventList',
 	initialState,
 	reducers: {
-		setEvents: (state, action: PayloadAction<EventShortInfoModel[]>) => {
-			state.events = action.payload;
+		// allEvents
+		setAllEvents: (state, action: PayloadAction<EventShortInfoModel[]>) => {
+			state.allEvents = action.payload;
 		},
-		deleteEvents: (state) => {
-			state.events = [];
+		deleteAllEvents: (state) => {
+			state.allEvents = [];
+		},
+
+		// myEvents
+		setMyEvents: (state, action: PayloadAction<EventShortInfoModel[]>) => {
+			state.myEvents = action.payload;
+		},
+		deleteMyEvents: (state) => {
+			state.myEvents = [];
+		},
+
+		// upcomingEvents
+		setUpcomingEvents: (
+			state,
+			action: PayloadAction<EventShortInfoModel[]>,
+		) => {
+			state.upcomingEvents = action.payload;
+		},
+		deleteUpcomingEvents: (state) => {
+			state.upcomingEvents = [];
+		},
+
+		// pastEvents
+		setPastEvents: (state, action: PayloadAction<EventShortInfoModel[]>) => {
+			state.pastEvents = action.payload;
+		},
+		deletePastEvents: (state) => {
+			state.pastEvents = [];
 		},
 	},
 });
 
-export const selectEvents = (state: RootState): EventListState['events'] =>
-	state.eventList.events;
+export const selectAllEvents = (
+	state: RootState,
+): EventListState['allEvents'] => state.eventList.allEvents;
 
-export const { setEvents: setEventsAction, deleteEvents: deleteEventsAction } =
-	eventListSlice.actions;
+export const selectMyEvents = (state: RootState): EventListState['myEvents'] =>
+	state.eventList.myEvents;
+
+export const selectUpcomingEvents = (
+	state: RootState,
+): EventListState['upcomingEvents'] => state.eventList.upcomingEvents;
+
+export const selectPastEvents = (
+	state: RootState,
+): EventListState['pastEvents'] => state.eventList.pastEvents;
+
+export const {
+	setAllEvents: setAllEventsAction,
+	deleteAllEvents: deleteAllEventsAction,
+
+	setMyEvents: setMyEventsAction,
+	deleteMyEvents: deleteMyEventsAction,
+
+	setUpcomingEvents: setUpcomingEventsAction,
+	deleteUpcomingEvents: deleteUpcomingEventsAction,
+
+	setPastEvents: setPastEventsAction,
+	deletePastEvents: deletePastEventsAction,
+} = eventListSlice.actions;
 
 export const eventListReducer = eventListSlice.reducer;

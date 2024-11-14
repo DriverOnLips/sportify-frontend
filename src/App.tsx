@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
+import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -52,6 +53,10 @@ function App() {
 						<Route
 							path='/events/:id'
 							element={<EventPage />}
+						/>
+						<Route
+							path='/events-my'
+							element={<MyEventsList />}
 						/>
 						<Route
 							path='/events-create'
