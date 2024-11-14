@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { EventsService } from '../../api/EventsService/EventsService.ts';
-import { Loader } from 'components/Loader/Loader.tsx';
-import { showToast } from '../../components/Toast/Toast.tsx';
+import { Loader } from 'components/lib/Loader/Loader.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo/EventInfo.tsx';
-import YandexMap from './components/YandexMap/YandexMap.tsx';
+import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
 import styles from './EventPage.module.scss';
-import useEditMode from '../../hooks/usePageMode.ts';
+import useQueryParams from '../../hooks/useQueryParams.ts';
 import EventEdit from './components/EventEdit/EventEdit.tsx';
+import { useScreenMode } from '../../hooks/useScreenMode.ts';
+import { Divider } from 'antd';
 
 const EventPage: React.FC = () => {
+	const screenWidth = useScreenMode();
+	const isWide = screenWidth > 650;
+
 	const { id } = useParams();
 
-	const idEditMode = useEditMode();
+	const { edit } = useQueryParams();
 
 	const eventsService = new EventsService();
 
@@ -40,27 +45,27 @@ const EventPage: React.FC = () => {
 		}
 
 		getEvents(id);
-	}, [id, idEditMode]);
+	}, [id]);
 
 	return (
 		<div className={styles.event_page}>
 			{event ? (
 				<>
-					<>
-						{!idEditMode ? (
-							<>
-								<div className={styles.event_page__info}>
-									<EventInfo event={event} />
-								</div>
+					{edit !== 'true' ? (
+						<>
+							<div className={styles.event_page__info}>
+								<EventInfo event={event} />
+							</div>
 
-								<div className={styles.event_page__map}>
-									<YandexMap address={event.address} />
-								</div>
-							</>
-						) : (
-							<EventEdit event={event} />
-						)}
-					</>
+							{!isWide && <Divider />}
+
+							<div className={styles.event_page__map}>
+								<YandexMap address={event.address} />
+							</div>
+						</>
+					) : (
+						<EventEdit event={event} />
+					)}
 				</>
 			) : (
 				<Loader />

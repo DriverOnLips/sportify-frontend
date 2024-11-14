@@ -6,14 +6,18 @@ export const convertGameLevelToDisplayValue = (
 	switch (gameLevel) {
 		case GameLevels.Low:
 			return 'Начинающий';
+		case GameLevels.LowPlus:
+			return 'Начинающий +';
 		case GameLevels.MidMinus:
-			return 'Средний';
+			return 'Средний -';
 		case GameLevels.Mid:
-			return 'Продвинутый';
+			return 'Средний';
 		case GameLevels.MidPlus:
-			return 'Полупрофессиональный';
+			return 'Средний +';
 		case GameLevels.High:
-			return 'Профессиональный';
+			return 'Полу-профи';
+		case GameLevels.HighPlus:
+			return 'Профи';
 	}
 };
 
@@ -23,14 +27,18 @@ export const convertDisplayValueToGameLevel = (
 	switch (gameLevel) {
 		case 'Начинающий':
 			return GameLevels.Low;
-		case 'Средний':
+		case 'Начинающий плюс':
+			return GameLevels.LowPlus;
+		case 'Средний минус':
 			return GameLevels.MidMinus;
-		case 'Продвинутый':
+		case 'Средний':
 			return GameLevels.Mid;
-		case 'Полупрофессиональный':
+		case 'Средний плюс':
 			return GameLevels.MidPlus;
-		case 'Профессиональный':
+		case 'Полу-профи':
 			return GameLevels.High;
+		case 'Профи':
+			return GameLevels.HighPlus;
 		default:
 			return GameLevels.Mid;
 	}

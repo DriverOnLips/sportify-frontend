@@ -9,17 +9,18 @@ export type EventInfoModel = {
 	address: string;
 	date: string;
 	startTime: string;
-	endTime: string | null;
+	endTime: string;
 	price: number;
 	isFree: boolean;
 	gameLevel: GameLevels[];
 	description: string | null;
-	rawMessage: string | null;
 	capacity: number | null;
 	busy: number;
 	subscribersId: string[] | null;
 	preview: string;
 	photos: string[];
+	latitude: string | null;
+	longitude: string | null;
 };
 
 export type EventInfoApi = {
@@ -29,7 +30,7 @@ export type EventInfoApi = {
 	address: string;
 	date: string;
 	start_time: string;
-	end_time: string | null;
+	end_time: string;
 	price: number;
 	is_free: boolean;
 	game_level: GameLevels[];
@@ -40,6 +41,8 @@ export type EventInfoApi = {
 	subscribers_id: string[] | null;
 	preview: string;
 	photos: string[];
+	latitude: string | null;
+	longitude: string | null;
 };
 
 export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
@@ -47,9 +50,8 @@ export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	creatorId: from.creator_id,
 	sportType: from.sport_type,
 	startTime: from.start_time,
-	endTime: from.end_time,
+	endTime: from.end_time || new Date().toISOString(), // TODO: remove
 	isFree: from.is_free,
 	gameLevel: from.game_level,
-	rawMessage: from.raw_message,
 	subscribersId: from.subscribers_id,
 });

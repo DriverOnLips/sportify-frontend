@@ -1,39 +1,39 @@
 {
-  "compilerOptions": {
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+	"compilerOptions": {
+		"plugins": [{ "name": "typescript-plugin-css-modules" }],
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
 
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
 
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
 
-    "baseUrl": "src",
-    "paths": {
-      "api": ["api/*"],
-      "assets": ["assets/*"],
-      "components": ["components/*"],
-      "config": ["config/*"],
-      "contexts": ["contexts/*"],
-      "hooks": ["hooks/*"],
-      "pages": ["pages/*"],
-      "stores": ["stores/*"],
-      "styles": ["styles/*"],
-      "types": ["types/*"],
-      "utils": ["utils/*"]
-    }
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+		"baseUrl": "src",
+		"paths": {
+			"api": ["api/*"],
+			"assets": ["assets/*"],
+			"components": ["components/*"],
+			"config": ["config/*"],
+			"contexts": ["contexts/*"],
+			"hooks": ["hooks/*"],
+			"pages": ["pages/*"],
+			"states": ["states/*"],
+			"styles": ["styles/*"],
+			"types": ["types/*"],
+			"utils": ["utils/*"]
+		}
+	},
+	"include": ["src", "payouts.d.ts"],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }

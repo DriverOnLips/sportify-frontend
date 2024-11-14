@@ -1,7 +1,7 @@
-import InputNumber from '../../../../../components/InputNumber/InputNumber.tsx';
+import InputNumber from 'components/lib/InputNumber/InputNumber.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
-import { EventCreateModel } from '../../../../../types/types/Event/EventCreate.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
 type Props = {
 	className?: string;
@@ -26,6 +26,10 @@ const CapacityInput: React.FC<Props> = ({
 	);
 
 	const changeCapacity = (value: string | number | null) => {
+		if (typeof value !== 'number') {
+			return;
+		}
+
 		setCapacity(Number(value) || null);
 		updateCapacity(Number(value) || undefined);
 	};
@@ -35,6 +39,8 @@ const CapacityInput: React.FC<Props> = ({
 			className={className}
 			value={capacity}
 			onChange={changeCapacity}
+			defaultValue={0}
+			min={0}
 			max={10000}
 		/>
 	);

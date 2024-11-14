@@ -1,8 +1,10 @@
 import React from 'react';
 import { EventsService } from 'api/EventsService/EventsService.ts';
-import Button from 'components/Button/Button.tsx';
+import Button from 'components/lib/Button/Button.tsx';
 import { useUser } from 'contexts/User/userContext.tsx';
-import { showToast } from 'components/Toast/Toast.tsx';
+import { showToast } from 'components/lib/Toast/Toast.tsx';
+import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 
 type Props = {
 	isSub: boolean;
@@ -19,19 +21,19 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 		e.stopPropagation();
 		setLoading(true);
 
-		// Функция для задержки
-		const delay = (ms: number) =>
-			new Promise((resolve) => setTimeout(resolve, ms));
-
-		await delay(1000);
-
 		try {
 			const response = await eventsService.subscribeOnEvent(
 				eventId,
 				userId,
 				!isSubscribed,
 			);
-			setIsSubscribed(response.subscribers_id?.includes(userId) || false);
+			const newIsSubscribed = response.subscribers_id?.includes(userId);
+			setIsSubscribed(newIsSubscribed);
+			showToast(
+				'success',
+				// 'Ошибка',
+				`Вы ${newIsSubscribed ? 'записались на событие' : 'отписались от события'}`,
+			);
 		} catch (e) {
 			showToast(
 				'error',
@@ -47,16 +49,16 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	const [isSubscribed, setIsSubscribed] = React.useState(isSub);
 
 	return (
-		<>
+		<Tooltip title={isSubscribed ? 'Отписаться' : 'Подписаться'}>
 			<Button
 				onClick={handleClick}
 				type={isSubscribed ? 'default' : 'primary'}
 				loading={loading}
 				disabled={disabled}
 			>
-				{isSubscribed ? 'Отписаться' : 'Записаться'}
+				{isSubscribed ? <UserDeleteOutlined /> : <UserAddOutlined />}
 			</Button>
-		</>
+		</Tooltip>
 	);
 };
 

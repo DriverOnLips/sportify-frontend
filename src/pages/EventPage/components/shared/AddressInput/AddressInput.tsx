@@ -1,7 +1,7 @@
-import Input from 'components/Input/Input.tsx';
 import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import Textarea from 'components/lib/Textarea/Textarea.tsx';
 
 type Props = {
 	className?: string;
@@ -22,14 +22,15 @@ const AddressInput: React.FC<Props> = ({
 		[],
 	);
 
-	const changeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const changeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const val = e.target.value;
 		setAddress(val);
 		updateAddress(val);
 	};
 
 	return (
-		<Input
+		<Textarea
+			placeholder='Введите адрес'
 			className={className}
 			value={address}
 			onChange={changeAddress}

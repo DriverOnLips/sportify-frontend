@@ -1,0 +1,59 @@
+.list_item {
+	position: relative;
+	overflow: hidden;
+
+	&:hover &__img {
+		transform: scale(1.1);
+	}
+
+	&__img {
+		transition: all 0.5s;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+
+		&_text_left {
+			position: absolute;
+			top: 10px;
+			left: 5px;
+			background-color: rgba(255, 255, 255, 0.5);
+			backdrop-filter: blur(5px);
+			border-radius: 50px;
+			box-shadow: 0 0 40px rgba(128, 128, 128, 0.5);
+			display: inline-block;
+			padding: 1px 5px;
+		}
+
+		&_text_right {
+			position: absolute;
+			top: 10px;
+			right: 5px;
+			background-color: rgba(255, 255, 255, 0.5);
+			backdrop-filter: blur(5px);
+			border-radius: 50px;
+			box-shadow: 0 0 40px rgba(128, 128, 128, 0.5);
+			display: inline-block;
+			padding: 1px 5px;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		&_header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			&_sport {
+				display: flex;
+				gap: 6px;
+			}
+		}
+
+		&__address {
+			padding: 1rem 0;
+		}
+	}
+}

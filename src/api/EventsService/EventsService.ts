@@ -15,8 +15,6 @@ import {
 	EventUpdateModel,
 } from '../../types/types/Event/EventUpdate.ts';
 import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
-import { SportTypes } from '../../types/enums/SportTypes.ts';
-
 
 export class EventsService extends ServiceBase {
 	private static instance: EventsService;
@@ -31,6 +29,11 @@ export class EventsService extends ServiceBase {
 		this.config = [
 			{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
 			{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
+			{
+				name: 'getMyEvents',
+				url: `/api/users/user_id/events`,
+				method: RequestMethods.GET,
+			},
 			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
 			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
 			{ name: 'deleteEvent', url: `/api/event`, method: RequestMethods.DELETE },
@@ -39,17 +42,82 @@ export class EventsService extends ServiceBase {
 				url: `/api/event/sub`,
 				method: RequestMethods.PUT,
 			},
+			{
+				name: 'payForEvent',
+				url: `/api/event/pay`,
+				method: RequestMethods.POST,
+			},
 		];
 	}
 
-	async getEvents(): Promise<EventShortInfoModel[]> {
+	private processQueryParams(
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): string[] {
+		const params: string[] = [];
+
+		if (sportType.length > 0) {
+			const sportTypesParams = sportType
+				.map((type) => `sport_type=${type}`)
+				.join('&');
+			params.push(sportTypesParams);
+		}
+
+		if (gameLevel.length > 0) {
+			const gameLevelsParams = gameLevel
+				.map((level) => `game_level=${level}`)
+				.join('&');
+			params.push(gameLevelsParams);
+		}
+
+		if (dates.length > 0) {
+			const dateStartParams = dates
+				.map((date) => `date_start=${date}`)
+				.join('&');
+			params.push(dateStartParams);
+		}
+
+		if (priceMin && Number(priceMin) > 0) {
+			params.push(`price_min=${priceMin}`);
+		}
+
+		if (priceMax && Number(priceMax) > 0) {
+			params.push(`price_max=${priceMax}`);
+		}
+
+		if (address) {
+			params.push(`address=${encodeURIComponent(address)}`);
+		}
+		return params;
+	}
+
+	async getEvents(
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): Promise<EventShortInfoModel[]> {
 		try {
 			const configItem = this.getConfigItem('getEvents');
 
-			const response = await this.makeHttpRequest(
-				configItem.method,
-				configItem.url,
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
 			);
+
+			const url = `${configItem.url}?${params.join('&')}`;
+
+			const response = await this.makeHttpRequest(configItem.method, url);
 
 			return createEventShortInfoModel(response);
 		} catch (error: any) {
@@ -57,13 +125,29 @@ export class EventsService extends ServiceBase {
 		}
 	}
 
-	async getEventsBySportType(
-		sportType: SportTypes,
+	async getMyEvents(
+		userId: string,
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
 	): Promise<EventShortInfoModel[]> {
 		try {
-			const configItem = this.getConfigItem('getEvents');
+			const configItem = this.getConfigItem('getMyEvents');
+			configItem.url = configItem.url.replace('user_id', userId);
 
-			const url = `${configItem.url}?sport_type=${sportType}`;
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
+			);
+
+			const url = `${configItem.url}?${params.join('&')}`;
 
 			const response = await this.makeHttpRequest(configItem.method, url);
 
@@ -88,14 +172,24 @@ export class EventsService extends ServiceBase {
 		}
 	}
 
-	async createEvent(event: EventCreateModel, userId: string): Promise<any> {
+	async createEvent(
+		event: EventCreateModel,
+		userId: string,
+		tg?: { user_id: string; chat_id: string },
+	): Promise<any> {
 		try {
 			const configItem = this.getConfigItem('createEvent');
+
+			const data = {
+				event_create: createEventCreateApi(event),
+				user_id: userId,
+				tg,
+			};
 
 			return await this.makeHttpRequest(
 				configItem.method,
 				configItem.url,
-				{ event_create: createEventCreateApi(event), user_id: userId },
+				data,
 				{
 					'Content-Type': 'application/json',
 				},
@@ -155,6 +249,33 @@ export class EventsService extends ServiceBase {
 					'Content-Type': 'application/json',
 				},
 			);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async payForEvent(
+		eventId: string,
+		userId: string,
+	): Promise<{ confirmation_url: string }> {
+		try {
+			const configItem = this.getConfigItem('payForEvent');
+			const redirectUrl = `http://91.219.227.107//events/${eventId}`;
+
+			const response = await this.makeHttpRequest(
+				configItem.method,
+				configItem.url,
+				{
+					redirect_url: redirectUrl,
+					user_id: userId,
+					event_id: eventId,
+				},
+				{
+					'Content-Type': 'application/json',
+				},
+			);
+
+			return response;
 		} catch (error: any) {
 			throw new Error(error);
 		}
