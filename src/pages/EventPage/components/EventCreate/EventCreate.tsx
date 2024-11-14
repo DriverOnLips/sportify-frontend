@@ -61,7 +61,7 @@ const EventCreate: React.FC = () => {
 				userId,
 				tg,
 			);
-			showToast('success', 'Событие успешно создано');
+			showToast('success', 'Мероприятие успешно создано');
 			navigate(`/events/${createdEvent.id}`);
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {

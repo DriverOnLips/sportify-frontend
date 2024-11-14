@@ -51,7 +51,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 			const placemark = new window.ymaps.Placemark(
 				mapCenter,
 				{
-					iconCaption: isUserLocation ? 'Я здесь' : 'Место события',
+					iconCaption: isUserLocation ? 'Я здесь' : 'Место мероприятия',
 				},
 				{
 					preset: isUserLocation

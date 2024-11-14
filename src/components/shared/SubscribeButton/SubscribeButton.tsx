@@ -31,8 +31,7 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 			setIsSubscribed(newIsSubscribed);
 			showToast(
 				'success',
-				// 'Ошибка',
-				`Вы ${newIsSubscribed ? 'записались на событие' : 'отписались от события'}`,
+				`Вы ${newIsSubscribed ? 'записались на мероприятие' : 'отписались от мероприятия'}`,
 			);
 		} catch (e) {
 			showToast(

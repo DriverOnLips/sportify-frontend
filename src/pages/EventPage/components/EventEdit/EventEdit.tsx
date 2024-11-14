@@ -43,7 +43,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 		try {
 			await eventsService.updateEvent(editedEvent, userId);
-			showToast('success', 'Информация о событии обновлена');
+			showToast('success', 'Информация о мероприятии обновлена');
 			navigate(`/events/${event.id}`);
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {

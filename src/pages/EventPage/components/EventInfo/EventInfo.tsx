@@ -21,13 +21,13 @@ import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.t
 import { useNavigate } from 'react-router-dom';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
-import styles from './EventInfo.module.scss';
 import Tooltip from 'components/lib/Tooltip/Tooltip.tsx';
 import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
 import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
 import { Divider } from 'antd';
 import Carousel from './components/Carousel.tsx';
-import { useScreenMode } from '../../../../hooks/useScreenMode.ts';
+import { useScreenMode } from 'hooks/useScreenMode.ts';
+import styles from './EventInfo.module.scss';
 
 interface EventInfoProps {
 	event: EventInfoModel;
@@ -86,14 +86,14 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const onDeleteButtonClick = async () => {
 		try {
 			await eventsService.deleteEvent(event.id, userId);
-			showToast('success', 'Событие удалено');
+			showToast('success', 'Мероприятие удалено');
 			navigate('/events');
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(
 					'error',
 					'Ошибка',
-					`Ошибка при удалении события: ${(error as Error).message}`,
+					`Ошибка при удалении мероприятия: ${(error as Error).message}`,
 				);
 			}
 		}
