@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
@@ -147,6 +147,7 @@ const Menu: React.FC = () => {
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
+				defaultOpenKeys={isWide ? ['1', '4'] : []}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}
