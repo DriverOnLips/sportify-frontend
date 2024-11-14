@@ -20,14 +20,10 @@ function App() {
 
 	useEffect(() => {
 		if (window.Telegram?.WebApp) {
-			console.log('Using telegram webapp');
-
 			window.Telegram.WebApp.ready();
 
 			const userData = window.Telegram.WebApp.initDataUnsafe;
 			dispatch(setParamsAction(userData));
-		} else {
-			console.warn('Using browser');
 		}
 	}, []);
 

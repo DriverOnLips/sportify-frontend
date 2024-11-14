@@ -3,9 +3,10 @@ import {
 	GlobalOutlined,
 	AppstoreOutlined,
 	PlusCircleOutlined,
-	TeamOutlined,
 	UnorderedListOutlined,
 	UserOutlined,
+	ClockCircleOutlined,
+	OrderedListOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
@@ -43,19 +44,30 @@ const items: MenuItem[] = [
 		children: [
 			{
 				key: '5',
-				label: 'Мои мероприятия',
+				label: 'Создать',
+				icon: <PlusCircleOutlined />,
+			},
+			{
+				key: '6',
+				label: 'Мои',
 				icon: <UnorderedListOutlined />,
 				disabled: true,
 			},
 			{
-				key: '6',
-				label: 'Создать мероприятие',
-				icon: <PlusCircleOutlined />,
+				key: '7',
+				label: 'Предстоящие',
+				icon: <OrderedListOutlined />,
+				disabled: true,
+			},
+			{
+				key: '8',
+				label: 'Прошедшие',
+				icon: <ClockCircleOutlined />,
+				disabled: true,
 			},
 		],
 	},
-	{ key: '7', icon: <TeamOutlined />, label: 'Клубы', disabled: true },
-	{ key: '8', icon: <UserOutlined />, label: 'Профиль', disabled: true },
+	{ key: '9', icon: <UserOutlined />, label: 'Профиль', disabled: true },
 ];
 
 const Menu: React.FC = () => {

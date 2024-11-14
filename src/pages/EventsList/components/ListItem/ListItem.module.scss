@@ -45,6 +45,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+
+			&_sport {
+				display: flex;
+				gap: 6px;
+			}
 		}
 
 		&__address {

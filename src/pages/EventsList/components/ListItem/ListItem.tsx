@@ -5,6 +5,7 @@ import {
 	CalendarOutlined,
 	EnvironmentOutlined,
 	RiseOutlined,
+	CheckCircleOutlined,
 } from '@ant-design/icons';
 import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
@@ -18,6 +19,7 @@ import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
+import Tooltip from 'components/lib/Tooltip/Tooltip.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();
@@ -100,12 +102,22 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 
 							<div className={styles.list_item__content}>
 								<div className={styles.list_item__content_header}>
-									<Text
-										size={'s4'}
-										weight={'bold'}
-									>
-										{convertSportTypeToDisplayValue(event.sportType)}
-									</Text>
+									<div className={styles.list_item__content_header_sport}>
+										<Text
+											size={'s4'}
+											weight={'bold'}
+										>
+											{convertSportTypeToDisplayValue(event.sportType)}
+										</Text>
+
+										{event.creatorId === userId && (
+											<Tooltip title={'Это мероприятие создано вами'}>
+												<CheckCircleOutlined
+													onClick={(e) => e.stopPropagation()}
+												/>
+											</Tooltip>
+										)}
+									</div>
 
 									<SubscribeButton
 										isSub={event.subscribersId?.includes(userId) ?? false}
