@@ -14,6 +14,8 @@ import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
 import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
 import Login from './pages/Login/Login.tsx';
+import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.tsx';
+import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -62,6 +64,14 @@ function App() {
 						<Route
 							path='/events-create'
 							element={<EventCreate />}
+						/>
+						<Route
+							path='/events-upcoming'
+							element={<UpcomingEventsList />}
+						/>
+						<Route
+							path='/events-past'
+							element={<PastEventsList />}
 						/>
 						<Route
 							path='/map'

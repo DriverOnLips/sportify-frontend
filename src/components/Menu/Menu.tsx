@@ -59,13 +59,11 @@ const items: MenuItem[] = [
 				key: '7',
 				label: 'Предстоящие',
 				icon: <OrderedListOutlined />,
-				disabled: true,
 			},
 			{
 				key: '8',
 				label: 'Прошедшие',
 				icon: <ClockCircleOutlined />,
-				disabled: true,
 			},
 		],
 	},
@@ -124,9 +122,9 @@ const Menu: React.FC = () => {
 				return ['5'];
 			case '/events-my':
 				return ['6'];
-			case '/clubs':
+			case '/events-upcoming':
 				return ['7'];
-			case '/profile':
+			case '/events-past':
 				return ['8'];
 			case '/login':
 				return ['11'];
@@ -150,10 +148,10 @@ const Menu: React.FC = () => {
 				navigate('/events-my');
 				break;
 			case '7':
-				navigate('/clubs');
+				navigate('/events-upcoming');
 				break;
 			case '8':
-				navigate('/profile');
+				navigate('/events-past');
 				break;
 			case '11':
 				navigate('/login');
