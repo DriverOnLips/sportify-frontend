@@ -1,16 +1,27 @@
 import {
-	selectEvents,
-	setEventsAction,
-	deleteEventsAction,
+	selectAllEvents,
+	setAllEventsAction,
+	deleteAllEventsAction,
+	selectMyEvents,
+	selectUpcomingEvents,
+	selectPastEvents,
+	setMyEventsAction,
+	deleteMyEventsAction,
 } from '../states/EventListState/EventListState.ts';
 import { showToast } from '../components/lib/Toast/Toast.tsx';
 import useQueryParams from './useQueryParams.ts';
 import { EventsService } from '../api/EventsService/EventsService.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useUser } from '../contexts/User/userContext.tsx';
 
 const useEventsList = () => {
-	const events = useSelector(selectEvents);
+	const allEvents = useSelector(selectAllEvents);
+	const myEvents = useSelector(selectMyEvents);
+	const upcomingEvents = useSelector(selectUpcomingEvents);
+	const pastEvents = useSelector(selectPastEvents);
+
+	const { userId } = useUser();
+
 	const eventsService = new EventsService();
 
 	const { sportType, gameLevel, date, priceMin, priceMax, address } =
@@ -18,7 +29,7 @@ const useEventsList = () => {
 
 	const dispatch = useDispatch();
 
-	const getEvents = async () => {
+	const getAllEvents = async () => {
 		try {
 			const evts = await eventsService.getEvents(
 				sportType,
@@ -28,7 +39,7 @@ const useEventsList = () => {
 				priceMax,
 				address,
 			);
-			dispatch(setEventsAction(evts));
+			dispatch(setAllEventsAction(evts));
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(
@@ -40,15 +51,47 @@ const useEventsList = () => {
 		}
 	};
 
-	const deleteEvents = () => {
-		dispatch(deleteEventsAction());
+	const deleteAllEvents = () => {
+		dispatch(deleteAllEventsAction());
 	};
 
-	useEffect(() => {
-		getEvents();
-	}, []);
+	const getMyEvents = async () => {
+		try {
+			const evts = await eventsService.getMyEvents(
+				userId,
+				sportType,
+				gameLevel,
+				date,
+				priceMin,
+				priceMax,
+				address,
+			);
+			dispatch(setMyEventsAction(evts));
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при получении данных: ${(error as Error).message}`,
+				);
+			}
+		}
+	};
 
-	return { events, getEvents, deleteEvents };
+	const deleteMyEvents = () => {
+		dispatch(deleteMyEventsAction());
+	};
+
+	return {
+		allEvents,
+		getAllEvents,
+		deleteAllEvents,
+		myEvents,
+		getMyEvents,
+		deleteMyEvents,
+		upcomingEvents,
+		pastEvents,
+	};
 };
 
 export default useEventsList;

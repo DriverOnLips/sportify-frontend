@@ -8,7 +8,7 @@ const MainPage: React.FC = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (tgStartPage && tgStartPage == 'create_event') {
+		if (tgStartPage == 'create_event') {
 			navigate('/events-create');
 		}
 	}, [tgStartPage]);

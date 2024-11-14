@@ -5,19 +5,21 @@ import {
 	CalendarOutlined,
 	EnvironmentOutlined,
 	RiseOutlined,
+	CheckCircleOutlined,
 } from '@ant-design/icons';
 import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Text from 'components/lib/Text/Text.tsx';
-import { useUser } from 'contexts/User/userContext.tsx';
-import { EventShortInfoModel } from 'types/types/Event/EventShortInfo.ts';
-import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
-import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
-import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
-import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
+import Text from '../../lib/Text/Text.tsx';
+import { useUser } from '../../../contexts/User/userContext.tsx';
+import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.ts';
+import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
+import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
+import { formatDateDDMMMMYYYY, formatTime } from '../../../utils/formatTime.ts';
+import SubscribeButton from '../SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
-import LabelValue from 'components/lib/LabelValue/LabelValue.tsx';
+import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
+import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { userId } = useUser();
@@ -100,12 +102,22 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 
 							<div className={styles.list_item__content}>
 								<div className={styles.list_item__content_header}>
-									<Text
-										size={'s4'}
-										weight={'bold'}
-									>
-										{convertSportTypeToDisplayValue(event.sportType)}
-									</Text>
+									<div className={styles.list_item__content_header_sport}>
+										<Text
+											size={'s4'}
+											weight={'bold'}
+										>
+											{convertSportTypeToDisplayValue(event.sportType)}
+										</Text>
+
+										{event.creatorId === userId && (
+											<Tooltip title={'Это мероприятие создано вами'}>
+												<CheckCircleOutlined
+													onClick={(e) => e.stopPropagation()}
+												/>
+											</Tooltip>
+										)}
+									</div>
 
 									<SubscribeButton
 										isSub={event.subscribersId?.includes(userId) ?? false}

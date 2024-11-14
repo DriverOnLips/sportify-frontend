@@ -3,13 +3,14 @@ import {
 	GlobalOutlined,
 	AppstoreOutlined,
 	PlusCircleOutlined,
-	TeamOutlined,
 	UnorderedListOutlined,
 	UserOutlined,
+	ClockCircleOutlined,
+	OrderedListOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
@@ -43,19 +44,29 @@ const items: MenuItem[] = [
 		children: [
 			{
 				key: '5',
-				label: 'Мои мероприятия',
-				icon: <UnorderedListOutlined />,
-				disabled: true,
+				label: 'Создать',
+				icon: <PlusCircleOutlined />,
 			},
 			{
 				key: '6',
-				label: 'Создать мероприятие',
-				icon: <PlusCircleOutlined />,
+				label: 'Мои',
+				icon: <UnorderedListOutlined />,
+			},
+			{
+				key: '7',
+				label: 'Предстоящие',
+				icon: <OrderedListOutlined />,
+				disabled: true,
+			},
+			{
+				key: '8',
+				label: 'Прошедшие',
+				icon: <ClockCircleOutlined />,
+				disabled: true,
 			},
 		],
 	},
-	{ key: '7', icon: <TeamOutlined />, label: 'Клубы', disabled: true },
-	{ key: '8', icon: <UserOutlined />, label: 'Профиль', disabled: true },
+	{ key: '9', icon: <UserOutlined />, label: 'Профиль', disabled: true },
 ];
 
 const Menu: React.FC = () => {
@@ -65,13 +76,17 @@ const Menu: React.FC = () => {
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 850;
 
-	const { getEvents } = useEventsList();
+	const { getAllEvents } = useEventsList();
 
-	const handleLogoClick = useCallback(() => {
+	const handleLogoClick = () => {
+		if (location.pathname === '/events') {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+			return;
+		}
+
 		navigate('/events');
-
-		getEvents();
-	}, []);
+		getAllEvents();
+	};
 
 	const getActiveKey = () => {
 		switch (location.pathname) {
@@ -79,9 +94,9 @@ const Menu: React.FC = () => {
 				return ['2'];
 			case '/map':
 				return ['3'];
-			case '/events-my':
-				return ['5'];
 			case '/events-create':
+				return ['5'];
+			case '/events-my':
 				return ['6'];
 			case '/clubs':
 				return ['7'];
@@ -101,10 +116,10 @@ const Menu: React.FC = () => {
 				navigate('/map');
 				break;
 			case '5':
-				navigate('/events-my');
+				navigate('/events-create');
 				break;
 			case '6':
-				navigate('/events-create');
+				navigate('/events-my');
 				break;
 			case '7':
 				navigate('/clubs');
@@ -132,7 +147,7 @@ const Menu: React.FC = () => {
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
-				defaultOpenKeys={['1']}
+				defaultOpenKeys={isWide ? ['1', '4'] : []}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}

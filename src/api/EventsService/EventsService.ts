@@ -29,6 +29,11 @@ export class EventsService extends ServiceBase {
 		this.config = [
 			{ name: 'getEvents', url: `/api/events`, method: RequestMethods.GET },
 			{ name: 'getEventInfo', url: `/api/event`, method: RequestMethods.GET },
+			{
+				name: 'getMyEvents',
+				url: `/api/users/user_id/events`,
+				method: RequestMethods.GET,
+			},
 			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
 			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
 			{ name: 'deleteEvent', url: `/api/event`, method: RequestMethods.DELETE },
@@ -45,6 +50,51 @@ export class EventsService extends ServiceBase {
 		];
 	}
 
+	private processQueryParams(
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): string[] {
+		const params: string[] = [];
+
+		if (sportType.length > 0) {
+			const sportTypesParams = sportType
+				.map((type) => `sport_type=${type}`)
+				.join('&');
+			params.push(sportTypesParams);
+		}
+
+		if (gameLevel.length > 0) {
+			const gameLevelsParams = gameLevel
+				.map((level) => `game_level=${level}`)
+				.join('&');
+			params.push(gameLevelsParams);
+		}
+
+		if (dates.length > 0) {
+			const dateStartParams = dates
+				.map((date) => `date_start=${date}`)
+				.join('&');
+			params.push(dateStartParams);
+		}
+
+		if (priceMin && Number(priceMin) > 0) {
+			params.push(`price_min=${priceMin}`);
+		}
+
+		if (priceMax && Number(priceMax) > 0) {
+			params.push(`price_max=${priceMax}`);
+		}
+
+		if (address) {
+			params.push(`address=${encodeURIComponent(address)}`);
+		}
+		return params;
+	}
+
 	async getEvents(
 		sportType: string[],
 		gameLevel: string[],
@@ -56,40 +106,46 @@ export class EventsService extends ServiceBase {
 		try {
 			const configItem = this.getConfigItem('getEvents');
 
-			const params: string[] = [];
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
+			);
 
-			if (sportType.length > 0) {
-				const sportTypesParams = sportType
-					.map((type) => `sport_type=${type}`)
-					.join('&');
-				params.push(sportTypesParams);
-			}
+			const url = `${configItem.url}?${params.join('&')}`;
 
-			if (gameLevel.length > 0) {
-				const gameLevelsParams = gameLevel
-					.map((level) => `game_level=${level}`)
-					.join('&');
-				params.push(gameLevelsParams);
-			}
+			const response = await this.makeHttpRequest(configItem.method, url);
 
-			if (dates.length > 0) {
-				const dateStartParams = dates
-					.map((date) => `date_start=${date}`)
-					.join('&');
-				params.push(dateStartParams);
-			}
+			return createEventShortInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
 
-			if (priceMin && Number(priceMin) > 0) {
-				params.push(`price_min=${priceMin}`);
-			}
+	async getMyEvents(
+		userId: string,
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): Promise<EventShortInfoModel[]> {
+		try {
+			const configItem = this.getConfigItem('getMyEvents');
+			configItem.url = configItem.url.replace('user_id', userId);
 
-			if (priceMax && Number(priceMax) > 0) {
-				params.push(`price_max=${priceMax}`);
-			}
-
-			if (address) {
-				params.push(`address=${encodeURIComponent(address)}`);
-			}
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
+			);
 
 			const url = `${configItem.url}?${params.join('&')}`;
 
