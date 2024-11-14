@@ -1,11 +1,14 @@
 import React from 'react';
-import SignupFormDemo from '../EventPage/components/EventCreate/test.tsx';
+import SignupForm from './components/SignupForm/SignupForm.tsx';
+import styles from './Login.module.scss';
+import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
 
 const Login: React.FC = () => {
 	return (
-		<>
-			<SignupFormDemo />
-		</>
+		<div className={styles.login}>
+			<BackgroundGradientAnimation />
+			<SignupForm />
+		</div>
 	);
 };
 

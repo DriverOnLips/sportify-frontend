@@ -24,6 +24,7 @@ import {
 	selectTGWebAppChatId,
 } from 'states/TGWebApp/TGWebAppState.ts';
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
+import useVibration from 'hooks/useVibration.tsx';
 
 const EventCreate: React.FC = () => {
 	const tgUserId = useSelector(selectTGWebAppUserId);
@@ -65,6 +66,8 @@ const EventCreate: React.FC = () => {
 			showToast('success', 'Мероприятие успешно создано');
 			navigate(`/events/${createdEvent.id}`);
 		} catch (error: any) {
+			useVibration([100]);
+
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				showToast(
 					'error',

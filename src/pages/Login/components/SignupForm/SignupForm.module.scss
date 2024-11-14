@@ -1,0 +1,10 @@
+.signup_form {
+  width: 50vw;
+  max-width: 500px;
+}
+
+@media screen and (max-width: 850px) {
+  .signup_form {
+    width: 75vw;
+  }
+}

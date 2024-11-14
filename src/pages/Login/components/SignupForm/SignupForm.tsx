@@ -1,14 +1,20 @@
 import React from 'react';
-import { Label } from './label';
-import { Input } from './input';
+import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
+import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
 import { cn } from 'lib/utils';
+import styles from './SignupForm.module.scss';
 
-const SignupFormDemo = () => {
+const SignupForm = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 	};
 	return (
-		<div className='max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black'>
+		<div
+			className={cn(
+				'max-w-md w-full mx-auto rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black',
+				styles.signup_form,
+			)}
+		>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
 				Welcome to Aceternity
 			</h2>
@@ -114,4 +120,4 @@ const LabelInputContainer = ({
 	);
 };
 
-export default SignupFormDemo;
+export default SignupForm;
