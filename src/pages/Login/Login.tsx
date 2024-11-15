@@ -1,13 +1,52 @@
 import React from 'react';
-import SignupForm from './components/SignupForm/SignupForm.tsx';
+import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import SignupForm from './components/SignupForm/SignupForm';
+import LoginForm from './components/LoginForm/LoginForm.tsx';
 import styles from './Login.module.scss';
-import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
+import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation';
+import { Divider } from 'antd';
 
 const Login: React.FC = () => {
+	const location = useLocation();
+	const navigate = useNavigate();
+
+	const isLogin = location.pathname === '/login';
+
+	// Функция для переключения маршрута
+	const toggleAuth = () => {
+		navigate(isLogin ? '/signup' : '/login');
+	};
+
 	return (
 		<div className={styles.login}>
 			<BackgroundGradientAnimation />
-			<SignupForm />
+			<div className={styles.login_container}>
+				<motion.div
+					animate={{ x: isLogin ? '0%' : '100%' }}
+					transition={{ type: 'spring', stiffness: 50 }}
+					style={{ flex: 1 }}
+				>
+					{isLogin ? <LoginForm /> : <SignupForm />}
+				</motion.div>
+				<Divider type='vertical' />
+				<motion.div
+					animate={{ x: isLogin ? '0%' : '-100%' }}
+					transition={{ type: 'spring', stiffness: 50 }}
+					style={{ flex: 1 }}
+				>
+					<div />
+				</motion.div>
+			</div>
+
+			<div>
+				<a
+					onClick={toggleAuth}
+					style={{ cursor: 'pointer', color: '#1890ff' }}
+				>
+					{isLogin ? 'Перейти к регистрации' : 'Перейти к авторизации'}
+				</a>
+			</div>
 		</div>
 	);
 };

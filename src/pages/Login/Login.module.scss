@@ -3,6 +3,14 @@
   flex-direction: column;
   margin: 2vh auto;
   min-height: calc(100vh - 80px - 2rem);
+  border-radius: 12px;
+  width: max-content;
   align-items: center;
   justify-content: center;
+  background: white;
+
+  &_container {
+    display: flex;
+    min-width: 50vw;
+  }
 }
