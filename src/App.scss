@@ -8,21 +8,21 @@
 body {
 	margin: 0;
 	padding: 0;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
-$scrollbar-width: 0px;
 
 #content {
 	margin-left: 300px;
-	padding-top: 80px;
-	position: absolute;
-	width: calc(100vw - 300px - $scrollbar-width);
+	margin-top: 80px;
+	position: relative;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 		"Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
 		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
-	overflow-y: hidden;
+	height: calc(100vh - 80px);
+	width: calc(100vw - 300px);
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .ant-btn,
@@ -94,6 +94,6 @@ $scrollbar-width: 0px;
 @media screen and (max-width: 850px) {
 	#content {
 		margin-left: 80px;
-		width: calc(100vw - 80px - $scrollbar-width);
+		width: calc(100vw - 80px);
 	}
 }

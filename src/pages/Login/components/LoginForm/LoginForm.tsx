@@ -10,7 +10,7 @@ const SignupForm = () => {
 		e.preventDefault();
 	};
 	return (
-		<div className={cn(' mx-auto p-4 md:p-8', styles.login_form)}>
+		<div className={styles.login_form}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
 				Welcome to Aceternity
 			</h2>

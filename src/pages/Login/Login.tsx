@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignupForm from './components/SignupForm/SignupForm';
@@ -17,6 +17,19 @@ const Login: React.FC = () => {
 	const toggleAuth = () => {
 		navigate(isLogin ? '/signup' : '/login');
 	};
+
+	useEffect(() => {
+		const content = document.getElementById('content');
+		if (content) {
+			content.style.overflow = 'hidden';
+		}
+
+		return () => {
+			if (content) {
+				content.style.overflow = 'auto';
+			}
+		};
+	}, []);
 
 	return (
 		<div className={styles.login}>

@@ -1,11 +1,16 @@
 .event_create {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 50vw;
 	max-width: 700px;
-	margin: 2vh auto;
+	margin: 1vh auto;
 	padding: 1.5rem;
 	border: 1px solid #e0e0e0;
 	border-radius: 12px;
@@ -17,6 +22,12 @@
 	&__name {
 		margin-top: 1rem;
 		text-align: center !important;
+	}
+
+	&_content {
+		max-height: 60vh;
+		padding-right: 2vw;
+		overflow-y: auto;
 	}
 
 	&__item {
@@ -35,5 +46,13 @@
 @media screen and (max-width: 850px) {
 	.event_create {
 		width: 75vw;
+	}
+}
+
+@media screen and (max-height: 850px) {
+	.event_create {
+		&_content {
+			max-height: 45vh;
+		}
 	}
 }
