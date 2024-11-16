@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
 import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
 import { cn } from 'lib/utils';
 import { SendOutlined } from '@ant-design/icons';
 import styles from './LoginForm.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+
+	const navigate = useNavigate();
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		console.log(username, password);
 	};
+
+	const handleClick = () => {
+		navigate('/signup');
+	};
+
 	return (
-		<div className={styles.login_form}>
+		<div className={cn('w-full mx-auto ', styles.login_form)}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
-				Welcome to Aceternity
+				Добро прожаловать в Sportify
 			</h2>
 			<p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
-				Login to aceternity if you can because we don&apos;t have a login flow
-				yet
+				Зарегистрируйтесь, чтобы открыть максимум возможностей
 			</p>
 
 			<form
@@ -29,6 +40,8 @@ const SignupForm = () => {
 						id='username'
 						placeholder='sergey_ivanov'
 						type='text'
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</LabelInputContainer>
 				<LabelInputContainer className='mb-4'>
@@ -37,6 +50,8 @@ const SignupForm = () => {
 						id='password'
 						placeholder='••••••••'
 						type='password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</LabelInputContainer>
 
@@ -62,6 +77,17 @@ const SignupForm = () => {
 						<BottomGradient />
 					</button>
 				</div>
+
+				<div className='bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full' />
+
+				<button
+					className='bg-gradient-to-br relative group/btn from-blue-950 to-blue-400 block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
+					type='submit'
+					onClick={handleClick}
+				>
+					Зарегистрироваться
+					<BottomGradient />
+				</button>
 			</form>
 		</div>
 	);
