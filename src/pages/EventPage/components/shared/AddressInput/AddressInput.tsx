@@ -1,7 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import React, { useState } from 'react';
+import {
+	AddressSuggestions,
+	DaDataSuggestion,
+	DaDataAddress,
+} from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
-import Textarea from 'components/lib/Textarea/Textarea.tsx';
 
 type Props = {
 	className?: string;
@@ -9,32 +13,34 @@ type Props = {
 	changeEventField: (field: Partial<EventCreateModel>) => void;
 };
 
-const AddressInput: React.FC<Props> = ({
-	className,
-	value,
-	changeEventField,
-}) => {
-	const [address, setAddress] = useState<string>(value || '');
+const AddressInput: React.FC<Props> = ({ className, changeEventField }) => {
+	const [address, setAddress] = useState<
+		DaDataSuggestion<DaDataAddress> | undefined
+	>(undefined);
 
-	const updateAddress = useMemo(
-		() =>
-			debounce((value: string) => changeEventField({ address: value }), 500),
-		[],
-	);
-
-	const changeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const val = e.target.value;
-		setAddress(val);
-		updateAddress(val);
+	const handleChange = (
+		suggestion: DaDataSuggestion<DaDataAddress> | undefined,
+	) => {
+		if (suggestion) {
+			const selectedAddress = suggestion.value;
+			setAddress(suggestion);
+			changeEventField({ address: selectedAddress });
+		} else {
+			setAddress(undefined);
+		}
 	};
 
 	return (
-		<Textarea
-			placeholder='Введите адрес'
-			className={className}
-			value={address}
-			onChange={changeAddress}
-		/>
+		<div className={className}>
+			<AddressSuggestions
+				token={import.meta.env.VITE_DA_DATA_API_KEY || ''}
+				value={address}
+				onChange={handleChange}
+				inputProps={{
+					placeholder: 'Введите адрес',
+				}}
+			/>
+		</div>
 	);
 };
 
