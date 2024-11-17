@@ -3,11 +3,6 @@ import DatePicker from 'components/lib/DatePicker/DatePicker.tsx';
 import { formatDateYYYYMMDD } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 type Props = {
 	className?: string;
@@ -25,7 +20,7 @@ const EventDatePicker: React.FC<Props> = ({
 	const updateDate = useMemo(
 		() => (value: string | null) =>
 			changeEventField({
-				date: value ? dayjs.tz(value).format() : undefined,
+				date: value ? new Date(value).toISOString() : undefined,
 			}),
 		[],
 	);

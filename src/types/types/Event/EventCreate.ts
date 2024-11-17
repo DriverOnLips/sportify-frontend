@@ -32,7 +32,6 @@ export type EventCreateApi = {
 export const createEventCreateApi = (
 	from: EventCreateModel,
 ): EventCreateApi => {
-	console.log(from);
 	if (
 		!from.sportType ||
 		!from.address ||

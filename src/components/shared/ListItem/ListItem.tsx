@@ -15,7 +15,7 @@ import { useUser } from '../../../contexts/User/userContext.tsx';
 import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.ts';
 import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
-import { formatDateDDMMMMYYYY, formatTime } from '../../../utils/formatTime.ts';
+import { formatDateDDMMMMYYYY } from '../../../utils/formatTime.ts';
 import SubscribeButton from '../SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
