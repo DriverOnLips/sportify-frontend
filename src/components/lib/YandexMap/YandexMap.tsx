@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './YandexMap.module.scss';
 
 declare global {
@@ -8,93 +8,123 @@ declare global {
 }
 
 interface YandexMapProps {
-	address?: string;
-	center?: [number, number];
-	zoom?: number;
-	isUserLocation?: boolean;
-	events?: {
-		id: string;
-		name: string;
-		latitude: number;
-		longitude: number;
-		eventUrl: string;
-	}[];
+	address: string;
 }
 
-const YandexMap: React.FC<YandexMapProps> = ({
-	// address,
-	center,
-	zoom = 17,
-	isUserLocation = false,
-	events = [],
-}) => {
+const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 	const mapRef = useRef<any>(null);
 	const mapContainerRef = useRef<HTMLDivElement>(null);
+	const [ymapsLoaded, setYmapsLoaded] = useState(false);
 
 	useEffect(() => {
-		const initializeMap = () => {
-			const mapCenter = center || [55.7960599, 37.5380087];
+		const checkYandexAPI = () => {
+			if (window.ymaps && window.ymaps.ready) {
+				window.ymaps.ready(() => {
+					setYmapsLoaded(true);
+				});
+			} else {
+				setTimeout(checkYandexAPI, 200);
+			}
+		};
+
+		checkYandexAPI();
+	}, []);
+
+	useEffect(() => {
+		const initializeMap = async () => {
+			if (!window.ymaps) {
+				console.error('Yandex Maps API не загружен.');
+				return;
+			}
 
 			if (!mapRef.current) {
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
-					center: mapCenter,
-					zoom,
-					controls: [],
+					center: [55.7960599, 37.5380087],
+					zoom: 10,
+					controls: ['zoomControl', 'routeButtonControl'],
 				});
-			} else {
-				mapRef.current.setCenter(mapCenter);
-				mapRef.current.setZoom(zoom);
 			}
 
-			mapRef.current.geoObjects.removeAll();
-
-			const placemark = new window.ymaps.Placemark(
-				mapCenter,
-				{
-					iconCaption: isUserLocation ? 'Я здесь' : 'Место мероприятия',
-				},
-				{
-					preset: isUserLocation
-						? 'islands#redCircleDotIcon'
-						: 'islands#governmentCircleIcon',
-					iconColor: isUserLocation ? '#FF0000' : '#1E98FF',
-				},
-			);
-			mapRef.current.geoObjects.add(placemark);
-
-			events.forEach((event) => {
-				const coords: [number, number] = [event.latitude, event.longitude];
-
-				const eventPlacemark = new window.ymaps.Placemark(
-					coords,
-					{
-						iconCaption: event.name,
-					},
-					{
-						preset: 'islands#blueDotIcon',
+			try {
+				const userLocation = await new Promise<[number, number]>(
+					(resolve, reject) => {
+						window.ymaps.geolocation
+							.get({ provider: 'browser', mapStateAutoApply: true })
+							.then((result: any) => {
+								resolve(result.geoObjects.position);
+							})
+							.catch((error: any) => {
+								console.error('Ошибка определения местоположения:', error);
+								reject(error);
+							});
 					},
 				);
 
-				eventPlacemark.events.add('click', () => {
-					window.location.href = event.eventUrl;
-				});
+				const eventCoords = await new Promise<[number, number]>(
+					(resolve, reject) => {
+						window.ymaps
+							.geocode(address)
+							.then((result: any) => {
+								const firstGeoObject = result.geoObjects.get(0);
+								if (firstGeoObject) {
+									resolve(firstGeoObject.geometry.getCoordinates());
+								} else {
+									reject('Адрес не найден.');
+								}
+							})
+							.catch((error: any) => {
+								console.error('Ошибка при геокодировании адреса:', error);
+								reject(error);
+							});
+					},
+				);
 
-				mapRef.current.geoObjects.add(eventPlacemark);
-			});
+				const createRoute = (routingMode: string, color: string) => {
+					return new window.ymaps.multiRouter.MultiRoute(
+						{
+							referencePoints: [userLocation, eventCoords],
+							params: { routingMode },
+						},
+						{
+							routeStrokeColor: color,
+							routeStrokeWidth: 4,
+						},
+					);
+				};
+
+				const pedestrianRoute = createRoute('pedestrian', '#1E98FF');
+				const drivingRoute = createRoute('auto', '#FF4500');
+				const transitRoute = createRoute('masstransit', '#32CD32');
+
+				mapRef.current.geoObjects.removeAll();
+				mapRef.current.geoObjects.add(pedestrianRoute);
+				mapRef.current.geoObjects.add(drivingRoute);
+				mapRef.current.geoObjects.add(transitRoute);
+
+				const bounds = window.ymaps.util.bounds.fromPoints([
+					userLocation,
+					eventCoords,
+				]);
+				mapRef.current.setBounds(bounds, {
+					checkZoomRange: true,
+					zoomMargin: [50, 50, 50, 50],
+				});
+			} catch (error) {
+				console.error('Ошибка создания маршрута:', error);
+			}
 		};
 
-		if (window.ymaps) {
-			window.ymaps.ready(initializeMap);
-		} else {
-			console.error('Yandex Maps API не загружен.');
+		if (ymapsLoaded) {
+			initializeMap();
 		}
 
 		return () => {
 			if (mapRef.current) {
 				mapRef.current.destroy();
+				mapRef.current = null;
 			}
 		};
-	}, [center, zoom, isUserLocation, events]);
+	}, [address, ymapsLoaded]);
 
 	return (
 		<div
