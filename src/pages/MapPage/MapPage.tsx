@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
+import YandexMap from '../../components/lib/YandexMap/MapPageYandexMap/MapPageYandexMap.tsx';
 import styles from './MapPage.module.scss';
 import useEventsList from '../../hooks/useEventsList.ts';
 import { convertSportTypeToDisplayValue } from '../../utils/converSportTypes.ts';
@@ -11,8 +11,12 @@ const MapPage: React.FC = () => {
 	const { allEvents, getAllEvents, deleteAllEvents } = useEventsList();
 
 	useEffect(() => {
-		getAllEvents();
+		// Загружаем события только если они еще не загружены
+		if (allEvents.length === 0) {
+			getAllEvents();
+		}
 
+		// Получаем геопозицию пользователя
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
@@ -21,16 +25,19 @@ const MapPage: React.FC = () => {
 				},
 				(error) => {
 					console.error('Ошибка при получении геопозиции:', error);
-					setUserLocation([55.751244, 37.618423]);
+					setUserLocation([55.751244, 37.618423]); // Москва по умолчанию
 				},
 			);
 		} else {
 			console.error('Геолокация не поддерживается в этом браузере');
-			setUserLocation([55.751244, 37.618423]);
+			setUserLocation([55.751244, 37.618423]); // Москва по умолчанию
 		}
 
-		return () => deleteAllEvents();
-	}, []);
+		// Очистка событий при выходе с компонента
+		return () => {
+			deleteAllEvents();
+		};
+	}, []); // Пустой массив зависимостей для одного вызова при монтировании
 
 	const eventCoordinates = allEvents.map((event) => ({
 		id: event.id,

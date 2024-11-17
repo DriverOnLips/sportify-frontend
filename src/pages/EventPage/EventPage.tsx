@@ -5,7 +5,7 @@ import { Loader } from 'components/lib/Loader/Loader.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo/EventInfo.tsx';
-import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
+import YandexMap from '../../components/lib/YandexMap/EventPageYandexMap/EventPageYandexMap.tsx';
 import styles from './EventPage.module.scss';
 import useQueryParams from '../../hooks/useQueryParams.ts';
 import EventEdit from './components/EventEdit/EventEdit.tsx';

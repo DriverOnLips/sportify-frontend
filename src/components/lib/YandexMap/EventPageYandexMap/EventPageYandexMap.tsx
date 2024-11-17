@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './YandexMap.module.scss';
+import styles from './EventPageYandexMap.module.scss';
 
 declare global {
 	interface Window {
