@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import styles from './EventEdit.module.scss';
 import AddressInput from '../shared/AddressInput/AddressInput.tsx';
@@ -33,9 +33,9 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 	const [editedEvent, setEditedEvent] = useState<EventInfoModel>(event);
 
-	const changeEventField = useCallback((field: Partial<EventInfoModel>) => {
+	const changeEventField = (field: Partial<EventInfoModel>) => {
 		setEditedEvent((prev) => ({ ...prev, ...field }));
-	}, []);
+	};
 
 	const onButtonClick = async () => {
 		if (!editedEvent) {
@@ -56,20 +56,6 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 			}
 		}
 	};
-
-	// надо убрать эти костыли. тут еще с форматом фигня, не считывает +3 мск. надо пофиксить
-	const startTime = new Date(event.startTime);
-	const startTimeHours = String(startTime.getUTCHours()).padStart(2, '0'); // Преобразуем в строку и добавляем ведущий ноль
-	const startTimeMinutes = String(startTime.getUTCMinutes()).padStart(2, '0');
-	const formattedStartTime = `${startTimeHours}:${startTimeMinutes}`;
-
-	let formattedEndTime;
-	if (event.endTime) {
-		const endTime = new Date(event.endTime);
-		const endTimeHours = String(endTime.getUTCHours()).padStart(2, '0');
-		const EndTimeMinutes = String(endTime.getUTCMinutes()).padStart(2, '0');
-		formattedEndTime = `${endTimeHours}:${EndTimeMinutes}`;
-	}
 
 	return (
 		<>
@@ -133,7 +119,11 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 							Время начала и окончания:
 						</Text>
 						<EventTimePicker
-							value={[formattedStartTime, formattedEndTime || null]}
+							value={
+								event.startTime && event.endTime
+									? [event.startTime, event.endTime]
+									: undefined
+							}
 							changeEventField={changeEventField}
 						/>
 					</div>

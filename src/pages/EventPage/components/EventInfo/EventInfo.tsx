@@ -50,11 +50,11 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		},
 		{
 			label: <CalendarOutlined />,
-			value: formatDateDDMMMMYYYY(event.date),
+			value: formatDateDDMMMMYYYY(event.date!),
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+			value: `${formatTime(event.startTime!)} - ${formatTime(event.endTime!)} `,
 		},
 		{
 			label: <RiseOutlined />,

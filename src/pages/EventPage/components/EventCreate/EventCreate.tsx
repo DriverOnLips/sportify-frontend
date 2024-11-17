@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import AddressInput from '../shared/AddressInput/AddressInput.tsx';
 import SportsTypeSelect from '../shared/SportTypeSelect/SportTypeSelect.tsx';
 import EventDatePicker from '../shared/DatePicker/DatePicker.tsx';
@@ -40,9 +40,9 @@ const EventCreate: React.FC = () => {
 		null,
 	);
 
-	const changeEventField = useCallback((field: Partial<EventCreateModel>) => {
+	const changeEventField = (field: Partial<EventCreateModel>) => {
 		setEventToCreate((prev) => ({ ...prev, ...field }));
-	}, []);
+	};
 
 	const onButtonClick = async () => {
 		if (!eventToCreate) {

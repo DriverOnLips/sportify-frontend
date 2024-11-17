@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { CanvasRevealEffect } from 'components/lib/Aceternity/Card/Card.tsx';
-import { cn } from 'lib/utils.ts';
+import { CanvasRevealEffect } from '../../../components/lib/Aceternity/Card/Card.tsx';
+import { cn } from '../../../lib/utils.ts';
 
 export function Cards() {
 	return (

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import SignupForm from './components/SignupForm/SignupForm';
-import LoginForm from './components/LoginForm/LoginForm.tsx';
+import SignupForm from './components/SignupForm.tsx';
+import LoginForm from './components/LoginForm.tsx';
 import styles from './Login.module.scss';
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation';
 import { Divider } from 'antd';

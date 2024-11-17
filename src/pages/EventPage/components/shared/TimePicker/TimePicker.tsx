@@ -52,13 +52,13 @@ const EventTimePicker: React.FC<Props> = ({
 		<TimePicker.RangePicker
 			className={className}
 			value={
-				timeRange.map((time) => (time ? dayjs(time, 'HH:mm') : null)) as [
+				timeRange.map((time) => (time ? dayjs(time, 'HH:mm:ss') : null)) as [
 					dayjs.Dayjs | null,
 					dayjs.Dayjs | null,
 				]
 			}
 			onChange={onChangeRange}
-			format='HH:mm'
+			format='HH:mm:ss'
 			placeholder={['Время начала', 'Время окончания']}
 		/>
 	);

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
-import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
-import { cn } from 'lib/utils';
+import Input from '../../../components/lib/Aceternity/Input/AceternityInput.tsx';
+import Label from '../../../components/lib/Aceternity/Label/AceternityLabel.tsx';
+import { cn } from '../../../lib/utils.ts';
 import { SendOutlined } from '@ant-design/icons';
-import styles from './LoginForm.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
@@ -18,11 +17,11 @@ const SignupForm = () => {
 	};
 
 	const handleClick = () => {
-		navigate('/signup');
+		navigate('/login');
 	};
 
 	return (
-		<div className={cn('w-full mx-auto ', styles.login_form)}>
+		<div className={cn('w-full mx-auto')}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
 				Добро прожаловать в Sportify
 			</h2>
@@ -44,8 +43,20 @@ const SignupForm = () => {
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</LabelInputContainer>
+
 				<LabelInputContainer className='mb-4'>
 					<Label htmlFor='password'>Пароль</Label>
+					<Input
+						id='password'
+						placeholder='••••••••'
+						type='password'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+				</LabelInputContainer>
+
+				<LabelInputContainer className='mb-4'>
+					<Label htmlFor='password'>Повторите пароль</Label>
 					<Input
 						id='password'
 						placeholder='••••••••'
@@ -59,7 +70,7 @@ const SignupForm = () => {
 					className='bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
 					type='submit'
 				>
-					Войти
+					Создать аккаунт
 					<BottomGradient />
 				</button>
 
@@ -85,7 +96,7 @@ const SignupForm = () => {
 					type='submit'
 					onClick={handleClick}
 				>
-					Зарегистрироваться
+					Войти в аккаунт
 					<BottomGradient />
 				</button>
 			</form>
