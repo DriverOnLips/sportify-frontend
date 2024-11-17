@@ -52,12 +52,12 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const fieldsPath1 = [
 		{
 			label: <CalendarOutlined />,
-			value: formatDateDDMMMMYYYY(event.date),
+			value: formatDateDDMMMMYYYY(event.date!),
 		},
 		{ label: <EnvironmentOutlined />, value: event.address },
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+			value: `${event.startTime} - ${event.endTime} `,
 		},
 
 		{

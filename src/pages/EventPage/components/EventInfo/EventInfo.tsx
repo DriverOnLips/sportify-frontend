@@ -16,7 +16,7 @@ import { useUser } from 'contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
-import { formatDateDDMMMMYYYY, formatTime } from 'utils/formatTime.ts';
+import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
 import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
@@ -54,7 +54,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTime(event.startTime!)} - ${formatTime(event.endTime!)} `,
+			value: `${event.startTime!} - ${event.endTime!} `,
 		},
 		{
 			label: <RiseOutlined />,
