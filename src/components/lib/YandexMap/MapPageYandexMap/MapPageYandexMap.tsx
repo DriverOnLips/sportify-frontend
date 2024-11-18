@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapPageYandexMap.module.scss';
+import { GameLevels } from '../../../../types/enums/GameLevels';
 
 declare global {
 	interface Window {
@@ -14,6 +15,11 @@ interface YandexMapProps {
 	events?: {
 		id: string;
 		name: string;
+		price: number;
+		adress: string;
+		capacity: number | null;
+		busy: number;
+		game_level: GameLevels[];
 		latitude: number;
 		longitude: number;
 		eventUrl: string;
@@ -86,18 +92,62 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				const eventPlacemark = new window.ymaps.Placemark(
 					coords,
 					{
-						balloonContentHeader: `<strong>${event.name}</strong>`,
+						iconContent: `
+            <strong 
+              id="placemark-text-${event.id}"
+              style="
+                background-color: #1e98ff; 
+                color: white; border-radius: 10px; 
+                border: 4px solid #1e98ff; 
+                box-shadow: 0 0 0 2px white; 
+                padding: 4px;
+                cursor: pointer
+              ">
+							${event.name}
+						</strong>`,
+						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
 						balloonContentBody: `
-							<div>
-								<p>Мероприятие: ${event.name}</p>
-								<button style="background-color: #1E90FF; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;" 
-									onclick="window.open('${event.eventUrl}', '_blank')">Подробнее</button>
-							</div>`,
+              <div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
+                <p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
+                <p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
+                <p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
+                <div style="margin-top: 16px; text-align: center;">
+                  <button 
+                    style="
+                      background-color: #1e98ff; 
+                      color: white; 
+                      padding: 10px 20px; 
+                      border: none; 
+                      border-radius: 5px; 
+                      cursor: pointer; 
+                      font-size: 16px; 
+                      font-weight: bold; 
+                      transition: background-color 0.3s ease;
+                    " 
+                    onclick="window.open('${event.eventUrl}', '_self')"
+                    onmouseover="this.style.backgroundColor='#1569C7';"
+                    onmouseout="this.style.backgroundColor='#1e98ff';"
+                  >
+                    Подробнее
+                  </button>
+                </div>
+              </div>
+            `,
 					},
 					{
-						preset: 'islands#blueDotIcon',
+						preset: 'islands#blueIcon',
 					},
 				);
+
+				const placemarkTextElement = document.getElementById(
+					`placemark-text-${event.id}`,
+				);
+				if (placemarkTextElement) {
+					placemarkTextElement.addEventListener('click', () => {
+						eventPlacemark.balloon.open();
+						eventPlacemark.events.fire('click');
+					});
+				}
 
 				mapRef.current.geoObjects.add(eventPlacemark);
 			});

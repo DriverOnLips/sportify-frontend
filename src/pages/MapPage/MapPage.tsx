@@ -30,12 +30,12 @@ const MapPage: React.FC = () => {
 				},
 				(error) => {
 					console.error('Ошибка при получении геопозиции:', error);
-					setUserLocation([55.751244, 37.618423]); // Москва по умолчанию
+					setUserLocation([55.751244, 37.618423]);
 				},
 			);
 		} else {
 			console.error('Геолокация не поддерживается в этом браузере');
-			setUserLocation([55.751244, 37.618423]); // Москва по умолчанию
+			setUserLocation([55.751244, 37.618423]);
 		}
 	}, []);
 
@@ -50,6 +50,11 @@ const MapPage: React.FC = () => {
 		const coords = {
 			id: event.id,
 			name: convertSportTypeToDisplayValue(event.sportType),
+			price: event.price,
+			adress: event.address,
+			capacity: event.capacity,
+			busy: event.busy,
+			game_level: event.gameLevel,
 			latitude: Number(event.latitude) || 0,
 			longitude: Number(event.longitude) || 0,
 			eventUrl: `/events/${event.id}`,
