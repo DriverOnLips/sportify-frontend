@@ -86,16 +86,18 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				const eventPlacemark = new window.ymaps.Placemark(
 					coords,
 					{
-						iconCaption: event.name,
+						balloonContentHeader: `<strong>${event.name}</strong>`,
+						balloonContentBody: `
+							<div>
+								<p>Мероприятие: ${event.name}</p>
+								<button style="background-color: #1E90FF; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;" 
+									onclick="window.open('${event.eventUrl}', '_blank')">Подробнее</button>
+							</div>`,
 					},
 					{
 						preset: 'islands#blueDotIcon',
 					},
 				);
-
-				eventPlacemark.events.add('click', () => {
-					window.location.href = event.eventUrl;
-				});
 
 				mapRef.current.geoObjects.add(eventPlacemark);
 			});
