@@ -1,0 +1,22 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+
+
+  &_container {
+    display: flex;
+    //width: 50vw;
+
+    gap: 2rem;
+    margin: 2vh auto;
+    padding: 1.5rem;
+    //height: max-content;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(230, 230, 230, 0.75);
+    overflow: hidden;
+  }
+}

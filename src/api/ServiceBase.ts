@@ -50,11 +50,8 @@ export abstract class ServiceBase {
 			});
 			return res?.data;
 		} catch (error: any) {
-			console.error(
-				'Error making HTTP request:',
-				error.response?.data?.error_message,
-			);
-			throw error.response?.data?.error_message;
+			console.error('Error making HTTP request:', error.response?.data?.error);
+			throw error.response?.data?.error;
 		} finally {
 			// Убираем флаг после завершения запроса
 			delete this.pendingRequests[url];

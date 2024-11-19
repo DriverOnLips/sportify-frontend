@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
 import styles from './MapPage.module.scss';
-import useEventsList from '../../hooks/useEventsList.tsx';
+import useEventsList from '../../hooks/useEventsList.ts';
 import { convertSportTypeToDisplayValue } from '../../utils/converSportTypes.ts';
 
 const MapPage: React.FC = () => {
 	const [userLocation, setUserLocation] = useState<[number, number] | null>(
 		null,
 	);
-	const { events, getAllEvents, deleteAllEvents } = useEventsList();
+	const { allEvents, getAllEvents, deleteAllEvents } = useEventsList();
 
 	useEffect(() => {
 		getAllEvents();
@@ -32,7 +32,7 @@ const MapPage: React.FC = () => {
 		return () => deleteAllEvents();
 	}, []);
 
-	const eventCoordinates = events.map((event) => ({
+	const eventCoordinates = allEvents.map((event) => ({
 		id: event.id,
 		name: convertSportTypeToDisplayValue(event.sportType),
 		latitude: Number(event.latitude) || 0,

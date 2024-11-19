@@ -11,18 +11,21 @@ import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from '../../lib/Text/Text.tsx';
-import { useUser } from '../../../contexts/User/userContext.tsx';
 import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.ts';
 import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
-import { formatDateDDMMMMYYYY, formatTime } from '../../../utils/formatTime.ts';
+import { formatDateDDMMMMYYYY } from '../../../utils/formatTime.ts';
 import SubscribeButton from '../SubscribeButton/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
+import useUserInfo from '../../../hooks/useUserInfo.tsx';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
-	const { userId } = useUser();
+	const { user } = useUserInfo();
+
+	const isSubscribed =
+		(user?.id && event.subscribersId?.includes(user.id)) || false;
 
 	const navigate = useNavigate();
 
@@ -52,12 +55,12 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const fieldsPath1 = [
 		{
 			label: <CalendarOutlined />,
-			value: formatDateDDMMMMYYYY(event.date),
+			value: formatDateDDMMMMYYYY(event.date!),
 		},
 		{ label: <EnvironmentOutlined />, value: event.address },
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTime(event.startTime)} - ${formatTime(event.endTime)} `,
+			value: `${event.startTime} - ${event.endTime} `,
 		},
 
 		{
@@ -110,7 +113,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 											{convertSportTypeToDisplayValue(event.sportType)}
 										</Text>
 
-										{event.creatorId === userId && (
+										{event.creatorId === user?.id && (
 											<Tooltip title={'Это мероприятие создано вами'}>
 												<CheckCircleOutlined
 													onClick={(e) => e.stopPropagation()}
@@ -120,7 +123,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 									</div>
 
 									<SubscribeButton
-										isSub={event.subscribersId?.includes(userId) ?? false}
+										isSub={isSubscribed}
 										eventId={event.id}
 										disabled={
 											event?.capacity ? event.busy >= event.capacity : false

@@ -27,6 +27,7 @@
 			"config": ["config/*"],
 			"contexts": ["contexts/*"],
 			"hooks": ["hooks/*"],
+			"lib": ["lib/*"],
 			"pages": ["pages/*"],
 			"states": ["states/*"],
 			"styles": ["styles/*"],

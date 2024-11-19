@@ -13,8 +13,16 @@ import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
 import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
+import Login from './pages/Login/Login.tsx';
+import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.tsx';
+import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
+import Logout from './pages/Logout/Logout.tsx';
+import useUserInfo from './hooks/useUserInfo.tsx';
+import ProtectedRoute from './utils/ProtectedRoute.tsx';
 
 function App() {
+	const { isAuthorized, check } = useUserInfo();
+
 	const dispatch = useDispatch();
 
 	const { yandexMapApiKey } = useEnv();
@@ -26,6 +34,8 @@ function App() {
 			const userData = window.Telegram.WebApp.initDataUnsafe;
 			dispatch(setParamsAction(userData));
 		}
+
+		check();
 	}, []);
 
 	return (
@@ -56,15 +66,51 @@ function App() {
 						/>
 						<Route
 							path='/events-my'
-							element={<MyEventsList />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<MyEventsList />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/events-create'
-							element={<EventCreate />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<EventCreate />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/events-upcoming'
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<UpcomingEventsList />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path='/events-past'
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<PastEventsList />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/map'
 							element={<MapPage />}
+						/>
+						<Route
+							path='/login'
+							element={<Login />}
+						/>
+						<Route
+							path='/signup'
+							element={<Login />}
+						/>
+						<Route
+							path='/logout'
+							element={<Logout />}
 						/>
 					</Routes>
 				</div>

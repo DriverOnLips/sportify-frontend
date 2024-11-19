@@ -17,8 +17,9 @@ export const createEventShortInfoModel = (
 	return from.map((event) => ({
 		...event,
 		sportType: event.sport_type,
-		startTime: event.start_time,
-		endTime: event.end_time,
+		date: event.date_time.date,
+		startTime: event.date_time.start_time,
+		endTime: event.date_time.end_time,
 		isFree: event.is_free,
 		gameLevel: event.game_level,
 		subscribersId: event.subscribers_id,

@@ -7,6 +7,9 @@ import {
 	UserOutlined,
 	ClockCircleOutlined,
 	OrderedListOutlined,
+	LoginOutlined,
+	LogoutOutlined,
+	SmileOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
@@ -15,7 +18,7 @@ import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
 import Text from '../lib/Text/Text.tsx';
-import useEventsList from '../../hooks/useEventsList.tsx';
+import useEventsList from '../../hooks/useEventsList.ts';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -56,17 +59,37 @@ const items: MenuItem[] = [
 				key: '7',
 				label: 'Предстоящие',
 				icon: <OrderedListOutlined />,
-				disabled: true,
 			},
 			{
 				key: '8',
 				label: 'Прошедшие',
 				icon: <ClockCircleOutlined />,
-				disabled: true,
 			},
 		],
 	},
-	{ key: '9', icon: <UserOutlined />, label: 'Профиль', disabled: true },
+	{
+		key: '9',
+		label: 'Аккаунт',
+		icon: <SmileOutlined />,
+		children: [
+			{
+				key: '10',
+				label: 'Профиль',
+				icon: <UserOutlined />,
+				disabled: true,
+			},
+			{
+				key: '11',
+				label: 'Войти',
+				icon: <LoginOutlined />,
+			},
+			{
+				key: '12',
+				label: 'Выйти',
+				icon: <LogoutOutlined />,
+			},
+		],
+	},
 ];
 
 const Menu: React.FC = () => {
@@ -98,10 +121,14 @@ const Menu: React.FC = () => {
 				return ['5'];
 			case '/events-my':
 				return ['6'];
-			case '/clubs':
+			case '/events-upcoming':
 				return ['7'];
-			case '/profile':
+			case '/events-past':
 				return ['8'];
+			case '/login':
+				return ['11'];
+			case '/logout':
+				return ['12'];
 			default:
 				return ['2'];
 		}
@@ -122,10 +149,16 @@ const Menu: React.FC = () => {
 				navigate('/events-my');
 				break;
 			case '7':
-				navigate('/clubs');
+				navigate('/events-upcoming');
 				break;
 			case '8':
-				navigate('/profile');
+				navigate('/events-past');
+				break;
+			case '11':
+				navigate('/login');
+				break;
+			case '12':
+				navigate('/logout');
 				break;
 			default:
 				break;
@@ -147,7 +180,7 @@ const Menu: React.FC = () => {
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
-				defaultOpenKeys={isWide ? ['1', '4'] : []}
+				defaultOpenKeys={isWide ? ['1'] : []}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}
