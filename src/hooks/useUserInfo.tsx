@@ -8,7 +8,6 @@ import {
 import { AuthService } from 'api/AuthService/AuthService.ts';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
-import { useEffect } from 'react';
 
 // Когда появится пользователь, этот хук нужно будет переобуть в useAuthorize
 // и state тоже
@@ -66,16 +65,13 @@ const useUserInfo = () => {
 		}
 	};
 
-	useEffect(() => {
-		check();
-	}, []);
-
 	return {
 		user,
 		isAuthorized,
 		register,
 		login,
 		logout,
+		check,
 	};
 };
 

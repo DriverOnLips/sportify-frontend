@@ -38,7 +38,8 @@ const EventCreate: React.FC = () => {
 		showToast('info', 'Авторизуйтесь, чтобы продолжить');
 		navigate('/login');
 
-		return <></>;
+		return;
+		// return <></>;
 	}
 
 	const eventsService = new EventsService();

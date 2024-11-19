@@ -17,8 +17,11 @@ import Login from './pages/Login/Login.tsx';
 import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.tsx';
 import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
 import Logout from './pages/Logout/Logout.tsx';
+import useUserInfo from './hooks/useUserInfo.tsx';
 
 function App() {
+	const { check } = useUserInfo();
+
 	const dispatch = useDispatch();
 
 	const { yandexMapApiKey } = useEnv();
@@ -30,6 +33,8 @@ function App() {
 			const userData = window.Telegram.WebApp.initDataUnsafe;
 			dispatch(setParamsAction(userData));
 		}
+
+		check();
 	}, []);
 
 	return (
