@@ -30,16 +30,9 @@ const EventCreate: React.FC = () => {
 	const tgUserId = useSelector(selectTGWebAppUserId);
 	const tgChatId = useSelector(selectTGWebAppChatId);
 
-	const { user, isAuthorized } = useUserInfo();
+	const { user } = useUserInfo();
 
 	const navigate = useNavigate();
-
-	if (!isAuthorized || !user?.id) {
-		showToast('info', 'Авторизуйтесь, чтобы продолжить');
-		navigate('/login');
-
-		return;
-	}
 
 	const eventsService = new EventsService();
 
@@ -67,7 +60,7 @@ const EventCreate: React.FC = () => {
 
 			const createdEvent = await eventsService.createEvent(
 				eventToCreate,
-				user.id,
+				user!.id,
 				tg,
 			);
 			showToast('success', 'Мероприятие успешно создано');

@@ -17,7 +17,7 @@ const Login: React.FC = () => {
 	const isLogin = location.pathname === '/login';
 
 	useEffect(() => {
-		isAuthorized && navigate(-1);
+		isAuthorized && navigate('/events');
 	}, [isAuthorized]);
 
 	useEffect(() => {

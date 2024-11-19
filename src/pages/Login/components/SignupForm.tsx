@@ -6,6 +6,7 @@ import { SendOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import { showToast } from '../../../components/lib/Toast/Toast.tsx';
 
 const SignupForm = () => {
 	const { register } = useUserInfo();
@@ -23,7 +24,11 @@ const SignupForm = () => {
 			password,
 		};
 
-		await register(user);
+		try {
+			await register(user);
+			showToast('success', 'Вы вошли в аккаунт');
+			navigate('/events');
+		} catch (_) {}
 	};
 
 	const handleClick = () => {

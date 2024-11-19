@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import ListItem from 'components/shared/ListItem/ListItem';
 import useEventsList from '../../hooks/useEventsList.ts';
 import styles from './UpcomintEventsList.module.scss';
+import useUserInfo from '../../hooks/useUserInfo.tsx';
 
 const UpcomingEventsList: React.FC = () => {
+	const { user } = useUserInfo();
 	const { upcomingEvents, getUpcomingEvents, deleteUpcomingEvents } =
 		useEventsList();
 
 	useEffect(() => {
-		getUpcomingEvents();
+		getUpcomingEvents(user!.id);
 
 		return () => deleteUpcomingEvents();
 	}, []);

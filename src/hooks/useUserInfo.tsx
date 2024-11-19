@@ -28,6 +28,8 @@ const useUserInfo = () => {
 				dispatch(deleteUserAction());
 
 				showToast('error', 'Ошибка', `${(error as Error).message}`);
+
+				throw error;
 			}
 		}
 	};
@@ -39,8 +41,9 @@ const useUserInfo = () => {
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				dispatch(deleteUserAction());
-
 				showToast('error', 'Ошибка', `${(error as Error).message}`);
+
+				throw error;
 			}
 		}
 	};

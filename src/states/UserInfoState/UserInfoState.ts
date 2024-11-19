@@ -19,6 +19,7 @@ export const userInfoSlice = createSlice({
 		setUser: (state, action: PayloadAction<UserInfoModel>) => {
 			state.user = action.payload;
 			state.isAuthorized = true;
+			console.log(state.user, state.isAuthorized);
 		},
 		deleteUser: (state) => {
 			state.user = null;

@@ -24,6 +24,9 @@ import useUserInfo from '../../../hooks/useUserInfo.tsx';
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { user } = useUserInfo();
 
+	const isSubscribed =
+		(user?.id && event.subscribersId?.includes(user.id)) || false;
+
 	const navigate = useNavigate();
 
 	const onItemClick = useCallback(() => {
@@ -120,10 +123,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 									</div>
 
 									<SubscribeButton
-										isSub={
-											(user?.id && event.subscribersId?.includes(user.id)) ||
-											false
-										}
+										isSub={isSubscribed}
 										eventId={event.id}
 										disabled={
 											event?.capacity ? event.busy >= event.capacity : false

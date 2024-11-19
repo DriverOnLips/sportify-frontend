@@ -18,9 +18,10 @@ import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.ts
 import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
 import Logout from './pages/Logout/Logout.tsx';
 import useUserInfo from './hooks/useUserInfo.tsx';
+import ProtectedRoute from './utils/ProtectedRoute.tsx';
 
 function App() {
-	const { check } = useUserInfo();
+	const { isAuthorized, check } = useUserInfo();
 
 	const dispatch = useDispatch();
 
@@ -65,19 +66,35 @@ function App() {
 						/>
 						<Route
 							path='/events-my'
-							element={<MyEventsList />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<MyEventsList />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/events-create'
-							element={<EventCreate />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<EventCreate />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/events-upcoming'
-							element={<UpcomingEventsList />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<UpcomingEventsList />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/events-past'
-							element={<PastEventsList />}
+							element={
+								<ProtectedRoute isAuthorized={isAuthorized}>
+									<PastEventsList />
+								</ProtectedRoute>
+							}
 						/>
 						<Route
 							path='/map'

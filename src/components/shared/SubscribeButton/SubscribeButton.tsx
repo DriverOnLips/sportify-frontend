@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 import Button from 'components/lib/Button/Button.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
@@ -19,6 +19,15 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	const navigate = useNavigate();
 
 	const eventsService = new EventsService();
+
+	const [loading, setLoading] = useState<boolean>(false);
+	const [isSubscribed, setIsSubscribed] = useState<boolean>(isSub);
+
+	// TODO: нафиг снести это и сделать так, чтобы остальные запросы шли только после того,
+	// как мы узнали статус авторизации. Возможное решение: через serviceBase
+	useEffect(() => {
+		setIsSubscribed(isSub);
+	}, [isSub]);
 
 	const handleClick = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		e.stopPropagation();
@@ -55,9 +64,6 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 		}
 	};
 
-	const [loading, setLoading] = React.useState<boolean>(false);
-	const [isSubscribed, setIsSubscribed] = React.useState(isSub);
-
 	return (
 		<Tooltip title={isSubscribed ? 'Отписаться' : 'Подписаться'}>
 			<Button
@@ -72,4 +78,4 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 	);
 };
 
-export default React.memo(SubscribeButton);
+export default SubscribeButton;
