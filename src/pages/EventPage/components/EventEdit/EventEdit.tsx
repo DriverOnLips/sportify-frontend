@@ -9,25 +9,32 @@ import PriceInput from '../shared/PriceInput/PriceInput.tsx';
 import GameLevelSelect from '../shared/GameLevelSelect/GameLevelSelect.tsx';
 import CapacityInput from '../shared/CapacityInput/CapacityInput.tsx';
 import EventUploadImages from '../shared/UploadImages/UploadImages.tsx';
-import { useUser } from 'contexts/User/userContext.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import Text from 'components/lib/Text/Text.tsx';
 import Button from 'components/lib/Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 import { Divider } from 'antd';
-import Explanation from '../../../../components/lib/Explanation/Explanation.tsx';
+import Explanation from 'components/lib/Explanation/Explanation.tsx';
 import DescriptionInput from '../shared/DescriptionInput/DescriptionInput.tsx';
-import { BackgroundGradientAnimation } from '../../../../components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
+import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
+import useUserInfo from 'hooks/useUserInfo.tsx';
 
 interface EventEditProps {
 	event: EventInfoModel;
 }
 
 const EventEdit: React.FC<EventEditProps> = ({ event }) => {
-	const { userId } = useUser();
+	const { user, isAuthorized } = useUserInfo();
 
 	const navigate = useNavigate();
+
+	if (!isAuthorized || !user?.id) {
+		showToast('info', 'Авторизуйтесь, чтобы продолжить');
+		navigate('/login');
+
+		return <></>;
+	}
 
 	const eventsService = new EventsService();
 
@@ -43,7 +50,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 		}
 
 		try {
-			await eventsService.updateEvent(editedEvent, userId);
+			await eventsService.updateEvent(editedEvent, user.id);
 			showToast('success', 'Информация о мероприятии обновлена');
 			navigate(`/events/${event.id}`);
 		} catch (error: any) {

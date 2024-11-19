@@ -1,10 +1,11 @@
 import React from 'react';
 import { EventsService } from 'api/EventsService/EventsService.ts';
 import Button from 'components/lib/Button/Button.tsx';
-import { useUser } from 'contexts/User/userContext.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
+import useUserInfo from 'hooks/useUserInfo.tsx';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	isSub: boolean;
@@ -13,21 +14,31 @@ type Props = {
 };
 
 const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
-	const { userId } = useUser();
+	const { user, isAuthorized } = useUserInfo();
+
+	const navigate = useNavigate();
 
 	const eventsService = new EventsService();
 
 	const handleClick = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 		e.stopPropagation();
+
+		if (!isAuthorized || !user?.id) {
+			showToast('info', 'Авторизуйтесь, чтобы продолжить');
+			navigate('/login');
+
+			return;
+		}
+
 		setLoading(true);
 
 		try {
 			const response = await eventsService.subscribeOnEvent(
 				eventId,
-				userId,
+				user.id,
 				!isSubscribed,
 			);
-			const newIsSubscribed = response.subscribers_id?.includes(userId);
+			const newIsSubscribed = response.subscribers_id?.includes(user.id);
 			setIsSubscribed(newIsSubscribed);
 			showToast(
 				'success',

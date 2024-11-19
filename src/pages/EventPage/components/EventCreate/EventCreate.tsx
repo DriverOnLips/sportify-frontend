@@ -7,11 +7,10 @@ import PriceInput from '../shared/PriceInput/PriceInput.tsx';
 import GameLevelSelect from '../shared/GameLevelSelect/GameLevelSelect.tsx';
 import CapacityInput from '../shared/CapacityInput/CapacityInput.tsx';
 import EventUploadImages from '../shared/UploadImages/UploadImages.tsx';
-import { EventCreateModel } from '../../../../types/types/Event/EventCreate.ts';
+import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 import Text from 'components/lib/Text/Text.tsx';
 import Button from 'components/lib/Button/Button.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
-import { useUser } from 'contexts/User/userContext.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './EventCreate.module.scss';
@@ -25,14 +24,22 @@ import {
 } from 'states/TGWebApp/TGWebAppState.ts';
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
 import useVibration from 'hooks/useVibration.tsx';
+import useUserInfo from 'hooks/useUserInfo.tsx';
 
 const EventCreate: React.FC = () => {
 	const tgUserId = useSelector(selectTGWebAppUserId);
 	const tgChatId = useSelector(selectTGWebAppChatId);
 
-	const { userId } = useUser();
+	const { user, isAuthorized } = useUserInfo();
 
 	const navigate = useNavigate();
+
+	if (!isAuthorized || !user?.id) {
+		showToast('info', 'Авторизуйтесь, чтобы продолжить');
+		navigate('/login');
+
+		return <></>;
+	}
 
 	const eventsService = new EventsService();
 
@@ -60,7 +67,7 @@ const EventCreate: React.FC = () => {
 
 			const createdEvent = await eventsService.createEvent(
 				eventToCreate,
-				userId,
+				user.id,
 				tg,
 			);
 			showToast('success', 'Мероприятие успешно создано');
