@@ -18,7 +18,7 @@ import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
 import Text from '../lib/Text/Text.tsx';
-import useEventsList from '../../hooks/useEventsList.tsx';
+import useEventsList from '../../hooks/useEventsList.ts';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -128,6 +128,8 @@ const Menu: React.FC = () => {
 				return ['8'];
 			case '/login':
 				return ['11'];
+			case '/logout':
+				return ['12'];
 			default:
 				return ['2'];
 		}
@@ -155,6 +157,9 @@ const Menu: React.FC = () => {
 				break;
 			case '11':
 				navigate('/login');
+				break;
+			case '12':
+				navigate('/logout');
 				break;
 			default:
 				break;

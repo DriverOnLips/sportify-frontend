@@ -1,16 +1,24 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SignupForm from './components/SignupForm.tsx';
 import LoginForm from './components/LoginForm.tsx';
 import styles from './Login.module.scss';
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation';
 import { Divider } from 'antd';
+import useUserInfo from 'hooks/useUserInfo.tsx';
 
 const Login: React.FC = () => {
+	const { isAuthorized } = useUserInfo();
+
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const isLogin = location.pathname === '/login';
+
+	useEffect(() => {
+		isAuthorized && navigate(-1);
+	}, [isAuthorized]);
 
 	useEffect(() => {
 		const content = document.getElementById('content');

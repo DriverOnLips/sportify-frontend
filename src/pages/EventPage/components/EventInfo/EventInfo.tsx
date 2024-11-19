@@ -12,7 +12,6 @@ import {
 } from '@ant-design/icons';
 import Button from 'components/lib/Button/Button.tsx';
 import Text from 'components/lib/Text/Text.tsx';
-import { useUser } from 'contexts/User/userContext.tsx';
 import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
@@ -34,7 +33,7 @@ interface EventInfoProps {
 }
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
-	const { userId } = useUser();
+	// const { userId } = useUser();
 	const navigate = useNavigate();
 	const eventsService = new EventsService();
 

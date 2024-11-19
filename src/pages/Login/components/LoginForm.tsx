@@ -1,19 +1,29 @@
 import React, { useState } from 'react';
-import Input from '../../../components/lib/Aceternity/Input/AceternityInput.tsx';
-import Label from '../../../components/lib/Aceternity/Label/AceternityLabel.tsx';
-import { cn } from '../../../lib/utils.ts';
+import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
+import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
+import { cn } from 'lib/utils.ts';
 import { SendOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import useUserInfo from 'hooks/useUserInfo.tsx';
+import { UserWithPwModel } from '../../../types/types/User/UserWithPw.ts';
 
-const SignupForm = () => {
+const LoginForm = () => {
+	const { login } = useUserInfo();
+
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
 	const navigate = useNavigate();
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(username, password);
+
+		const user: UserWithPwModel = {
+			username,
+			password,
+		};
+
+		await login(user);
 	};
 
 	const handleClick = () => {
@@ -115,4 +125,4 @@ const LabelInputContainer = ({
 	);
 };
 
-export default SignupForm;
+export default LoginForm;

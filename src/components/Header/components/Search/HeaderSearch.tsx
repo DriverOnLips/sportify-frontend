@@ -3,7 +3,7 @@ import { SearchParams } from 'types/types/SearchParams/SearchParams.ts';
 import React from 'react';
 import Search from 'components/lib/Search/Search.tsx';
 import HeaderFilters from '../Filters/HeaderFilters/HeaderFilters.tsx';
-import useEventsList from 'hooks/useEventsList.tsx';
+import useEventsList from '../../../../hooks/useEventsList.ts';
 import styles from './HeaderSearch.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 

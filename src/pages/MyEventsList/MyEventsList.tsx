@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ListItem from 'components/shared/ListItem/ListItem';
-import useEventsList from 'hooks/useEventsList.tsx';
+import useEventsList from '../../hooks/useEventsList.ts';
 import styles from './MyEventsList.module.scss';
 
 const MyEventsList: React.FC = () => {

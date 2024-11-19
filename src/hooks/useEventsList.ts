@@ -16,15 +16,12 @@ import { showToast } from '../components/lib/Toast/Toast.tsx';
 import useQueryParams from './useQueryParams.ts';
 import { EventsService } from '../api/EventsService/EventsService.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { useUser } from '../contexts/User/userContext.tsx';
 
 const useEventsList = () => {
 	const allEvents = useSelector(selectAllEvents);
 	const myEvents = useSelector(selectMyEvents);
 	const upcomingEvents = useSelector(selectUpcomingEvents);
 	const pastEvents = useSelector(selectPastEvents);
-
-	const { userId } = useUser();
 
 	const eventsService = new EventsService();
 
@@ -59,7 +56,7 @@ const useEventsList = () => {
 		dispatch(deleteAllEventsAction());
 	};
 
-	const getMyEvents = async () => {
+	const getMyEvents = async (userId: string) => {
 		try {
 			const evts = await eventsService.getMyEvents(
 				userId,
@@ -86,7 +83,7 @@ const useEventsList = () => {
 		dispatch(deleteMyEventsAction());
 	};
 
-	const getUpcomingEvents = async () => {
+	const getUpcomingEvents = async (userId: string) => {
 		try {
 			const evts = await eventsService.getUpcomingEvents(
 				userId,
@@ -113,7 +110,7 @@ const useEventsList = () => {
 		dispatch(deleteUpcomingEventsAction());
 	};
 
-	const getPastEvents = async () => {
+	const getPastEvents = async (userId: string) => {
 		try {
 			const evts = await eventsService.getPastEvents(
 				userId,
