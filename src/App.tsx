@@ -16,6 +16,7 @@ import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
 import Login from './pages/Login/Login.tsx';
 import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.tsx';
 import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
+import Logout from './pages/Logout/Logout.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -84,6 +85,10 @@ function App() {
 						<Route
 							path='/signup'
 							element={<Login />}
+						/>
+						<Route
+							path='/logout'
+							element={<Logout />}
 						/>
 					</Routes>
 				</div>

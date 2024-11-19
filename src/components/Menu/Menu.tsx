@@ -87,7 +87,6 @@ const items: MenuItem[] = [
 				key: '12',
 				label: 'Выйти',
 				icon: <LogoutOutlined />,
-				disabled: true,
 			},
 		],
 	},
