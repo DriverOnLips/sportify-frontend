@@ -39,7 +39,6 @@ const EventCreate: React.FC = () => {
 		navigate('/login');
 
 		return;
-		// return <></>;
 	}
 
 	const eventsService = new EventsService();
