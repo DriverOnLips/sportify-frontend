@@ -110,6 +110,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
               <div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
                 <p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
                 <p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
+                <p style="margin: 8px 0;">Уровень: <span style="color: #666;">${event.game_level}</span></p>
                 <p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
                 <div style="margin-top: 16px; text-align: center;">
                   <button 
