@@ -38,7 +38,7 @@ const SignupForm = () => {
 	return (
 		<div className={cn('w-full mx-auto')}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
-				Добро прожаловать в Sportify
+				Добро прожаловать в MoveLife
 			</h2>
 			<p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
 				Зарегистрируйтесь, чтобы открыть максимум возможностей
