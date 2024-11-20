@@ -174,7 +174,7 @@ const Menu: React.FC = () => {
 					className={styles.menu__logo_span}
 					onClick={handleLogoClick}
 				>
-					{isWide ? 'Sportify' : 'S'}
+					{isWide ? 'MoveLife' : 'ML'}
 				</Text>
 			</div>
 
