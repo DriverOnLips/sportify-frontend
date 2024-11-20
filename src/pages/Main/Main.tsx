@@ -26,7 +26,9 @@ const MainPage: React.FC = () => {
 	};
 
 	useEffect(() => {
-		if (tgStartPage !== '') {
+		if (tgStartPage && tgStartPage !== '') {
+			console.log('tgStartPage:', tgStartPage);
+
 			navigateToStartPage(convertStringToTgStartPage(tgStartPage));
 		}
 	}, [tgStartPage]);
