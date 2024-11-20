@@ -30,13 +30,13 @@
 
 
 @media (max-width: 650px) {
-  .my_events_list {
+  .past_events_list {
     &__container {
       padding: 0 0 0 2vw;
     }
   }
 
-  .my_events_list__container > * {
+  .past_events_list__container > * {
     width: 100%;
     margin: 0.5rem;
   }
