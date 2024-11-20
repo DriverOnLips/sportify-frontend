@@ -2,12 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapPageYandexMap.module.scss';
 import { GameLevels } from '../../../../types/enums/GameLevels';
 
-declare global {
-	interface Window {
-		ymaps: any;
-	}
-}
-
 interface YandexMapProps {
 	center?: [number, number];
 	zoom?: number;

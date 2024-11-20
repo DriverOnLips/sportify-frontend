@@ -1,12 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './EventPageYandexMap.module.scss';
 
-declare global {
-	interface Window {
-		ymaps: any;
-	}
-}
-
 interface YandexMapProps {
 	address: string;
 }
