@@ -3,9 +3,10 @@ import styles from './EventPageYandexMap.module.scss';
 
 interface YandexMapProps {
 	address: string;
+	transport: 'auto' | 'pedestrian' | 'masstransit'; // добавляем параметр transport
 }
 
-const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
+const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 	const mapRef = useRef<any>(null);
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const [ymapsLoaded, setYmapsLoaded] = useState(false);
@@ -73,6 +74,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 					},
 				);
 
+				// Функция для создания маршрута в зависимости от выбранного транспорта
 				const createRoute = (routingMode: string, color: string) => {
 					return new window.ymaps.multiRouter.MultiRoute(
 						{
@@ -86,14 +88,14 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 					);
 				};
 
-				const pedestrianRoute = createRoute('pedestrian', '#1E98FF');
-				const drivingRoute = createRoute('auto', '#FF4500');
-				const transitRoute = createRoute('masstransit', '#32CD32');
+				const routes = {
+					pedestrian: createRoute('pedestrian', '#1E98FF'),
+					auto: createRoute('auto', '#FF4500'),
+					masstransit: createRoute('masstransit', '#32CD32'),
+				};
 
 				mapRef.current.geoObjects.removeAll();
-				mapRef.current.geoObjects.add(pedestrianRoute);
-				mapRef.current.geoObjects.add(drivingRoute);
-				mapRef.current.geoObjects.add(transitRoute);
+				mapRef.current.geoObjects.add(routes[transport]);
 
 				const bounds = window.ymaps.util.bounds.fromPoints([
 					userLocation,
@@ -118,7 +120,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address }) => {
 				mapRef.current = null;
 			}
 		};
-	}, [address, ymapsLoaded]);
+	}, [address, ymapsLoaded, transport]); // добавляем зависимость от transport
 
 	return (
 		<div

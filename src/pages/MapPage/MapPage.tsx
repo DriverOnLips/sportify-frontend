@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import YandexMap from '../../components/lib/YandexMap/MapPageYandexMap/MapPageYandexMap.tsx';
+import YandexMap from './components/MapPageYandexMap/MapPageYandexMap.tsx';
 import styles from './MapPage.module.scss';
 import useEventsList from '../../hooks/useEventsList.ts';
 import { convertSportTypeToDisplayValue } from '../../utils/converSportTypes.ts';
