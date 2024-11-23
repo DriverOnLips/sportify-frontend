@@ -10,7 +10,7 @@ const Logout = () => {
 	const handleLogout = async () => {
 		await logout();
 		showToast('success', 'Вы вышли из аккаунта');
-		navigate('/events');
+		navigate('/login');
 	};
 
 	useEffect(() => {

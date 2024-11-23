@@ -41,7 +41,7 @@ const HeaderSearch = () => {
 		<Search
 			className={styles.header__search}
 			value={address || ''}
-			placeholder={'Введите адрес'}
+			placeholder={'Адрес'}
 			onChange={handleAddressChange}
 			onPressEnter={handlePressEnter}
 			onSearch={handlePressEnter}
