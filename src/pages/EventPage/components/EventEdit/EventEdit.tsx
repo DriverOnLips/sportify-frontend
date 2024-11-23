@@ -100,7 +100,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 							Адрес:
 						</Text>
 						<AddressInput
-							value={event.address}
+							// value={event.address}
 							changeEventField={changeEventField}
 						/>
 					</div>
