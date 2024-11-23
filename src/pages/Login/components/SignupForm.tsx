@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
 import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
 import { cn } from 'lib/utils.ts';
-import { SendOutlined } from '@ant-design/icons';
+// import { SendOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import useUserInfo from 'hooks/useUserInfo.tsx';
@@ -13,7 +13,7 @@ const SignupForm = () => {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [repeatPassword, setrepeatPassword] = useState('');
+	const [repeatPassword, setRepeatPassword] = useState('');
 
 	const navigate = useNavigate();
 
@@ -84,7 +84,7 @@ const SignupForm = () => {
 						placeholder='••••••••'
 						type='password'
 						value={repeatPassword}
-						onChange={(e) => setrepeatPassword(e.target.value)}
+						onChange={(e) => setRepeatPassword(e.target.value)}
 					/>
 				</LabelInputContainer>
 

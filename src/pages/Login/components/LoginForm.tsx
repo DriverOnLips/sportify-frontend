@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
 import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
 import { cn } from 'lib/utils.ts';
-import { SendOutlined } from '@ant-design/icons';
+// import { SendOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import { UserWithPwModel } from '../../../types/types/User/UserWithPw.ts';
