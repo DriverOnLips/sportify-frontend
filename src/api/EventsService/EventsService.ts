@@ -34,6 +34,16 @@ export class EventsService extends ServiceBase {
 				url: `/api/users/user_id/events`,
 				method: RequestMethods.GET,
 			},
+			{
+				name: 'getUpcomingEvents',
+				url: `/api/users/user_id/sub_active/events`,
+				method: RequestMethods.GET,
+			},
+			{
+				name: 'getPastEvents',
+				url: `/api/users/user_id/sub_archive/events`,
+				method: RequestMethods.GET,
+			},
 			{ name: 'createEvent', url: `/api/event`, method: RequestMethods.POST },
 			{ name: 'updateEvent', url: `/api/event`, method: RequestMethods.PUT },
 			{ name: 'deleteEvent', url: `/api/event`, method: RequestMethods.DELETE },
@@ -136,6 +146,70 @@ export class EventsService extends ServiceBase {
 	): Promise<EventShortInfoModel[]> {
 		try {
 			const configItem = this.getConfigItem('getMyEvents');
+			configItem.url = configItem.url.replace('user_id', userId);
+
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
+			);
+
+			const url = `${configItem.url}?${params.join('&')}`;
+
+			const response = await this.makeHttpRequest(configItem.method, url);
+
+			return createEventShortInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async getUpcomingEvents(
+		userId: string,
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): Promise<EventShortInfoModel[]> {
+		try {
+			const configItem = this.getConfigItem('getUpcomingEvents');
+			configItem.url = configItem.url.replace('user_id', userId);
+
+			const params = this.processQueryParams(
+				sportType,
+				gameLevel,
+				dates,
+				priceMin,
+				priceMax,
+				address,
+			);
+
+			const url = `${configItem.url}?${params.join('&')}`;
+
+			const response = await this.makeHttpRequest(configItem.method, url);
+
+			return createEventShortInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async getPastEvents(
+		userId: string,
+		sportType: string[],
+		gameLevel: string[],
+		dates: string[],
+		priceMin: string | null,
+		priceMax: string | null,
+		address: string | null,
+	): Promise<EventShortInfoModel[]> {
+		try {
+			const configItem = this.getConfigItem('getPastEvents');
 			configItem.url = configItem.url.replace('user_id', userId);
 
 			const params = this.processQueryParams(

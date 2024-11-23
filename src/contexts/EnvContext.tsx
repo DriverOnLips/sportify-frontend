@@ -2,6 +2,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 
 interface EnvConfig {
 	yandexMapApiKey: string;
+	daDataApiKey: string;
 }
 
 const EnvContext = createContext<EnvConfig | undefined>(undefined);
@@ -12,15 +13,22 @@ interface EnvProviderProps {
 
 export const EnvProvider: React.FC<EnvProviderProps> = ({ children }) => {
 	const yandexMapApiKey = import.meta.env.VITE_YANDEX_MAP_API_KEY;
+	const daDataApiKey = import.meta.env.VITE_DA_DATA_API_KEY;
 
 	if (!yandexMapApiKey) {
 		throw new Error(
 			'VITE_YANDEX_MAP_API_KEY is not defined in the environment variables',
 		);
 	}
+	if (!daDataApiKey) {
+		throw new Error(
+			'VITE_DA_DATA_API_KEY is not defined in the environment variables',
+		);
+	}
 
 	const envConfig: EnvConfig = {
 		yandexMapApiKey,
+		daDataApiKey,
 	};
 
 	return (

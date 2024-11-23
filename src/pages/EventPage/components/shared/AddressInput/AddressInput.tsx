@@ -1,40 +1,62 @@
-import React, { useMemo, useState } from 'react';
-import { debounce } from 'lodash';
-import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
-import Textarea from 'components/lib/Textarea/Textarea.tsx';
+import React, { useState } from 'react';
+import {
+	AddressSuggestions,
+	DaDataSuggestion,
+	DaDataAddress,
+} from 'react-dadata';
+import 'react-dadata/dist/react-dadata.css';
+import { useEnv } from 'contexts/EnvContext.tsx';
 
-type Props = {
+interface Props {
 	className?: string;
-	value?: string;
-	changeEventField: (field: Partial<EventCreateModel>) => void;
-};
+	changeEventField: (field: { address: string }) => void;
+}
 
-const AddressInput: React.FC<Props> = ({
-	className,
-	value,
-	changeEventField,
-}) => {
-	const [address, setAddress] = useState<string>(value || '');
+const AddressInput: React.FC<Props> = ({ className, changeEventField }) => {
+	const [address, setAddress] = useState<
+		DaDataSuggestion<DaDataAddress> | undefined
+	>(undefined);
+	const [inputValue, setInputValue] = useState<string>('');
 
-	const updateAddress = useMemo(
-		() =>
-			debounce((value: string) => changeEventField({ address: value }), 500),
-		[],
-	);
+	const { daDataApiKey } = useEnv();
 
-	const changeAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const val = e.target.value;
-		setAddress(val);
-		updateAddress(val);
+	const handleChange = (
+		suggestion: DaDataSuggestion<DaDataAddress> | undefined,
+	) => {
+		if (suggestion) {
+			const selectedAddress = suggestion.value;
+			setAddress(suggestion);
+			changeEventField({ address: selectedAddress });
+		} else {
+			setAddress(undefined);
+		}
+	};
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (!value) {
+			setAddress(undefined);
+			changeEventField({ address: '' });
+			return;
+		}
+
+		setInputValue(value);
+		changeEventField({ address: value });
 	};
 
 	return (
-		<Textarea
-			placeholder='Введите адрес'
-			className={className}
-			value={address}
-			onChange={changeAddress}
-		/>
+		<div className={className}>
+			<AddressSuggestions
+				token={daDataApiKey}
+				value={address}
+				onChange={handleChange}
+				inputProps={{
+					placeholder: 'Введите адрес',
+					value: inputValue,
+					onChange: handleInputChange,
+				}}
+			/>
+		</div>
 	);
 };
 

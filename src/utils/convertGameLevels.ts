@@ -27,13 +27,13 @@ export const convertDisplayValueToGameLevel = (
 	switch (gameLevel) {
 		case 'Начинающий':
 			return GameLevels.Low;
-		case 'Начинающий плюс':
+		case 'Начинающий +':
 			return GameLevels.LowPlus;
-		case 'Средний минус':
+		case 'Средний -':
 			return GameLevels.MidMinus;
 		case 'Средний':
 			return GameLevels.Mid;
-		case 'Средний плюс':
+		case 'Средний +':
 			return GameLevels.MidPlus;
 		case 'Полу-профи':
 			return GameLevels.High;

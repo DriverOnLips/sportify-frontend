@@ -7,6 +7,10 @@ import {
 	UserOutlined,
 	ClockCircleOutlined,
 	OrderedListOutlined,
+	LoginOutlined,
+	LogoutOutlined,
+	SmileOutlined,
+	PlayCircleOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
@@ -15,78 +19,89 @@ import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
 import Text from '../lib/Text/Text.tsx';
-import useEventsList from '../../hooks/useEventsList.tsx';
+import useUserInfo from 'hooks/useUserInfo.tsx';
 
 type MenuItem = Required<MenuProps>['items'][number];
-
-const items: MenuItem[] = [
-	{
-		key: '1',
-		label: 'Список мероприятий',
-		icon: <CarryOutOutlined />,
-		children: [
-			{
-				key: '2',
-				label: 'Лента',
-				icon: <AppstoreOutlined />,
-			},
-			{
-				key: '3',
-				label: 'Карта',
-				icon: <GlobalOutlined />,
-			},
-		],
-	},
-	{
-		key: '4',
-		label: 'Мероприятия',
-		icon: <CarryOutOutlined />,
-		children: [
-			{
-				key: '5',
-				label: 'Создать',
-				icon: <PlusCircleOutlined />,
-			},
-			{
-				key: '6',
-				label: 'Мои',
-				icon: <UnorderedListOutlined />,
-			},
-			{
-				key: '7',
-				label: 'Предстоящие',
-				icon: <OrderedListOutlined />,
-				disabled: true,
-			},
-			{
-				key: '8',
-				label: 'Прошедшие',
-				icon: <ClockCircleOutlined />,
-				disabled: true,
-			},
-		],
-	},
-	{ key: '9', icon: <UserOutlined />, label: 'Профиль', disabled: true },
-];
 
 const Menu: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
+	const { isAuthorized } = useUserInfo();
+
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 850;
 
-	const { getAllEvents } = useEventsList();
-
-	const handleLogoClick = () => {
-		if (location.pathname === '/events') {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-			return;
-		}
-
-		navigate('/events');
-		getAllEvents();
-	};
+	const items: MenuItem[] = [
+		{
+			key: '1',
+			label: 'Список мероприятий',
+			icon: <CarryOutOutlined />,
+			children: [
+				{
+					key: '2',
+					label: 'Лента',
+					icon: <AppstoreOutlined />,
+				},
+				{
+					key: '3',
+					label: 'Карта',
+					icon: <GlobalOutlined />,
+				},
+			],
+		},
+		{
+			key: '4',
+			label: 'Мероприятия',
+			icon: <PlayCircleOutlined />,
+			children: [
+				{
+					key: '5',
+					label: 'Создать',
+					icon: <PlusCircleOutlined />,
+				},
+				{
+					key: '6',
+					label: 'Мои',
+					icon: <UnorderedListOutlined />,
+				},
+				{
+					key: '7',
+					label: 'Предстоящие',
+					icon: <OrderedListOutlined />,
+				},
+				{
+					key: '8',
+					label: 'Прошедшие',
+					icon: <ClockCircleOutlined />,
+				},
+			],
+		},
+		{
+			key: '9',
+			label: 'Аккаунт',
+			icon: <SmileOutlined />,
+			children: [
+				{
+					key: '10',
+					label: 'Профиль',
+					icon: <UserOutlined />,
+					disabled: true,
+				},
+				!isAuthorized
+					? {
+							key: '11',
+							label: 'Войти',
+							icon: <LoginOutlined />,
+						}
+					: {
+							key: '12',
+							label: 'Выйти',
+							icon: <LogoutOutlined />,
+						},
+			],
+		},
+	];
 
 	const getActiveKey = () => {
 		switch (location.pathname) {
@@ -98,10 +113,14 @@ const Menu: React.FC = () => {
 				return ['5'];
 			case '/events-my':
 				return ['6'];
-			case '/clubs':
+			case '/events-upcoming':
 				return ['7'];
-			case '/profile':
+			case '/events-past':
 				return ['8'];
+			case '/login':
+				return ['11'];
+			case '/logout':
+				return ['12'];
 			default:
 				return ['2'];
 		}
@@ -122,14 +141,30 @@ const Menu: React.FC = () => {
 				navigate('/events-my');
 				break;
 			case '7':
-				navigate('/clubs');
+				navigate('/events-upcoming');
 				break;
 			case '8':
-				navigate('/profile');
+				navigate('/events-past');
+				break;
+			case '11':
+				navigate('/login');
+				break;
+			case '12':
+				navigate('/logout');
 				break;
 			default:
 				break;
 		}
+	};
+
+	const handleLogoClick = () => {
+		const contentDiv = document.getElementById('content');
+		if (location.pathname === '/events') {
+			contentDiv?.scrollTo({ top: 0, behavior: 'smooth' });
+			return;
+		}
+
+		navigate('/events');
 	};
 
 	return (
@@ -141,13 +176,13 @@ const Menu: React.FC = () => {
 					className={styles.menu__logo_span}
 					onClick={handleLogoClick}
 				>
-					{isWide ? 'Sportify' : 'S'}
+					{isWide ? 'MoveLife' : 'ML'}
 				</Text>
 			</div>
 
 			<AntdMenu
 				selectedKeys={getActiveKey()}
-				defaultOpenKeys={isWide ? ['1', '4'] : []}
+				defaultOpenKeys={isWide ? ['1'] : []}
 				mode={'inline'}
 				theme='light'
 				inlineCollapsed={!isWide}

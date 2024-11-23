@@ -8,16 +8,31 @@ import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
 import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
+import Login from './pages/Login/Login.tsx';
+import UpcomingEventsList from './pages/UpcomingEventsList/UpcomingEventsList.tsx';
+import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
+import Logout from './pages/Logout/Logout.tsx';
+import useUserInfo from './hooks/useUserInfo.tsx';
+import ProtectedRoute from './utils/ProtectedRoute.tsx';
 
 function App() {
+	const [isLoaded, setIsLoaded] = useState(false);
+	const { isAuthorized, check } = useUserInfo();
+
 	const dispatch = useDispatch();
 
 	const { yandexMapApiKey } = useEnv();
+
+	const checkAuth = async () => {
+		await check();
+		// TODO: убрать нафиг это говно
+		setTimeout(() => setIsLoaded(true), 100);
+	};
 
 	useEffect(() => {
 		if (window.Telegram?.WebApp) {
@@ -26,6 +41,8 @@ function App() {
 			const userData = window.Telegram.WebApp.initDataUnsafe;
 			dispatch(setParamsAction(userData));
 		}
+
+		checkAuth();
 	}, []);
 
 	return (
@@ -41,32 +58,70 @@ function App() {
 				<Header />
 				<Sidebar />
 				<div id='content'>
-					<Routes>
-						<Route
-							path='/'
-							element={<MainPage />}
-						/>
-						<Route
-							path='/events'
-							element={<EventsList />}
-						/>
-						<Route
-							path='/events/:id'
-							element={<EventPage />}
-						/>
-						<Route
-							path='/events-my'
-							element={<MyEventsList />}
-						/>
-						<Route
-							path='/events-create'
-							element={<EventCreate />}
-						/>
-						<Route
-							path='/map'
-							element={<MapPage />}
-						/>
-					</Routes>
+					{isLoaded && (
+						<Routes>
+							<Route
+								path='/'
+								element={<MainPage />}
+							/>
+							<Route
+								path='/events'
+								element={<EventsList />}
+							/>
+							<Route
+								path='/events/:id'
+								element={<EventPage />}
+							/>
+							<Route
+								path='/events-my'
+								element={
+									<ProtectedRoute isAuthorized={isAuthorized}>
+										<MyEventsList />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path='/events-create'
+								element={
+									<ProtectedRoute isAuthorized={isAuthorized}>
+										<EventCreate />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path='/events-upcoming'
+								element={
+									<ProtectedRoute isAuthorized={isAuthorized}>
+										<UpcomingEventsList />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path='/events-past'
+								element={
+									<ProtectedRoute isAuthorized={isAuthorized}>
+										<PastEventsList />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path='/map'
+								element={<MapPage />}
+							/>
+							<Route
+								path='/login'
+								element={<Login />}
+							/>
+							<Route
+								path='/signup'
+								element={<Login />}
+							/>
+							<Route
+								path='/logout'
+								element={<Logout />}
+							/>
+						</Routes>
+					)}
 				</div>
 			</BrowserRouter>
 		</div>

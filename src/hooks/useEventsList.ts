@@ -7,20 +7,21 @@ import {
 	selectPastEvents,
 	setMyEventsAction,
 	deleteMyEventsAction,
+	setUpcomingEventsAction,
+	deleteUpcomingEventsAction,
+	setPastEventsAction,
+	deletePastEventsAction,
 } from '../states/EventListState/EventListState.ts';
 import { showToast } from '../components/lib/Toast/Toast.tsx';
 import useQueryParams from './useQueryParams.ts';
 import { EventsService } from '../api/EventsService/EventsService.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { useUser } from '../contexts/User/userContext.tsx';
 
 const useEventsList = () => {
 	const allEvents = useSelector(selectAllEvents);
 	const myEvents = useSelector(selectMyEvents);
 	const upcomingEvents = useSelector(selectUpcomingEvents);
 	const pastEvents = useSelector(selectPastEvents);
-
-	const { userId } = useUser();
 
 	const eventsService = new EventsService();
 
@@ -55,7 +56,7 @@ const useEventsList = () => {
 		dispatch(deleteAllEventsAction());
 	};
 
-	const getMyEvents = async () => {
+	const getMyEvents = async (userId: string) => {
 		try {
 			const evts = await eventsService.getMyEvents(
 				userId,
@@ -82,6 +83,60 @@ const useEventsList = () => {
 		dispatch(deleteMyEventsAction());
 	};
 
+	const getUpcomingEvents = async (userId: string) => {
+		try {
+			const evts = await eventsService.getUpcomingEvents(
+				userId,
+				sportType,
+				gameLevel,
+				date,
+				priceMin,
+				priceMax,
+				address,
+			);
+			dispatch(setUpcomingEventsAction(evts));
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при получении данных: ${(error as Error).message}`,
+				);
+			}
+		}
+	};
+
+	const deleteUpcomingEvents = () => {
+		dispatch(deleteUpcomingEventsAction());
+	};
+
+	const getPastEvents = async (userId: string) => {
+		try {
+			const evts = await eventsService.getPastEvents(
+				userId,
+				sportType,
+				gameLevel,
+				date,
+				priceMin,
+				priceMax,
+				address,
+			);
+			dispatch(setPastEventsAction(evts));
+		} catch (error: any) {
+			if (!error.message?.includes('EREQUESTPENDING')) {
+				showToast(
+					'error',
+					'Ошибка',
+					`Ошибка при получении данных: ${(error as Error).message}`,
+				);
+			}
+		}
+	};
+
+	const deletePastEvents = () => {
+		dispatch(deletePastEventsAction());
+	};
+
 	return {
 		allEvents,
 		getAllEvents,
@@ -90,7 +145,11 @@ const useEventsList = () => {
 		getMyEvents,
 		deleteMyEvents,
 		upcomingEvents,
+		getUpcomingEvents,
+		deleteUpcomingEvents,
 		pastEvents,
+		getPastEvents,
+		deletePastEvents,
 	};
 };
 

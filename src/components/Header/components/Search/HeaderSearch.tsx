@@ -3,12 +3,15 @@ import { SearchParams } from 'types/types/SearchParams/SearchParams.ts';
 import React from 'react';
 import Search from 'components/lib/Search/Search.tsx';
 import HeaderFilters from '../Filters/HeaderFilters/HeaderFilters.tsx';
-import useEventsList from 'hooks/useEventsList.tsx';
+import useEventsList from '../../../../hooks/useEventsList.ts';
 import styles from './HeaderSearch.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useUserInfo from '../../../../hooks/useUserInfo.tsx';
 
 const HeaderSearch = () => {
+	const { user } = useUserInfo();
 	const { getAllEvents, getMyEvents } = useEventsList();
+
 	const location = useLocation();
 
 	const navigate = useNavigate();
@@ -25,7 +28,7 @@ const HeaderSearch = () => {
 				getAllEvents();
 				break;
 			case '/events-my':
-				getMyEvents();
+				getMyEvents(user!.id);
 				break;
 			default:
 				navigate(`/events${location.search}`);
@@ -38,7 +41,7 @@ const HeaderSearch = () => {
 		<Search
 			className={styles.header__search}
 			value={address || ''}
-			placeholder={'Введите адрес'}
+			placeholder={'Адрес'}
 			onChange={handleAddressChange}
 			onPressEnter={handlePressEnter}
 			onSearch={handlePressEnter}

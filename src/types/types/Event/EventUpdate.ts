@@ -1,4 +1,5 @@
 import { EventInfoModel, EventInfoApi } from './EventInfo.ts';
+import { createEventDateTimeApi } from './EventDateTime.ts';
 
 // тип обновления мероприятия
 export type EventUpdateModel = Omit<
@@ -13,11 +14,17 @@ export type EventUpdateApi = Omit<
 
 export const createEventUpdateApi = (
 	from: EventUpdateModel,
-): EventUpdateApi => ({
-	...from,
-	sport_type: from.sportType,
-	start_time: from.startTime,
-	end_time: from.endTime,
-	game_level: from.gameLevel,
-	creator_id: from.creatorId,
-});
+): EventUpdateApi => {
+	console.log(JSON.stringify(from));
+	return {
+		...from,
+		sport_type: from.sportType,
+		date_time: createEventDateTimeApi({
+			date: from.date,
+			startTime: from.startTime,
+			endTime: from.endTime,
+		}),
+		game_level: from.gameLevel,
+		creator_id: from.creatorId,
+	};
+};

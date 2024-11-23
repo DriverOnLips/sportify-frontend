@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
+import YandexMap from './components/MapPageYandexMap/MapPageYandexMap.tsx';
 import styles from './MapPage.module.scss';
-import useEventsList from '../../hooks/useEventsList.tsx';
+import useEventsList from '../../hooks/useEventsList.ts';
 import { convertSportTypeToDisplayValue } from '../../utils/converSportTypes.ts';
 
 const MapPage: React.FC = () => {
 	const [userLocation, setUserLocation] = useState<[number, number] | null>(
 		null,
 	);
-	const { events, getAllEvents, deleteAllEvents } = useEventsList();
+	const { allEvents, getAllEvents, deleteAllEvents } = useEventsList();
 
 	useEffect(() => {
-		getAllEvents();
+		if (allEvents.length === 0) {
+			console.log('События загружаются...');
+			getAllEvents();
+		} else {
+			console.log('События уже загружены:', allEvents);
+		}
+	}, []);
 
+	useEffect(() => {
 		if (navigator.geolocation) {
+			console.log('Получение геопозиции...');
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
 					const { latitude, longitude } = position.coords;
+					console.log('Геопозиция пользователя:', { latitude, longitude });
 					setUserLocation([latitude, longitude]);
 				},
 				(error) => {
@@ -28,17 +37,31 @@ const MapPage: React.FC = () => {
 			console.error('Геолокация не поддерживается в этом браузере');
 			setUserLocation([55.751244, 37.618423]);
 		}
-
-		return () => deleteAllEvents();
 	}, []);
 
-	const eventCoordinates = events.map((event) => ({
-		id: event.id,
-		name: convertSportTypeToDisplayValue(event.sportType),
-		latitude: Number(event.latitude) || 0,
-		longitude: Number(event.longitude) || 0,
-		eventUrl: `/events/${event.id}`,
-	}));
+	useEffect(() => {
+		return () => {
+			console.log('Очистка загруженных событий');
+			deleteAllEvents();
+		};
+	}, []);
+
+	const eventCoordinates = allEvents.map((event) => {
+		const coords = {
+			id: event.id,
+			name: convertSportTypeToDisplayValue(event.sportType),
+			price: event.price,
+			adress: event.address,
+			capacity: event.capacity,
+			busy: event.busy,
+			game_level: event.gameLevel,
+			latitude: Number(event.latitude) || 0,
+			longitude: Number(event.longitude) || 0,
+			eventUrl: `/events/${event.id}`,
+		};
+		console.log('Координаты мероприятия:', coords);
+		return coords;
+	});
 
 	return (
 		<div className={styles['map-container']}>

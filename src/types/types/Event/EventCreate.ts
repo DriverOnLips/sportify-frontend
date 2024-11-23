@@ -1,5 +1,6 @@
 import { GameLevels } from '../../enums/GameLevels.ts';
 import { SportTypes } from '../../enums/SportTypes.ts';
+import { createEventDateTimeApi, EventDateTimeApi } from './EventDateTime.ts';
 
 // тип создания мероприятия
 export type EventCreateModel = {
@@ -19,9 +20,7 @@ export type EventCreateModel = {
 export type EventCreateApi = {
 	sport_type: SportTypes;
 	address: string;
-	date: string;
-	start_time: string;
-	end_time: string;
+	date_time: EventDateTimeApi;
 	price: number;
 	game_level: GameLevels[];
 	description: string | null;
@@ -36,33 +35,25 @@ export const createEventCreateApi = (
 	if (
 		!from.sportType ||
 		!from.address ||
+		from.address === '' ||
 		!from.date ||
 		!from.startTime ||
 		!from.endTime ||
 		!from.preview ||
 		!from.photos
 	) {
+		console.log(JSON.stringify(from));
 		throw new Error('Не все поля заполнены');
-	}
-
-	const timeStart = new Date(from.date);
-	const [startHours, startMinutes] = from.startTime.split(':').map(Number);
-	timeStart.setUTCHours(startHours);
-	timeStart.setUTCMinutes(startMinutes);
-
-	const timeEnd = new Date(from.date);
-	if (from.endTime) {
-		const [endHours, endMinutes] = from.endTime.split(':').map(Number);
-		timeEnd.setUTCHours(endHours);
-		timeEnd.setUTCMinutes(endMinutes);
 	}
 
 	return {
 		sport_type: from.sportType,
 		address: from.address,
-		date: from.date,
-		start_time: timeStart.toISOString(),
-		end_time: timeEnd.toISOString(),
+		date_time: createEventDateTimeApi({
+			date: from.date,
+			startTime: from.startTime,
+			endTime: from.endTime,
+		}),
 		price: from.price || 0,
 		game_level: from.gameLevel || [],
 		description: from.description || null,

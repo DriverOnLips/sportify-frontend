@@ -1,5 +1,6 @@
 import { GameLevels } from '../../enums/GameLevels.ts';
 import { SportTypes } from '../../enums/SportTypes.ts';
+import { EventDateTimeApi } from './EventDateTime.ts';
 
 // тип для страницы с подробным описанием
 export type EventInfoModel = {
@@ -7,9 +8,9 @@ export type EventInfoModel = {
 	creatorId: string;
 	sportType: SportTypes;
 	address: string;
-	date: string;
-	startTime: string;
-	endTime: string;
+	date?: string;
+	startTime?: string;
+	endTime?: string;
 	price: number;
 	isFree: boolean;
 	gameLevel: GameLevels[];
@@ -28,9 +29,7 @@ export type EventInfoApi = {
 	creator_id: string;
 	sport_type: SportTypes;
 	address: string;
-	date: string;
-	start_time: string;
-	end_time: string;
+	date_time: EventDateTimeApi;
 	price: number;
 	is_free: boolean;
 	game_level: GameLevels[];
@@ -49,8 +48,9 @@ export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
 	creatorId: from.creator_id,
 	sportType: from.sport_type,
-	startTime: from.start_time,
-	endTime: from.end_time || new Date().toISOString(), // TODO: remove
+	date: from.date_time.date,
+	startTime: from.date_time.start_time,
+	endTime: from.date_time.end_time,
 	isFree: from.is_free,
 	gameLevel: from.game_level,
 	subscribersId: from.subscribers_id,

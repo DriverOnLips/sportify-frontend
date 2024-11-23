@@ -1,0 +1,43 @@
+.past_events_list {
+  display: block;
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 2vw;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 650px) {
+  .past_events_list__container > * {
+    width: calc(25% - 2rem);
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 1400px) {
+  .past_events_list__container > * {
+    width: calc(33% - 2rem);
+  }
+}
+
+@media (max-width: 1100px) {
+  .past_events_list__container > * {
+    width: calc(50% - 2rem);
+  }
+}
+
+
+@media (max-width: 650px) {
+  .past_events_list {
+    &__container {
+      padding: 0 0 0 2vw;
+    }
+  }
+
+  .past_events_list__container > * {
+    width: 100%;
+    margin: 0.5rem;
+  }
+}
