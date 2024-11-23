@@ -5,12 +5,12 @@ import { Loader } from 'components/lib/Loader/Loader.tsx';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventInfoModel } from '../../types/types/Event/EventInfo.ts';
 import EventInfo from './components/EventInfo/EventInfo.tsx';
-import YandexMap from '../../components/lib/YandexMap/YandexMap.tsx';
+import YandexMap from './components/EventPageYandexMap/EventPageYandexMap.tsx';
 import styles from './EventPage.module.scss';
 import useQueryParams from '../../hooks/useQueryParams.ts';
 import EventEdit from './components/EventEdit/EventEdit.tsx';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
-import { Divider } from 'antd';
+import { Divider, Radio } from 'antd';
 
 const EventPage: React.FC = () => {
 	const screenWidth = useScreenMode();
@@ -23,6 +23,9 @@ const EventPage: React.FC = () => {
 	const eventsService = new EventsService();
 
 	const [event, setEvent] = useState<EventInfoModel | null>(null);
+	const [selectedTransport, setSelectedTransport] = useState<
+		'auto' | 'masstransit' | 'pedestrian'
+	>('auto');
 
 	const getEvents = async (id: string) => {
 		try {
@@ -47,6 +50,11 @@ const EventPage: React.FC = () => {
 		getEvents(id);
 	}, [id]);
 
+	// Функция для изменения типа транспорта
+	const handleTransportChange = (e: any) => {
+		setSelectedTransport(e.target.value);
+	};
+
 	return (
 		<div className={styles.event_page}>
 			{event ? (
@@ -60,7 +68,23 @@ const EventPage: React.FC = () => {
 							{!isWide && <Divider />}
 
 							<div className={styles.event_page__map}>
-								<YandexMap address={event.address} />
+								{/* Передаем выбранный транспорт в компонент карты */}
+								<YandexMap
+									address={event.address}
+									transport={selectedTransport}
+								/>
+
+								{/* Панель выбора транспорта, позиционируем её поверх карты */}
+								<div className={styles.event_page__transport}>
+									<Radio.Group
+										value={selectedTransport}
+										onChange={handleTransportChange}
+									>
+										<Radio value='pedestrian'>Пешком</Radio>
+										<Radio value='auto'>Автомобиль</Radio>
+										<Radio value='masstransit'>Общественный транспорт</Radio>
+									</Radio.Group>
+								</div>
 							</div>
 						</>
 					) : (
