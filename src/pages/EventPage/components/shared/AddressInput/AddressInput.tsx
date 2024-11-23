@@ -5,18 +5,20 @@ import {
 	DaDataAddress,
 } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
-import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
+import { useEnv } from 'contexts/EnvContext.tsx';
 
-type Props = {
+interface Props {
 	className?: string;
-	value?: string;
-	changeEventField: (field: Partial<EventCreateModel>) => void;
-};
+	changeEventField: (field: { address: string }) => void;
+}
 
 const AddressInput: React.FC<Props> = ({ className, changeEventField }) => {
 	const [address, setAddress] = useState<
 		DaDataSuggestion<DaDataAddress> | undefined
 	>(undefined);
+	const [inputValue, setInputValue] = useState<string>('');
+
+	const { daDataApiKey } = useEnv();
 
 	const handleChange = (
 		suggestion: DaDataSuggestion<DaDataAddress> | undefined,
@@ -30,14 +32,28 @@ const AddressInput: React.FC<Props> = ({ className, changeEventField }) => {
 		}
 	};
 
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		if (!value) {
+			setAddress(undefined);
+			changeEventField({ address: '' });
+			return;
+		}
+
+		setInputValue(value);
+		changeEventField({ address: value });
+	};
+
 	return (
 		<div className={className}>
 			<AddressSuggestions
-				token={import.meta.env.VITE_DA_DATA_API_KEY || ''}
+				token={daDataApiKey}
 				value={address}
 				onChange={handleChange}
 				inputProps={{
 					placeholder: 'Введите адрес',
+					value: inputValue,
+					onChange: handleInputChange,
 				}}
 			/>
 		</div>

@@ -35,12 +35,14 @@ export const createEventCreateApi = (
 	if (
 		!from.sportType ||
 		!from.address ||
+		from.address === '' ||
 		!from.date ||
 		!from.startTime ||
 		!from.endTime ||
 		!from.preview ||
 		!from.photos
 	) {
+		console.log(JSON.stringify(from));
 		throw new Error('Не все поля заполнены');
 	}
 

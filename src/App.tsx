@@ -30,7 +30,8 @@ function App() {
 
 	const checkAuth = async () => {
 		await check();
-		setIsLoaded(true);
+		// TODO: убрать нафиг это говно
+		setTimeout(() => setIsLoaded(true), 100);
 	};
 
 	useEffect(() => {

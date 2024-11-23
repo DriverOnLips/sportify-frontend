@@ -187,7 +187,10 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						>
 							Описание:
 						</Text>
-						<DescriptionInput changeEventField={changeEventField} />
+						<DescriptionInput
+							value={event.description || undefined}
+							changeEventField={changeEventField}
+						/>
 					</div>
 
 					<div className={styles.event_edit__item}>
