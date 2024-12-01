@@ -6,6 +6,7 @@ import useUserInfo from '../../hooks/useUserInfo.tsx';
 
 const UpcomingEventsList: React.FC = () => {
 	const { user } = useUserInfo();
+
 	const { upcomingEvents, getUpcomingEvents, deleteUpcomingEvents } =
 		useEventsList();
 
@@ -13,7 +14,7 @@ const UpcomingEventsList: React.FC = () => {
 		getUpcomingEvents(user!.id);
 
 		return () => deleteUpcomingEvents();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={`${styles.upcoming_events_list}`}>
