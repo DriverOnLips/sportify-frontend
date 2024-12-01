@@ -7,6 +7,7 @@ import {
 	createUserInfoModel,
 	UserInfoModel,
 } from 'types/types/User/UserInfo.ts';
+import { AuthTgToken } from '../../types/types/Authorization/Authorization.ts';
 
 export class AuthService extends ServiceBase {
 	private static instance: AuthService;
@@ -35,6 +36,16 @@ export class AuthService extends ServiceBase {
 				method: RequestMethods.POST,
 			},
 			{ name: 'check', url: `/api/auth/check`, method: RequestMethods.GET },
+			{
+				name: 'getTgToken',
+				url: `/api/auth/telegram/login`,
+				method: RequestMethods.GET,
+			},
+			{
+				name: 'tgLogin',
+				url: `/api/auth/telegram/login`,
+				method: RequestMethods.GET,
+			},
 		];
 	}
 
@@ -89,6 +100,30 @@ export class AuthService extends ServiceBase {
 				configItem.url,
 			);
 
+			return createUserInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async getTgToken(): Promise<AuthTgToken> {
+		try {
+			const configItem = this.getConfigItem('getTgToken');
+
+			return await this.makeHttpRequest(configItem.method, configItem.url);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async tgLogin(token: string): Promise<UserInfoModel> {
+		try {
+			const configItem = this.getConfigItem('tgLogin');
+
+			const response = await this.makeHttpRequest(
+				configItem.method,
+				`${configItem.url}?token=${token}`,
+			);
 			return createUserInfoModel(response);
 		} catch (error: any) {
 			throw new Error(error);

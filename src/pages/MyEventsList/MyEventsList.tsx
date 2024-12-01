@@ -12,7 +12,7 @@ const MyEventsList: React.FC = () => {
 		getMyEvents(user!.id);
 
 		return () => deleteMyEvents();
-	}, []);
+	}, [user]);
 
 	return (
 		<div className={`${styles.my_events_list}`}>
