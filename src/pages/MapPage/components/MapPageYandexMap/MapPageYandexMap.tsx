@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapPageYandexMap.module.scss';
 import { GameLevels } from '../../../../types/enums/GameLevels';
+import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLevels';
 
 interface YandexMapProps {
 	center?: [number, number];
@@ -83,6 +84,10 @@ const YandexMap: React.FC<YandexMapProps> = ({
 			events.forEach((event) => {
 				const coords: [number, number] = [event.latitude, event.longitude];
 
+				const levelLabel = event.game_level
+					.map((level) => convertGameLevelToDisplayValue(level))
+					.join(', ');
+
 				const eventPlacemark = new window.ymaps.Placemark(
 					coords,
 					{
@@ -104,7 +109,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
               <div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
                 <p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
                 <p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
-                <p style="margin: 8px 0;">Уровень: <span style="color: #666;">${event.game_level}</span></p>
+                <p style="margin: 8px 0;">Уровень: <span style="color: #666;">${levelLabel}</span></p>
                 <p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
                 <div style="margin-top: 16px; text-align: center;">
                   <button 
