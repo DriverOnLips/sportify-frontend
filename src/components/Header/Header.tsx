@@ -3,16 +3,11 @@ import HeaderSearch from './components/Search/HeaderSearch.tsx';
 import styles from './Header.module.scss';
 import Text from '../lib/Text/Text.tsx';
 import { useDispatch } from 'react-redux';
-import {
-	setSidebarOpenAction,
-	toggleSidebarOpenAction,
-} from '../../states/AppState/AppState.tsx';
+import { setSidebarOpenAction } from '../../states/AppState/AppState.tsx';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import { useNavigate } from 'react-router-dom';
-import MenuSwitcher from '../Menu/Switcher/Switcher.tsx';
 
-const OFFSET_X_T0_OPEN_SIDEBAR = 100;
-const OFFSET_Y_T0_OPEN_SIDEBAR = 50;
+const OFFSET_T0_OPEN_SIDEBAR = 150;
 
 const Header: React.FC = () => {
 	const dispatch = useDispatch();
@@ -23,8 +18,6 @@ const Header: React.FC = () => {
 
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
-	const touchStartY = useRef<number | null>(null);
-	const touchEndY = useRef<number | null>(null);
 
 	const handleLogoClick = () => {
 		const contentDiv = document.getElementById('content');
@@ -36,38 +29,21 @@ const Header: React.FC = () => {
 		navigate('/events');
 	};
 
-	const handleMenuSwitcherClick = () => {
-		dispatch(toggleSidebarOpenAction());
-	};
-
 	useEffect(() => {
 		const handleTouchStart = (event: TouchEvent) => {
 			touchStartX.current = event.touches[0].clientX;
-			touchStartY.current = event.touches[0].clientY;
 		};
 
 		const handleTouchEnd = (event: TouchEvent) => {
 			touchEndX.current = event.changedTouches[0].clientX;
-			touchEndY.current = event.changedTouches[0].clientY;
 
-			if (
-				touchStartX.current !== null &&
-				touchEndX.current !== null &&
-				touchStartY.current !== null &&
-				touchEndY.current !== null
-			) {
+			if (touchStartX.current !== null && touchEndX.current !== null) {
 				const diffX = touchStartX.current - touchEndX.current;
-				const diffY = touchStartY.current - touchEndY.current;
 
-				if (
-					Math.abs(diffY) < OFFSET_Y_T0_OPEN_SIDEBAR &&
-					diffX > OFFSET_X_T0_OPEN_SIDEBAR
-				) {
+				console.log(diffX);
+				if (diffX > OFFSET_T0_OPEN_SIDEBAR) {
 					dispatch(setSidebarOpenAction(false));
-				} else if (
-					Math.abs(diffY) < OFFSET_Y_T0_OPEN_SIDEBAR &&
-					diffX < -OFFSET_X_T0_OPEN_SIDEBAR
-				) {
+				} else if (diffX < -OFFSET_T0_OPEN_SIDEBAR) {
 					dispatch(setSidebarOpenAction(true));
 				}
 			}
@@ -87,33 +63,17 @@ const Header: React.FC = () => {
 
 	return (
 		<header className={styles.header}>
-			{isWide ? (
+			<div className={styles.header__logo}>
 				<Text
 					weight={'bold'}
 					size={'s3'}
 					className={styles.header__logo_span}
 					onClick={handleLogoClick}
 				>
-					{'MoveLife'}
+					{isWide ? 'MoveLife' : 'ML'}
 				</Text>
-			) : (
-				<MenuSwitcher onClick={handleMenuSwitcherClick} />
-			)}
-
+			</div>
 			<HeaderSearch />
-
-			{isWide ? (
-				<MenuSwitcher onClick={handleMenuSwitcherClick} />
-			) : (
-				<Text
-					weight={'bold'}
-					size={'s3'}
-					className={styles.header__logo_span}
-					onClick={handleLogoClick}
-				>
-					{'ML'}
-				</Text>
-			)}
 		</header>
 	);
 };
