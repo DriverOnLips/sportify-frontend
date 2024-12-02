@@ -17,9 +17,15 @@
 	z-index: 999;
 	overflow: hidden;
 
-	&__logo_span {
-		padding: 0.75rem 0;
-		color: #1677ff;
-		cursor: pointer;
+	&__logo {
+		display: flex;
+		justify-content: center;
+		width: max-content;
+
+		&_span {
+			padding: 0.75rem 0;
+			color: #1677ff;
+			cursor: pointer;
+		}
 	}
 }
