@@ -6,13 +6,15 @@ $scrollbar-width: 20px;
 	width: 100%;
 
 	&__info {
-		width: calc((100vw - 300px) / 2);
+		width: 50%;
+		//width: calc((100vw - 300px) / 2);
 		min-height: calc(100vh - 80px - 2rem);
 		padding: 1rem;
 	}
 
 	&__map {
-		width: calc((100vw - 300px - 20px) / 2);
+		width: 50%;
+		//width: calc((100vw - 300px - 20px) / 2);
 		height: calc(100vh - 80px - 2rem);
 	}
 }
@@ -29,28 +31,30 @@ $scrollbar-width: 20px;
 	z-index: 10;
 }
 
-@media (max-width: 850px) {
-	.event_page {
-		&__info {
-			width: calc((100vw - 80px) / 2);
-		}
-
-		&__map {
-			width: calc((100vw - 80px - 20px) / 2);
-		}
-	}
-}
+//@media (max-width: 850px) {
+//	.event_page {
+//		&__info {
+//			width: calc((100vw - 80px) / 2);
+//		}
+//
+//		&__map {
+//			width: calc((100vw - 80px - 20px) / 2);
+//		}
+//	}
+//}
 
 @media (max-width: 650px) {
 	.event_page {
 		flex-direction: column;
 
 		&__info {
-			width: calc(100vw - 80px - 1rem - $scrollbar-width);
+			width: 100%;
+			//width: calc(100vw - 80px - 1rem - $scrollbar-width);
 		}
 
 		&__map {
-			width: calc(100vw - 80px - 1rem);
+			width: 100%;
+			//width: calc(100vw - 80px - 1rem);
 			height: 50vh;
 		}
 	}
