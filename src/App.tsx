@@ -7,7 +7,7 @@ import EventsList from 'pages/EventsList/EventsList.tsx';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
@@ -19,12 +19,20 @@ import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
 import Logout from './pages/Logout/Logout.tsx';
 import useUserInfo from './hooks/useUserInfo.tsx';
 import ProtectedRoute from './utils/ProtectedRoute.tsx';
+import { AnimatePresence, motion } from 'framer-motion';
+import { selectIsSidebarOpen } from './states/AppState/AppState.tsx';
+import { useScreenMode } from './hooks/useScreenMode.ts';
 
 function App() {
+	const dispatch = useDispatch();
+
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { isAuthorized, check } = useUserInfo();
 
-	const dispatch = useDispatch();
+	const isSidebarOpen = useSelector(selectIsSidebarOpen);
+
+	const screenWidth = useScreenMode();
+	const isWide = screenWidth > 850;
 
 	const { yandexMapApiKey } = useEnv();
 
@@ -57,72 +65,80 @@ function App() {
 			<BrowserRouter basename='/'>
 				<Header />
 				<Sidebar />
-				<div id='content'>
-					{isLoaded && (
-						<Routes>
-							<Route
-								path='/'
-								element={<MainPage />}
-							/>
-							<Route
-								path='/events'
-								element={<EventsList />}
-							/>
-							<Route
-								path='/events/:id'
-								element={<EventPage />}
-							/>
-							<Route
-								path='/events-my'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<MyEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-create'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<EventCreate />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-upcoming'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<UpcomingEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-past'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<PastEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/map'
-								element={<MapPage />}
-							/>
-							<Route
-								path='/login'
-								element={<Login />}
-							/>
-							<Route
-								path='/signup'
-								element={<Login />}
-							/>
-							<Route
-								path='/logout'
-								element={<Logout />}
-							/>
-						</Routes>
-					)}
-				</div>
+				<AnimatePresence>
+					<motion.div
+						id='content'
+						animate={{
+							marginLeft: isWide ? '300px' : isSidebarOpen ? '80px' : 0,
+						}}
+						layout
+					>
+						{isLoaded && (
+							<Routes>
+								<Route
+									path='/'
+									element={<MainPage />}
+								/>
+								<Route
+									path='/events'
+									element={<EventsList />}
+								/>
+								<Route
+									path='/events/:id'
+									element={<EventPage />}
+								/>
+								<Route
+									path='/events-my'
+									element={
+										<ProtectedRoute isAuthorized={isAuthorized}>
+											<MyEventsList />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/events-create'
+									element={
+										<ProtectedRoute isAuthorized={isAuthorized}>
+											<EventCreate />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/events-upcoming'
+									element={
+										<ProtectedRoute isAuthorized={isAuthorized}>
+											<UpcomingEventsList />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/events-past'
+									element={
+										<ProtectedRoute isAuthorized={isAuthorized}>
+											<PastEventsList />
+										</ProtectedRoute>
+									}
+								/>
+								<Route
+									path='/map'
+									element={<MapPage />}
+								/>
+								<Route
+									path='/login'
+									element={<Login />}
+								/>
+								<Route
+									path='/signup'
+									element={<Login />}
+								/>
+								<Route
+									path='/logout'
+									element={<Logout />}
+								/>
+							</Routes>
+						)}
+					</motion.div>
+				</AnimatePresence>
 			</BrowserRouter>
 		</div>
 	);
