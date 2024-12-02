@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './EventPageYandexMap.module.scss';
+import { useScreenMode } from '../../../../hooks/useScreenMode.ts';
 
 interface YandexMapProps {
 	address: string;
@@ -10,6 +11,10 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 	const mapRef = useRef<any>(null);
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const [ymapsLoaded, setYmapsLoaded] = useState(false);
+
+	// для ресайза карты
+	// @ts-ignore
+	const screenWidth = useScreenMode();
 
 	useEffect(() => {
 		const checkYandexAPI = () => {

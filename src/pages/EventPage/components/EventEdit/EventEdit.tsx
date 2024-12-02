@@ -67,153 +67,155 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 	return (
 		<>
 			<BackgroundGradientAnimation />
-			<div className={styles.event_edit}>
-				<Text
-					className={styles.event_edit__name}
-					size={'s3'}
-					color={'primary'}
-					weight={'bold'}
-				>
-					Редактирование мероприятия
-				</Text>
-				<Divider style={{ margin: 0 }} />
+			<div className={styles.event_edit_wrapper}>
+				<div className={styles.event_edit}>
+					<Text
+						className={styles.event_edit__name}
+						size={'s3'}
+						color={'primary'}
+						weight={'bold'}
+					>
+						Редактирование мероприятия
+					</Text>
+					<Divider style={{ margin: 0 }} />
 
-				<div className={styles.event_edit_content}>
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Вид спорта:
-						</Text>
-						<SportsTypeSelect
-							value={event.sportType}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Адрес:
-						</Text>
-						<AddressInput
-							// value={event.address}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Дата:
-						</Text>
-						<EventDatePicker
-							value={event.date}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Время начала и окончания:
-						</Text>
-						<EventTimePicker
-							value={
-								event.startTime && event.endTime
-									? [event.startTime, event.endTime]
-									: undefined
-							}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Цена за участие:
-						</Text>
-						<PriceInput
-							value={event.price}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Уровень игры:
-						</Text>
-						<GameLevelSelect
-							value={event.gameLevel}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							className={styles.event_edit__capacity}
-							size={'s4'}
-							color={'primary'}
-						>
-							Максимальное количество участников:
-							<Explanation
-								title={
-									'Если количество участников не ограничено, то поставьте 0'
-								}
+					<div className={styles.event_edit_content}>
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Вид спорта:
+							</Text>
+							<SportsTypeSelect
+								value={event.sportType}
+								changeEventField={changeEventField}
 							/>
-						</Text>
-						<CapacityInput
-							value={event.capacity || undefined}
-							changeEventField={changeEventField}
-						/>
-					</div>
+						</div>
 
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Описание:
-						</Text>
-						<DescriptionInput
-							value={event.description || undefined}
-							changeEventField={changeEventField}
-						/>
-					</div>
-
-					<div className={styles.event_edit__item}>
-						<Text
-							size={'s4'}
-							color={'primary'}
-						>
-							Фотографии площадки:
-							<Explanation
-								title={
-									'Первая фотография будет отображаться в качестве основной'
-								}
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Адрес:
+							</Text>
+							<AddressInput
+								// value={event.address}
+								changeEventField={changeEventField}
 							/>
-						</Text>
-						<EventUploadImages
-							changeEventField={changeEventField}
-							initialFiles={event.photos}
-						/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Дата:
+							</Text>
+							<EventDatePicker
+								value={event.date}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Время начала и окончания:
+							</Text>
+							<EventTimePicker
+								value={
+									event.startTime && event.endTime
+										? [event.startTime, event.endTime]
+										: undefined
+								}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Цена за участие:
+							</Text>
+							<PriceInput
+								value={event.price}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Уровень игры:
+							</Text>
+							<GameLevelSelect
+								value={event.gameLevel}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								className={styles.event_edit__capacity}
+								size={'s4'}
+								color={'primary'}
+							>
+								Максимальное количество участников:
+								<Explanation
+									title={
+										'Если количество участников не ограничено, то поставьте 0'
+									}
+								/>
+							</Text>
+							<CapacityInput
+								value={event.capacity || undefined}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Описание:
+							</Text>
+							<DescriptionInput
+								value={event.description || undefined}
+								changeEventField={changeEventField}
+							/>
+						</div>
+
+						<div className={styles.event_edit__item}>
+							<Text
+								size={'s4'}
+								color={'primary'}
+							>
+								Фотографии площадки:
+								<Explanation
+									title={
+										'Первая фотография будет отображаться в качестве основной'
+									}
+								/>
+							</Text>
+							<EventUploadImages
+								changeEventField={changeEventField}
+								initialFiles={event.photos}
+							/>
+						</div>
 					</div>
+
+					<Divider style={{ margin: 0 }} />
+					<Button onClick={onButtonClick}>Сохранить</Button>
 				</div>
-
-				<Divider style={{ margin: 0 }} />
-				<Button onClick={onButtonClick}>Сохранить</Button>
 			</div>
 		</>
 	);
