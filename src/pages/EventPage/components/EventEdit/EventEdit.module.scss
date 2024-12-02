@@ -39,12 +39,11 @@
 		width: 100%;
 	}
 
-	&__capacity{
+	&__capacity {
 		display: flex;
 		align-items: center;
 	}
 }
-
 
 @media screen and (max-width: 850px) {
 	.event_edit {

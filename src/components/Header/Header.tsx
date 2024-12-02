@@ -7,7 +7,8 @@ import { setSidebarOpenAction } from '../../states/AppState/AppState.tsx';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import { useNavigate } from 'react-router-dom';
 
-const OFFSET_T0_OPEN_SIDEBAR = 150;
+const OFFSET_X_T0_OPEN_SIDEBAR = 100;
+const OFFSET_Y_T0_OPEN_SIDEBAR = 50;
 
 const Header: React.FC = () => {
 	const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const Header: React.FC = () => {
 
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
+	const touchStartY = useRef<number | null>(null);
+	const touchEndY = useRef<number | null>(null);
 
 	const handleLogoClick = () => {
 		const contentDiv = document.getElementById('content');
@@ -32,18 +35,31 @@ const Header: React.FC = () => {
 	useEffect(() => {
 		const handleTouchStart = (event: TouchEvent) => {
 			touchStartX.current = event.touches[0].clientX;
+			touchStartY.current = event.touches[0].clientY;
 		};
 
 		const handleTouchEnd = (event: TouchEvent) => {
 			touchEndX.current = event.changedTouches[0].clientX;
+			touchEndY.current = event.changedTouches[0].clientY;
 
-			if (touchStartX.current !== null && touchEndX.current !== null) {
+			if (
+				touchStartX.current !== null &&
+				touchEndX.current !== null &&
+				touchStartY.current !== null &&
+				touchEndY.current !== null
+			) {
 				const diffX = touchStartX.current - touchEndX.current;
+				const diffY = touchStartY.current - touchEndY.current;
 
-				console.log(diffX);
-				if (diffX > OFFSET_T0_OPEN_SIDEBAR) {
+				if (
+					Math.abs(diffY) < OFFSET_Y_T0_OPEN_SIDEBAR &&
+					diffX > OFFSET_X_T0_OPEN_SIDEBAR
+				) {
 					dispatch(setSidebarOpenAction(false));
-				} else if (diffX < -OFFSET_T0_OPEN_SIDEBAR) {
+				} else if (
+					Math.abs(diffY) < OFFSET_Y_T0_OPEN_SIDEBAR &&
+					diffX < -OFFSET_X_T0_OPEN_SIDEBAR
+				) {
 					dispatch(setSidebarOpenAction(true));
 				}
 			}
