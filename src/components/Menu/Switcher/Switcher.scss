@@ -1,0 +1,29 @@
+.switcher {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 35px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.switcher div {
+  width: 35px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: blue;
+  transition: all 0.3s ease;
+}
+
+.change .bar1 {
+  transform: rotate(45deg) translate(6px, 9px);
+}
+
+.change .bar2 {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.change .bar3 {
+  transform: rotate(-45deg) translate(6px, -9px);
+}

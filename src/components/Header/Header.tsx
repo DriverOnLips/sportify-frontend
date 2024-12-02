@@ -3,9 +3,13 @@ import HeaderSearch from './components/Search/HeaderSearch.tsx';
 import styles from './Header.module.scss';
 import Text from '../lib/Text/Text.tsx';
 import { useDispatch } from 'react-redux';
-import { setSidebarOpenAction } from '../../states/AppState/AppState.tsx';
+import {
+	setSidebarOpenAction,
+	toggleSidebarOpenAction,
+} from '../../states/AppState/AppState.tsx';
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import { useNavigate } from 'react-router-dom';
+import MenuSwitcher from '../Menu/Switcher/Switcher.tsx';
 
 const OFFSET_X_T0_OPEN_SIDEBAR = 100;
 const OFFSET_Y_T0_OPEN_SIDEBAR = 50;
@@ -30,6 +34,10 @@ const Header: React.FC = () => {
 		}
 
 		navigate('/events');
+	};
+
+	const handleMenuSwitcherClick = () => {
+		dispatch(toggleSidebarOpenAction());
 	};
 
 	useEffect(() => {
@@ -79,17 +87,33 @@ const Header: React.FC = () => {
 
 	return (
 		<header className={styles.header}>
-			<div className={styles.header__logo}>
+			{isWide ? (
 				<Text
 					weight={'bold'}
 					size={'s3'}
 					className={styles.header__logo_span}
 					onClick={handleLogoClick}
 				>
-					{isWide ? 'MoveLife' : 'ML'}
+					{'MoveLife'}
 				</Text>
-			</div>
+			) : (
+				<MenuSwitcher onClick={handleMenuSwitcherClick} />
+			)}
+
 			<HeaderSearch />
+
+			{isWide ? (
+				<MenuSwitcher onClick={handleMenuSwitcherClick} />
+			) : (
+				<Text
+					weight={'bold'}
+					size={'s3'}
+					className={styles.header__logo_span}
+					onClick={handleLogoClick}
+				>
+					{'ML'}
+				</Text>
+			)}
 		</header>
 	);
 };
