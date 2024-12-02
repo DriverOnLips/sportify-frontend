@@ -8,6 +8,7 @@ import {
 import { AuthService } from 'api/AuthService/AuthService.ts';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
+import { makeTgLoginUrl } from '../utils/makeTgLoginUrl.ts';
 
 // Когда появится пользователь, этот хук нужно будет переобуть в useAuthorize
 // и state тоже
@@ -38,6 +39,7 @@ const useUserInfo = () => {
 		try {
 			const usr = await authService.login(user);
 			dispatch(setUserAction(usr));
+			showToast('success', 'Вы вошли в аккаунт');
 		} catch (error: any) {
 			if (!error.message?.includes('EREQUESTPENDING')) {
 				dispatch(deleteUserAction());
@@ -68,6 +70,39 @@ const useUserInfo = () => {
 		}
 	};
 
+	const tgLogin = async () => {
+		try {
+			const response = await authService.getTgToken();
+			const authUrl = makeTgLoginUrl(response);
+
+			// Открываем окно авторизации
+			const authWindow = window.open(authUrl, '_blank');
+
+			// Обработчик для фокуса
+			const handleFocus = async () => {
+				window.removeEventListener('focus', handleFocus);
+
+				if (authWindow && !authWindow.closed) {
+					// Закрываем окно авторизации, если оно ещё открыто
+					authWindow.close();
+				}
+
+				try {
+					const usr = await authService.tgLogin(response.token);
+					dispatch(setUserAction(usr));
+					showToast('success', 'Вы вошли в аккаунт');
+				} catch (loginError: any) {
+					showToast('error', 'Ошибка', `Ошибка входа: ${loginError.message}`);
+				}
+			};
+
+			window.addEventListener('focus', handleFocus);
+		} catch (error: any) {
+			dispatch(deleteUserAction());
+			showToast('error', 'Ошибка', `${(error as Error).message}`);
+		}
+	};
+
 	return {
 		user,
 		isAuthorized,
@@ -75,6 +110,7 @@ const useUserInfo = () => {
 		login,
 		logout,
 		check,
+		tgLogin,
 	};
 };
 
