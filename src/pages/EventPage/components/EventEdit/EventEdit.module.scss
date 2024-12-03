@@ -1,14 +1,17 @@
-.event_edit {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+.event_edit_wrapper {
+	display: flex;
+	width: 100%;
+	height: calc(100vh - 100px);
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 
+.event_edit {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 50vw;
 	max-width: 700px;
 	padding: 1.5rem;
 	border: 1px solid #e0e0e0;

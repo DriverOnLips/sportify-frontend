@@ -3,20 +3,24 @@
 .header {
 	position: fixed;
 	top: 0;
-	left: 300px;
-	width: calc(100vw - 300px);
+	left: 0;
+	width: 100vw;
 	height: 80px;
-	background-color: #fff;
+
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
+	padding: 0 1rem;
+
+	background-color: #fff;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	z-index: 999;
 	overflow: hidden;
-}
 
-@media screen and (max-width: 850px) {
-	.header {
-		left: 80px;
-		width: calc(100vw - 80px);
+	&__logo_span {
+		padding: 0.75rem 0;
+		color: #1677ff;
+		cursor: pointer;
 	}
 }
+

@@ -1,13 +1,7 @@
 .background {
   position: absolute;
-  width: calc(100vw - 300px);
+  width: 100%;
   height: 100%;
   overflow: hidden;
   z-index: -1;
-}
-
-@media screen and (max-width: 850px) {
-  .background {
-    width: calc(100vw - 80px);
-  }
 }
