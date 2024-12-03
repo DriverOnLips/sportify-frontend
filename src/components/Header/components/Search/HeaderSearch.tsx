@@ -1,6 +1,7 @@
+import React from 'react';
+import { SearchOutlined } from '@ant-design/icons';
 import useQueryParams from 'hooks/useQueryParams.ts';
 import { SearchParams } from 'types/types/SearchParams/SearchParams.ts';
-import React from 'react';
 import Search from 'components/lib/Search/Search.tsx';
 import HeaderFilters from '../Filters/HeaderFilters/HeaderFilters.tsx';
 import useEventsList from '../../../../hooks/useEventsList.ts';
@@ -41,13 +42,13 @@ const HeaderSearch = () => {
 		<Search
 			className={styles.header__search}
 			value={address || ''}
-			placeholder={'Адрес'}
+			placeholder={'Поиск по мероприятиям'}
 			onChange={handleAddressChange}
 			onPressEnter={handlePressEnter}
 			onSearch={handlePressEnter}
 			size={'large'}
 			addonBefore={<HeaderFilters />}
-			enterButton={'Найти'}
+			enterButton={<SearchOutlined style={{ color: 'white' }} />}
 		></Search>
 	);
 };
