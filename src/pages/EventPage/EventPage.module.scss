@@ -10,14 +10,17 @@ $scrollbar-width: 20px;
 		//width: calc((100vw - 300px) / 2);
 		//min-height: calc(100vh - 80px - 2rem);
 		min-height: calc(100vh - 70px);
+
 		padding: 1rem;
 	}
 
 	&__map {
 		width: 50%;
 		//width: calc((100vw - 300px - 20px) / 2);
+
 		//height: calc(100vh - 80px - 2rem);
 		height: calc(100vh - 70px);
+
 	}
 }
 
