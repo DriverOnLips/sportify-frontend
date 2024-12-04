@@ -32,8 +32,10 @@ export const createUserInfoModel = (from: UserInfoApi): UserInfoModel => ({
 
 export const createUserInfoApi = (from: UserInfoModel): UserInfoApi => ({
 	user_id: from.id,
+	username: from.username,
 	first_name: from.firstName,
 	second_name: from.secondName,
 	sport_types: from.sportTypes,
-	...from,
+	photo_url: from.avatar,
+	description: from.description,
 });
