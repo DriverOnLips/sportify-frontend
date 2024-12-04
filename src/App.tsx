@@ -22,6 +22,7 @@ import ProtectedRoute from './utils/ProtectedRoute.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { selectIsSidebarOpen } from './states/AppState/AppState.tsx';
 import { useScreenMode } from './hooks/useScreenMode.ts';
+import Profile from './pages/Profile/Profile.tsx';
 
 function App() {
 	const dispatch = useDispatch();
@@ -122,6 +123,10 @@ function App() {
 								<Route
 									path='/map'
 									element={<MapPage />}
+								/>
+								<Route
+									path='/profile/:id'
+									element={<Profile />}
 								/>
 								<Route
 									path='/login'

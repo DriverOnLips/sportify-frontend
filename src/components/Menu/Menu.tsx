@@ -29,7 +29,7 @@ const Menu: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { isAuthorized } = useUserInfo();
+	const { isAuthorized, user } = useUserInfo();
 
 	const isSidebarOpen = useSelector(selectIsSidebarOpen);
 
@@ -86,12 +86,13 @@ const Menu: React.FC = () => {
 			label: 'Аккаунт',
 			icon: <SmileOutlined />,
 			children: [
-				{
-					key: '10',
-					label: 'Профиль',
-					icon: <UserOutlined />,
-					disabled: true,
-				},
+				isAuthorized
+					? {
+							key: '10',
+							label: 'Профиль',
+							icon: <UserOutlined />,
+						}
+					: null,
 				!isAuthorized
 					? {
 							key: '11',
@@ -108,7 +109,8 @@ const Menu: React.FC = () => {
 	];
 
 	const getActiveKey = () => {
-		switch (location.pathname) {
+		const path = location.pathname.split('/').slice(0, 2).join('/');
+		switch (path) {
 			case '/events':
 				return ['2'];
 			case '/map':
@@ -121,6 +123,8 @@ const Menu: React.FC = () => {
 				return ['7'];
 			case '/events-past':
 				return ['8'];
+			case '/profile':
+				return ['10'];
 			case '/login':
 				return ['11'];
 			case '/logout':
@@ -149,6 +153,9 @@ const Menu: React.FC = () => {
 				break;
 			case '8':
 				navigate('/events-past');
+				break;
+			case '10':
+				navigate(`/profile/${user!.id}`);
 				break;
 			case '11':
 				navigate('/login');
