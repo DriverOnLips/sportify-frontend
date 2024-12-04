@@ -9,6 +9,7 @@ import { AuthService } from 'api/AuthService/AuthService.ts';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { makeTgLoginUrl } from '../utils/makeTgLoginUrl.ts';
+import { UsersService } from '../api/UsersService/UsersService.ts';
 
 // Когда появится пользователь, этот хук нужно будет переобуть в useAuthorize
 // и state тоже
@@ -18,6 +19,7 @@ const useUserInfo = () => {
 
 	const dispatch = useDispatch();
 
+	const usersService = new UsersService();
 	const authService = new AuthService();
 
 	const register = async (user: UserWithPwModel) => {
@@ -64,7 +66,8 @@ const useUserInfo = () => {
 	const check = async () => {
 		try {
 			const usr = await authService.check();
-			dispatch(setUserAction(usr));
+			const usrInfo = await usersService.getUserInfo(usr.id);
+			dispatch(setUserAction(usrInfo));
 		} catch (error: any) {
 			dispatch(deleteUserAction());
 		}

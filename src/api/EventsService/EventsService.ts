@@ -52,11 +52,6 @@ export class EventsService extends ServiceBase {
 				url: `/api/event/sub`,
 				method: RequestMethods.PUT,
 			},
-			{
-				name: 'payForEvent',
-				url: `/api/event/pay`,
-				method: RequestMethods.POST,
-			},
 		];
 	}
 
@@ -323,33 +318,6 @@ export class EventsService extends ServiceBase {
 					'Content-Type': 'application/json',
 				},
 			);
-		} catch (error: any) {
-			throw new Error(error);
-		}
-	}
-
-	async payForEvent(
-		eventId: string,
-		userId: string,
-	): Promise<{ confirmation_url: string }> {
-		try {
-			const configItem = this.getConfigItem('payForEvent');
-			const redirectUrl = `http://91.219.227.107//events/${eventId}`;
-
-			const response = await this.makeHttpRequest(
-				configItem.method,
-				configItem.url,
-				{
-					redirect_url: redirectUrl,
-					user_id: userId,
-					event_id: eventId,
-				},
-				{
-					'Content-Type': 'application/json',
-				},
-			);
-
-			return response;
 		} catch (error: any) {
 			throw new Error(error);
 		}
