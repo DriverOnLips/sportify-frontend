@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapPageYandexMap.module.scss';
 import { GameLevels } from '../../../../types/enums/GameLevels';
+import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLevels';
+
+import footballIcon from '../../../../assets/sport-icons/football-icon.svg';
+import basketballIcon from '../../../../assets/sport-icons/basketball-icon.svg';
+import volleyballIcon from '../../../../assets/sport-icons/volleyball-icon.svg';
 
 interface YandexMapProps {
 	center?: [number, number];
@@ -30,6 +35,21 @@ const YandexMap: React.FC<YandexMapProps> = ({
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const [ymapsLoaded, setYmapsLoaded] = useState(false);
 
+	const getSportIcon = (sportType: string) => {
+		const normalizedSportType = sportType.trim().toLowerCase();
+		console.log(normalizedSportType);
+		switch (normalizedSportType) {
+			case 'футбол':
+				return footballIcon;
+			case 'баскетбол':
+				return basketballIcon;
+			case 'волейбол':
+				return volleyballIcon;
+			default:
+				return volleyballIcon;
+		}
+	};
+
 	useEffect(() => {
 		const checkYandexAPI = () => {
 			if (window.ymaps && window.ymaps.ready) {
@@ -57,7 +77,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
 					center: mapCenter,
 					zoom,
-					controls: ['zoomControl'],
+					controls: [],
 				});
 			} else {
 				mapRef.current.setCenter(mapCenter);
@@ -82,67 +102,77 @@ const YandexMap: React.FC<YandexMapProps> = ({
 
 			events.forEach((event) => {
 				const coords: [number, number] = [event.latitude, event.longitude];
+				const icon = getSportIcon(event.name);
+				const levelLabel = event.game_level
+					.map((level) => convertGameLevelToDisplayValue(level))
+					.join(', ');
 
 				const eventPlacemark = new window.ymaps.Placemark(
 					coords,
 					{
-						iconContent: `
-            <strong 
-              id="placemark-text-${event.id}"
-              style="
-                background-color: #1e98ff; 
-                color: white; border-radius: 10px; 
-                border: 4px solid #1e98ff; 
-                box-shadow: 0 0 0 2px white; 
-                padding: 4px;
-                cursor: pointer
-              ">
-							${event.name}
-						</strong>`,
 						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
 						balloonContentBody: `
-              <div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
-                <p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
-                <p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
-                <p style="margin: 8px 0;">Уровень: <span style="color: #666;">${event.game_level}</span></p>
-                <p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
-                <div style="margin-top: 16px; text-align: center;">
-                  <button 
-                    style="
-                      background-color: #1e98ff; 
-                      color: white; 
-                      padding: 10px 20px; 
-                      border: none; 
-                      border-radius: 5px; 
-                      cursor: pointer; 
-                      font-size: 16px; 
-                      font-weight: bold; 
-                      transition: background-color 0.3s ease;
-                    " 
-                    onclick="window.open('${event.eventUrl}', '_self')"
-                    onmouseover="this.style.backgroundColor='#1569C7';"
-                    onmouseout="this.style.backgroundColor='#1e98ff';"
-                  >
-                    Подробнее
-                  </button>
-                </div>
-              </div>
-            `,
+								<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
+									<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
+									<p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
+									<p style="margin: 8px 0;">Уровень: <span style="color: #666;">${levelLabel}</span></p>
+									<p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
+									<div style="margin-top: 16px; text-align: center;">
+										<button 
+											style="
+												background-color: #1e98ff; 
+												color: white; 
+												padding: 10px 20px; 
+												border: none; 
+												border-radius: 5px; 
+												cursor: pointer; 
+												font-size: 16px; 
+												font-weight: bold; 
+												transition: background-color 0.3s ease;
+											" 
+											onclick="window.open('${event.eventUrl}', '_self')"
+											onmouseover="this.style.backgroundColor='#1569C7';"
+											onmouseout="this.style.backgroundColor='#1e98ff';"
+										>
+											Подробнее
+										</button>
+									</div>
+								</div>
+							`,
 					},
 					{
-						preset: 'islands#blueIcon',
+						iconLayout: 'default#image',
+						iconImageHref: icon,
+						iconImageSize: [30, 30],
+						iconImageOffset: [-15, -15],
+						hintContent: event.name,
+						iconContentLayout: window.ymaps.templateLayoutFactory.createClass(
+							`
+								<div style="
+									display: flex; 
+									align-items: center; 
+									background-color: rgba(128, 128, 128, 0.5); 
+									border-radius: 10px; 
+									padding: 5px 10px;
+									gap: 10px;
+								">
+									<span style="
+										font-size: 14px; 
+										color: black; 
+										font-weight: bold;
+										white-space: nowrap;
+									">
+										{{name}}
+									</span>
+									<img src="${icon}" alt="icon" style="width: 20px; height: 20px; background-color: white;">
+								</div>
+							`,
+							{
+								name: event.name,
+							},
+						),
 					},
 				);
-
-				const placemarkTextElement = document.getElementById(
-					`placemark-text-${event.id}`,
-				);
-				if (placemarkTextElement) {
-					placemarkTextElement.addEventListener('click', () => {
-						eventPlacemark.balloon.open();
-						eventPlacemark.events.fire('click');
-					});
-				}
 
 				mapRef.current.geoObjects.add(eventPlacemark);
 			});

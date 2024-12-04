@@ -41,7 +41,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
 					center: [55.7960599, 37.5380087],
 					zoom: 10,
-					controls: ['zoomControl', 'routeButtonControl'],
+					controls: [],
 				});
 			}
 

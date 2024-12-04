@@ -36,7 +36,7 @@ const LoginForm = () => {
 	return (
 		<div className={cn('w-full mx-auto')}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
-				Добро прожаловать в MoveLife
+				Добро прожаловать в Move-Life
 			</h2>
 			<p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
 				Войдите, чтобы открыть максимум возможностей
