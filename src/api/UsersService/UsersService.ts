@@ -1,5 +1,6 @@
 import { RequestMethods, ServiceBase } from '../ServiceBase.ts';
 import {
+	createUserInfoApi,
 	createUserInfoModel,
 	UserInfoModel,
 } from 'types/types/User/UserInfo.ts';
@@ -16,6 +17,11 @@ export class UsersService extends ServiceBase {
 		UsersService.instance = this;
 		this.config = [
 			{ name: 'getUserInfo', url: `/api/profiles`, method: RequestMethods.GET },
+			{
+				name: 'updateUserInfo',
+				url: `/api/profiles`,
+				method: RequestMethods.PUT,
+			},
 		];
 	}
 
@@ -29,6 +35,23 @@ export class UsersService extends ServiceBase {
 			);
 
 			return createUserInfoModel(response);
+		} catch (error: any) {
+			throw new Error(error);
+		}
+	}
+
+	async updateUserInfo(user: UserInfoModel): Promise<void> {
+		try {
+			const configItem = this.getConfigItem('updateUserInfo');
+
+			return await this.makeHttpRequest(
+				configItem.method,
+				`${configItem.url}/${user.id}`,
+				createUserInfoApi(user),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
 		} catch (error: any) {
 			throw new Error(error);
 		}
