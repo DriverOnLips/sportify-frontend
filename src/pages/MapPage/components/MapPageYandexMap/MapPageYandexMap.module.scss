@@ -11,3 +11,13 @@
 	height: 100%;
 	border-radius: 8px;
 }
+
+.filters {
+	display: flex;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+.activeFilter {
+	background-color: #007bff;
+	color: #fff;
+}

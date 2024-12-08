@@ -112,65 +112,57 @@ const YandexMap: React.FC<YandexMapProps> = ({
 					{
 						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
 						balloonContentBody: `
-								<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
-									<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
-									<p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
-									<p style="margin: 8px 0;">Уровень: <span style="color: #666;">${levelLabel}</span></p>
-									<p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
-									<div style="margin-top: 16px; text-align: center;">
-										<button 
-											style="
-												background-color: #1e98ff; 
-												color: white; 
-												padding: 10px 20px; 
-												border: none; 
-												border-radius: 5px; 
-												cursor: pointer; 
-												font-size: 16px; 
-												font-weight: bold; 
-												transition: background-color 0.3s ease;
-											" 
-											onclick="window.open('${event.eventUrl}', '_self')"
-											onmouseover="this.style.backgroundColor='#1569C7';"
-											onmouseout="this.style.backgroundColor='#1e98ff';"
-										>
-											Подробнее
-										</button>
-									</div>
-								</div>
-							`,
+										<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
+												<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
+												<p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
+												<p style="margin: 8px 0;">Уровень: <span style="color: #666;">${levelLabel}</span></p>
+												<p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
+												<div style="margin-top: 16px; text-align: center;">
+														<button 
+																style="
+																		background-color: #1e98ff; 
+																		color: white; 
+																		padding: 10px 20px; 
+																		border: none; 
+																		border-radius: 5px; 
+																		cursor: pointer; 
+																		font-size: 16px; 
+																		font-weight: bold; 
+																		transition: background-color 0.3s ease;
+																" 
+																onclick="window.open('${event.eventUrl}', '_self')"
+																onmouseover="this.style.backgroundColor='#1569C7';"
+																onmouseout="this.style.backgroundColor='#1e98ff';"
+														>
+																Подробнее
+														</button>
+												</div>
+										</div>
+								`,
+						hintContent: event.name,
 					},
 					{
 						iconLayout: 'default#image',
 						iconImageHref: icon,
 						iconImageSize: [30, 30],
 						iconImageOffset: [-15, -15],
-						hintContent: event.name,
-						iconContentLayout: window.ymaps.templateLayoutFactory.createClass(
-							`
-								<div style="
-									display: flex; 
-									align-items: center; 
-									background-color: rgba(128, 128, 128, 0.5); 
-									border-radius: 10px; 
-									padding: 5px 10px;
-									gap: 10px;
-								">
-									<span style="
-										font-size: 14px; 
-										color: black; 
-										font-weight: bold;
-										white-space: nowrap;
-									">
-										{{name}}
-									</span>
-									<img src="${icon}" alt="icon" style="width: 20px; height: 20px; background-color: white;">
-								</div>
-							`,
-							{
-								name: event.name,
-							},
-						),
+						iconContentLayout: window.ymaps.templateLayoutFactory.createClass(`
+							<div style="
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								width: 30px;
+								height: 30px;
+								border-radius: 50%;
+								background-color: rgba(255, 255, 255, 0.9);
+							>
+									<img 
+											src="${icon}" 
+											alt="icon" 
+											style="width: 20px; height: 20px; border-radius: 50%; background-color: white;" 
+									/>
+							</div>
+						`),
 					},
 				);
 
