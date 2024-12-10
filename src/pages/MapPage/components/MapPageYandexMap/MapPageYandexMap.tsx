@@ -118,33 +118,44 @@ const YandexMap: React.FC<YandexMapProps> = ({
 					{
 						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
 						balloonContentBody: `
-										<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
-												<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
-												<p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
-												<p style="margin: 8px 0;">Уровень: <span style="color: #666;">${levelLabel}</span></p>
-												<p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
-												<div style="margin-top: 16px; text-align: center;">
-														<button 
-																style="
-																		background-color: #1e98ff; 
-																		color: white; 
-																		padding: 10px 20px; 
-																		border: none; 
-																		border-radius: 5px; 
-																		cursor: pointer; 
-																		font-size: 16px; 
-																		font-weight: bold; 
-																		transition: background-color 0.3s ease;
-																" 
-																onclick="window.open('${event.eventUrl}', '_self')"
-																onmouseover="this.style.backgroundColor='#1569C7';"
-																onmouseout="this.style.backgroundColor='#1e98ff';"
-														>
-																Подробнее
-														</button>
-												</div>
-										</div>
-								`,
+							<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
+								<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">
+									Цена: <span style="color: #1e98ff;">${event.price}₽</span>
+								</p>
+								<p style="margin: 8px 0;">
+									Адрес: <span style="color: #666;">${event.adress}</span>
+								</p>
+								<p style="margin: 8px 0;">
+									Уровень: <span style="color: #666;">${levelLabel}</span>
+								</p>
+								<p style="margin: 8px 0;">
+									<span style="color: #1e98ff;">
+										${event.capacity !== null ? `${event.busy} / ${event.capacity}` : event.busy}
+									</span>
+								</p>
+								<div style="margin-top: 16px; text-align: center;">
+									<button 
+										style="
+											background-color: #1e98ff; 
+											color: white; 
+											padding: 10px 20px; 
+											border: none; 
+											border-radius: 5px; 
+											cursor: pointer; 
+											font-size: 16px; 
+											font-weight: bold; 
+											transition: background-color 0.3s ease;
+										" 
+										onclick="window.open('${event.eventUrl}', '_self')"
+										onmouseover="this.style.backgroundColor='#1569C7';"
+										onmouseout="this.style.backgroundColor='#1e98ff';"
+									>
+										Подробнее
+									</button>
+								</div>
+							</div>
+						`,
+
 						hintContent: event.name,
 					},
 					{
