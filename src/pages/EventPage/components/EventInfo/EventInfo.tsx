@@ -42,7 +42,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
-	const isCreator = useMemo(() => user?.id == event.creatorId, [user, event]);
+	const isCreator = useMemo(() => user?.id == event.creator.id, [user, event]);
 
 	const eventFields = [
 		{
@@ -113,6 +113,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		}
 	};
 
+	// @ts-ignore
 	return (
 		<div className={styles.event_info}>
 			<div className={styles.event_info__header}>
@@ -163,15 +164,14 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					/>
 				)}
 			</div>
-
 			<Divider />
 			<Carousel
 				photos={event.photos}
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
-
 			<Divider />
 
+			{/* @ts-ignore */}
 			<LabelValue items={eventFields} />
 
 			<div className={styles.event_info__creator}>

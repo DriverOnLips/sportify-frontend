@@ -49,16 +49,16 @@ export type EventInfoApi = {
 	longitude: string | null;
 };
 
-const defaultUser: UserShortInfoApi = {
-	user_id: '1b00e670-cc4b-46a9-8334-34893b62acb9',
-	username: 'asdf1',
-	tg_url: 'https://t.me/Lucker285',
-};
+// const defaultUser: UserShortInfoApi = {
+// 	user_id: '1b00e670-cc4b-46a9-8334-34893b62acb9',
+// 	username: 'asdf1',
+// 	tg_url: 'https://t.me/Lucker285',
+// };
 
 export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
-	// creator: createUserShortInfoModel(from.creator),
-	creator: createUserShortInfoModel(defaultUser),
+	creator: createUserShortInfoModel(from.creator),
+	// creator: createUserShortInfoModel(defaultUser),
 	sportType: from.sport_type,
 	date: from.date_time.date,
 	startTime: from.date_time.start_time,

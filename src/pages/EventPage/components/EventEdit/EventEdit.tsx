@@ -51,7 +51,10 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 		}
 
 		try {
-			await eventsService.updateEvent(editedEvent, user.id);
+			await eventsService.updateEvent(
+				{ creatorId: editedEvent.creator.id, ...editedEvent },
+				user.id,
+			);
 			showToast('success', 'Информация о мероприятии обновлена');
 			navigate(`/events/${event.id}`);
 		} catch (error: any) {

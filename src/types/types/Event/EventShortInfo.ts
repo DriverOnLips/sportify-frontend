@@ -3,13 +3,13 @@ import { EventInfoModel, EventInfoApi } from './EventInfo.ts';
 // тип для страницы со списком мероприятий
 export type EventShortInfoModel = Omit<
 	EventInfoModel,
-	'description' | 'rawMessage'
->;
+	'description' | 'rawMessage' | 'creator'
+> & { creatorId: string };
 
 export type EventShortInfoApi = Omit<
 	EventInfoApi,
-	'description' | 'raw_message'
->;
+	'description' | 'raw_message' | 'creator'
+> & { creator_id: string };
 
 export const createEventShortInfoModel = (
 	from: EventShortInfoApi[],
