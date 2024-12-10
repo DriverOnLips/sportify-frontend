@@ -25,6 +25,7 @@ import {
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
 import useVibration from 'hooks/useVibration.tsx';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import RequiredField from '../shared/RequiredFiled/RequiredField.tsx';
 
 const EventCreate: React.FC = () => {
 	const tgUserId = useSelector(selectTGWebAppUserId);
@@ -95,52 +96,67 @@ const EventCreate: React.FC = () => {
 
 					<div className={styles.event_create_content}>
 						<div className={styles.event_create__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Вид спорта:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Вид спорта:
+								</Text>
+							</RequiredField>
+
 							<SportsTypeSelect changeEventField={changeEventField} />
 						</div>
 
 						<div className={styles.event_create__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Адрес:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Адрес:
+								</Text>
+							</RequiredField>
+
 							<AddressInput changeEventField={changeEventField} />
 						</div>
 
 						<div className={styles.event_create__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Дата:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Дата:
+								</Text>
+							</RequiredField>
+
 							<EventDatePicker changeEventField={changeEventField} />
 						</div>
 
 						<div className={styles.event_create__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Время начала и окончания:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Время начала и окончания:
+								</Text>
+							</RequiredField>
+
 							<EventTimePicker changeEventField={changeEventField} />
 						</div>
 
 						<div className={styles.event_create__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Цена за участие:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Цена за участие:
+								</Text>
+							</RequiredField>
+
 							<PriceInput changeEventField={changeEventField} />
 						</div>
 
@@ -151,6 +167,7 @@ const EventCreate: React.FC = () => {
 							>
 								Уровень игры:
 							</Text>
+
 							<GameLevelSelect changeEventField={changeEventField} />
 						</div>
 

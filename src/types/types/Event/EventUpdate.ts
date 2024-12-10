@@ -15,7 +15,6 @@ export type EventUpdateApi = Omit<
 export const createEventUpdateApi = (
 	from: EventUpdateModel,
 ): EventUpdateApi => {
-	console.log(JSON.stringify(from));
 	return {
 		...from,
 		sport_type: from.sportType,

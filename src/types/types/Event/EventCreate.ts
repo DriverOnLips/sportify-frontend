@@ -25,7 +25,7 @@ export type EventCreateApi = {
 	game_level: GameLevels[];
 	description: string | null;
 	capacity: number | null;
-	preview: string;
+	preview: string | null;
 	photos: string[];
 };
 
@@ -38,11 +38,8 @@ export const createEventCreateApi = (
 		from.address === '' ||
 		!from.date ||
 		!from.startTime ||
-		!from.endTime ||
-		!from.preview ||
-		!from.photos
+		!from.endTime
 	) {
-		console.log(JSON.stringify(from));
 		throw new Error('Не все поля заполнены');
 	}
 
@@ -58,7 +55,7 @@ export const createEventCreateApi = (
 		game_level: from.gameLevel || [],
 		description: from.description || null,
 		capacity: from.capacity || null,
-		preview: from.preview,
-		photos: from.photos,
+		preview: from.preview || null,
+		photos: from.photos || [],
 	};
 };
