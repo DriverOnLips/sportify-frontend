@@ -1,11 +1,16 @@
 import { GameLevels } from '../../enums/GameLevels.ts';
 import { SportTypes } from '../../enums/SportTypes.ts';
 import { EventDateTimeApi } from './EventDateTime.ts';
+import {
+	createUserShortInfoModel,
+	UserShortInfoApi,
+	UserShortInfoModel,
+} from '../User/UserShortInfo.ts';
 
 // тип для страницы с подробным описанием
 export type EventInfoModel = {
 	id: string;
-	creatorId: string;
+	creator: UserShortInfoModel;
 	sportType: SportTypes;
 	address: string;
 	date?: string;
@@ -26,7 +31,7 @@ export type EventInfoModel = {
 
 export type EventInfoApi = {
 	id: string;
-	creator_id: string;
+	creator: UserShortInfoApi;
 	sport_type: SportTypes;
 	address: string;
 	date_time: EventDateTimeApi;
@@ -44,9 +49,16 @@ export type EventInfoApi = {
 	longitude: string | null;
 };
 
+const defaultUser: UserShortInfoApi = {
+	user_id: '1b00e670-cc4b-46a9-8334-34893b62acb9',
+	username: 'asdf1',
+	tg_url: 'https://t.me/Lucker285',
+};
+
 export const createEventInfoModel = (from: EventInfoApi): EventInfoModel => ({
 	...from,
-	creatorId: from.creator_id,
+	// creator: createUserShortInfoModel(from.creator),
+	creator: createUserShortInfoModel(defaultUser),
 	sportType: from.sport_type,
 	date: from.date_time.date,
 	startTime: from.date_time.start_time,
