@@ -37,7 +37,6 @@ const YandexMap: React.FC<YandexMapProps> = ({
 
 	const getSportIcon = (sportType: string) => {
 		const normalizedSportType = sportType.trim().toLowerCase();
-		console.log(normalizedSportType);
 		switch (normalizedSportType) {
 			case 'футбол':
 				return footballIcon;
@@ -86,6 +85,13 @@ const YandexMap: React.FC<YandexMapProps> = ({
 
 			mapRef.current.geoObjects.removeAll();
 
+			const clusterer = new window.ymaps.Clusterer({
+				preset: 'islands#blueClusterIcons',
+				groupByCoordinates: false,
+				clusterDisableClickZoom: true,
+				clusterOpenBalloonOnClick: true,
+			});
+
 			if (isUserLocation) {
 				const userLocationPlacemark = new window.ymaps.Placemark(
 					mapCenter,
@@ -100,14 +106,14 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				mapRef.current.geoObjects.add(userLocationPlacemark);
 			}
 
-			events.forEach((event) => {
+			const placemarks = events.map((event) => {
 				const coords: [number, number] = [event.latitude, event.longitude];
 				const icon = getSportIcon(event.name);
 				const levelLabel = event.game_level
 					.map((level) => convertGameLevelToDisplayValue(level))
 					.join(', ');
 
-				const eventPlacemark = new window.ymaps.Placemark(
+				return new window.ymaps.Placemark(
 					coords,
 					{
 						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
@@ -146,28 +152,12 @@ const YandexMap: React.FC<YandexMapProps> = ({
 						iconImageHref: icon,
 						iconImageSize: [30, 30],
 						iconImageOffset: [-15, -15],
-						iconContentLayout: window.ymaps.templateLayoutFactory.createClass(`
-							<div style="
-								display: flex;
-								justify-content: center;
-								align-items: center;
-								width: 30px;
-								height: 30px;
-								border-radius: 50%;
-								background-color: rgba(255, 255, 255, 0.9);
-							>
-									<img 
-											src="${icon}" 
-											alt="icon" 
-											style="width: 20px; height: 20px; border-radius: 50%; background-color: white;" 
-									/>
-							</div>
-						`),
 					},
 				);
-
-				mapRef.current.geoObjects.add(eventPlacemark);
 			});
+
+			clusterer.add(placemarks);
+			mapRef.current.geoObjects.add(clusterer);
 		};
 
 		if (ymapsLoaded) {
