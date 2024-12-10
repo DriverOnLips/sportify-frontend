@@ -116,10 +116,10 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				return new window.ymaps.Placemark(
 					coords,
 					{
-						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
+						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 16px;">${event.name}</strong>`,
 						balloonContentBody: `
 							<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
-								<p style="margin: 8px 0; font-size: 16px; font-weight: bold;">
+								<p style="margin: 8px 0; font-size: 14px; font-weight: bold;">
 									Цена: <span style="color: #1e98ff;">${event.price}₽</span>
 								</p>
 								<p style="margin: 8px 0;">
