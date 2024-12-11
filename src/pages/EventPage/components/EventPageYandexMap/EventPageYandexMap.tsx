@@ -4,7 +4,7 @@ import { useScreenMode } from '../../../../hooks/useScreenMode.ts';
 
 interface YandexMapProps {
 	address: string;
-	transport: 'auto' | 'pedestrian' | 'masstransit'; // добавляем параметр transport
+	transport: 'auto' | 'pedestrian' | 'masstransit';
 }
 
 const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
@@ -79,7 +79,6 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 					},
 				);
 
-				// Функция для создания маршрута в зависимости от выбранного транспорта
 				const createRoute = (routingMode: string, color: string) => {
 					return new window.ymaps.multiRouter.MultiRoute(
 						{
@@ -125,7 +124,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 				mapRef.current = null;
 			}
 		};
-	}, [address, ymapsLoaded, transport]); // добавляем зависимость от transport
+	}, [address, ymapsLoaded, transport]);
 
 	return (
 		<div
