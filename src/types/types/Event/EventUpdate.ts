@@ -4,18 +4,17 @@ import { createEventDateTimeApi } from './EventDateTime.ts';
 // тип обновления мероприятия
 export type EventUpdateModel = Omit<
 	EventInfoModel,
-	'isFree' | 'rawMessage' | 'busy' | 'subscribersId'
->;
+	'isFree' | 'rawMessage' | 'busy' | 'subscribersId' | 'creator'
+> & { creatorId: string };
 
 export type EventUpdateApi = Omit<
 	EventInfoApi,
-	'id' | 'is_free' | 'raw_message' | 'busy' | 'subscribers_id'
->;
+	'id' | 'is_free' | 'raw_message' | 'busy' | 'subscribers_id' | 'creator'
+> & { creator_id: string };
 
 export const createEventUpdateApi = (
 	from: EventUpdateModel,
 ): EventUpdateApi => {
-	console.log(JSON.stringify(from));
 	return {
 		...from,
 		sport_type: from.sportType,

@@ -44,6 +44,24 @@ const ViewProfile: React.FC<Props> = ({ user }) => {
 									</LabelInputContainer>
 								</div>
 
+								{user.tgUrl && (
+									<div className='flex mb-4'>
+										<LabelInputContainer>
+											<div onClick={() => window.open(user.tgUrl, '_blank')}>
+												<Label htmlFor='firstname'>Telegram пользователя</Label>
+
+												<Input
+													id='tg'
+													style={{ cursor: 'auto' }}
+													value={user.tgUrl}
+													type='text'
+													disabled
+												/>
+											</div>
+										</LabelInputContainer>
+									</div>
+								)}
+
 								<div className='flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4'>
 									{user.firstName && (
 										<LabelInputContainer>

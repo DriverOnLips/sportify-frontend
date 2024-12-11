@@ -39,7 +39,7 @@ export const showToast = (
 		placement: placement || 'topRight',
 		message,
 		description,
-		duration: duration || 3,
+		duration: duration || type === 'error' ? 5 : 3,
 		showProgress: true,
 	});
 };

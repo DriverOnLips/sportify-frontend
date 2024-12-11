@@ -19,6 +19,7 @@ import Explanation from 'components/lib/Explanation/Explanation.tsx';
 import DescriptionInput from '../shared/DescriptionInput/DescriptionInput.tsx';
 import { BackgroundGradientAnimation } from 'components/lib/BackgroundAnimation/BackgroundAnimation.tsx';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import RequiredField from '../shared/RequiredFiled/RequiredField.tsx';
 
 interface EventEditProps {
 	event: EventInfoModel;
@@ -50,7 +51,10 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 		}
 
 		try {
-			await eventsService.updateEvent(editedEvent, user.id);
+			await eventsService.updateEvent(
+				{ creatorId: editedEvent.creator.id, ...editedEvent },
+				user.id,
+			);
 			showToast('success', 'Информация о мероприятии обновлена');
 			navigate(`/events/${event.id}`);
 		} catch (error: any) {
@@ -81,12 +85,15 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 					<div className={styles.event_edit_content}>
 						<div className={styles.event_edit__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Вид спорта:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Вид спорта:
+								</Text>
+							</RequiredField>
+
 							<SportsTypeSelect
 								value={event.sportType}
 								changeEventField={changeEventField}
@@ -94,12 +101,15 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						</div>
 
 						<div className={styles.event_edit__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Адрес:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Адрес:
+								</Text>
+							</RequiredField>
+
 							<AddressInput
 								// value={event.address}
 								changeEventField={changeEventField}
@@ -107,12 +117,15 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						</div>
 
 						<div className={styles.event_edit__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Дата:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Дата:
+								</Text>
+							</RequiredField>
+
 							<EventDatePicker
 								value={event.date}
 								changeEventField={changeEventField}
@@ -120,12 +133,15 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						</div>
 
 						<div className={styles.event_edit__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Время начала и окончания:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Время начала и окончания:
+								</Text>
+							</RequiredField>
+
 							<EventTimePicker
 								value={
 									event.startTime && event.endTime
@@ -137,12 +153,15 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						</div>
 
 						<div className={styles.event_edit__item}>
-							<Text
-								size={'s4'}
-								color={'primary'}
-							>
-								Цена за участие:
-							</Text>
+							<RequiredField>
+								<Text
+									size={'s4'}
+									color={'primary'}
+								>
+									Цена за участие:
+								</Text>
+							</RequiredField>
+
 							<PriceInput
 								value={event.price}
 								changeEventField={changeEventField}

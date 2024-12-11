@@ -28,10 +28,11 @@ import Carousel from './components/Carousel.tsx';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import styles from './EventInfo.module.scss';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import Creator from '../shared/Creator/Creator.tsx';
 
-interface EventInfoProps {
+type EventInfoProps = {
 	event: EventInfoModel;
-}
+};
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const { user, isAuthorized } = useUserInfo();
@@ -41,7 +42,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
-	const isCreator = useMemo(() => user?.id == event.creatorId, [user, event]);
+	const isCreator = useMemo(() => user?.id == event.creator.id, [user, event]);
 
 	const eventFields = [
 		{
@@ -68,15 +69,21 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		{ label: <EnvironmentOutlined />, value: event.address, itemMaxLines: 3 },
 		{
 			label: <TeamOutlined />,
-			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
+			value: event.capacity
+				? `${event.busy}/${event.capacity}`
+				: event.busy.toString(),
 		},
 		{
-			label: <FileTextOutlined />,
-			value: event.description,
+			...(event.description && {
+				label: <FileTextOutlined />,
+				value: event.description,
+			}),
 		},
 	];
 
-	const navigateToEvents = useCallback(() => navigate('/events'), [navigate]);
+	const handleBackButtonClick = useCallback(() => {
+		navigate(-1);
+	}, [navigate]);
 
 	const navigateToEventEdit = useCallback(
 		() => navigate(`/events/${event.id}?edit=true`),
@@ -106,11 +113,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		}
 	};
 
+	// @ts-ignore
 	return (
 		<div className={styles.event_info}>
 			<div className={styles.event_info__header}>
 				{isWide && (
-					<Button onClick={navigateToEvents}>
+					<Button onClick={handleBackButtonClick}>
 						<ArrowLeftOutlined />
 					</Button>
 				)}
@@ -156,16 +164,20 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					/>
 				)}
 			</div>
-
 			<Divider />
 			<Carousel
 				photos={event.photos}
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
-
 			<Divider />
 
+			{/* @ts-ignore */}
 			<LabelValue items={eventFields} />
+
+			<div className={styles.event_info__creator}>
+				<Text color={'primary'}>Создатель: </Text>
+				<Creator creator={event.creator} />
+			</div>
 		</div>
 	);
 };

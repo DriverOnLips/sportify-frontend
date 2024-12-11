@@ -13,4 +13,11 @@
 			gap: 1rem;
 		}
 	}
+
+	&__creator {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		margin: 6px 0;
+	}
 }
