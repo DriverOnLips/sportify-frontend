@@ -44,6 +44,8 @@ const ViewProfile: React.FC<Props> = ({ user }) => {
 									</LabelInputContainer>
 								</div>
 
+								{JSON.stringify(user)}
+
 								{user.tgUrl && (
 									<div className='flex mb-4'>
 										<LabelInputContainer>
