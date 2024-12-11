@@ -10,7 +10,7 @@ import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.ts
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
-//import MainPage from './pages/Main/Main.tsx';
+import MainPage from './pages/Main/Main.tsx';
 import MapPage from './pages/MapPage/MapPage.tsx';
 import MyEventsList from './pages/MyEventsList/MyEventsList.tsx';
 import Login from './pages/Login/Login.tsx';
@@ -78,7 +78,7 @@ function App() {
 							<Routes>
 								<Route
 									path='/'
-									element={<EventsList />} //TODO: желательно оформить главную страницу и вернуть роутинг на нее
+									element={<MainPage />}
 								/>
 								<Route
 									path='/events'
