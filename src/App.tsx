@@ -78,7 +78,7 @@ function App() {
 							<Routes>
 								<Route
 									path='/'
-									element={<MainPage />}
+									element={<EventsList />} //TODO: желательно оформить главную страницу и вернуть роутинг на нее
 								/>
 								<Route
 									path='/events'
