@@ -176,7 +176,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 			<div className={styles.event_info__creator}>
 				<Text color={'primary'}>Создатель: </Text>
-				{JSON.stringify(event.creator)}
 				<Creator creator={event.creator} />
 			</div>
 		</div>

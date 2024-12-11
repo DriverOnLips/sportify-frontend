@@ -19,6 +19,7 @@ export type UserInfoApi = {
 	sport_types: SportTypes[];
 	photo_url?: string;
 	description?: string;
+	tg_url?: string;
 };
 
 export const createUserInfoModel = (from: UserInfoApi): UserInfoModel => ({
@@ -26,7 +27,7 @@ export const createUserInfoModel = (from: UserInfoApi): UserInfoModel => ({
 	firstName: from.first_name,
 	secondName: from.second_name,
 	sportTypes: from.sport_types,
-	tgUrl: from.photo_url,
+	tgUrl: from.tg_url,
 	...from,
 });
 
