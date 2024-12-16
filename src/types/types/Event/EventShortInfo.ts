@@ -9,7 +9,7 @@ export type EventShortInfoModel = Omit<
 export type EventShortInfoApi = Omit<
 	EventInfoApi,
 	'description' | 'raw_message' | 'creator'
-> & { creator_id: string };
+> & { id: string };
 
 export const createEventShortInfoModel = (
 	from: EventShortInfoApi[],
@@ -23,6 +23,6 @@ export const createEventShortInfoModel = (
 		isFree: event.is_free,
 		gameLevel: event.game_level,
 		subscribersId: event.subscribers_id,
-		creatorId: event.creator_id,
+		creatorId: event.id,
 	}));
 };

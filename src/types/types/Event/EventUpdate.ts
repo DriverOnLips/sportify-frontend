@@ -10,7 +10,7 @@ export type EventUpdateModel = Omit<
 export type EventUpdateApi = Omit<
 	EventInfoApi,
 	'id' | 'is_free' | 'raw_message' | 'busy' | 'subscribers_id' | 'creator'
-> & { creator_id: string };
+> & { id: string };
 
 export const createEventUpdateApi = (
 	from: EventUpdateModel,
@@ -24,6 +24,6 @@ export const createEventUpdateApi = (
 			endTime: from.endTime,
 		}),
 		game_level: from.gameLevel,
-		creator_id: from.creatorId,
+		id: from.creatorId,
 	};
 };

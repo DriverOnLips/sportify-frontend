@@ -1,4 +1,3 @@
-// Updated EventInfo component
 import {
 	ArrowLeftOutlined,
 	TeamOutlined,
@@ -184,6 +183,11 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			<div className={styles.event_info__creator}>
 				<Text color={'primary'}>Создатель: </Text>
 				<Creator creator={event.creator} />
+			</div>
+
+			<div className={styles.event_info__participants}>
+				<Text color={'primary'}>Участники:</Text>
+				{/* <Participants subscribers={event.subscribers} /> */}
 			</div>
 		</div>
 	);
