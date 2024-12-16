@@ -25,8 +25,7 @@
 		align-items: center;
 
 		button {
-			font-size: 1.5rem;
-			padding: 20px 30px;
+			padding: 20px 24px;
 			text-align: center;
 			border-radius: 8px;
 		}
@@ -36,6 +35,17 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
-		margin: 6px 0;
+		margin: 3px 0;
+	}
+
+	&__participants {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		margin: 3px 0;
+	}
+
+	.custom_divider {
+		margin: 14px 0;
 	}
 }

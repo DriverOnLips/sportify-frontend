@@ -1,27 +1,27 @@
 import React from 'react';
+import userDefaultAvatar from 'assets/user-default-avatar.png';
+import { AnimatedTooltip } from 'components/lib/Aceternity/AnimatedTooltip/AnimatedTooltip.tsx';
 import { UserShortInfoModel } from 'types/types/User/UserShortInfo.ts';
-import Creator from '../Creator/Creator';
-import styles from './Participants.module.scss';
 
-type ParticipantsProps = {
-	subscribers: UserShortInfoModel[];
+type Props = {
+	participants: UserShortInfoModel[];
 };
 
-const Participants: React.FC<ParticipantsProps> = ({ subscribers }) => {
-	if (subscribers.length === 0) {
-		return <p>Нет участников.</p>;
-	}
+const Participants: React.FC<Props> = ({ participants }) => {
+	const tooltipItems = participants.map((participant, index) => ({
+		id: index,
+		userId: participant.id,
+		name: participant.username,
+		link: participant.tgUrl,
+		image: participant.avatar || userDefaultAvatar,
+	}));
 
 	return (
-		<div className={styles.participants}>
-			<div className={styles.participants__list}>
-				{subscribers.map((user) => (
-					<Creator
-						key={user.id}
-						creator={user}
-					/>
-				))}
-			</div>
+		<div className='flex flex-row items-center justify-center w-max'>
+			<AnimatedTooltip
+				imgStyle={{ height: '30px' }}
+				items={tooltipItems}
+			/>
 		</div>
 	);
 };

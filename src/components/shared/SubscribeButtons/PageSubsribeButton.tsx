@@ -9,9 +9,15 @@ type Props = {
 	isSub: boolean;
 	eventId: string;
 	disabled?: boolean;
+	onSubscriptionChange?: (newSubscribersId: string[]) => void;
 };
 
-const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
+const SubscribeButton: React.FC<Props> = ({
+	isSub,
+	eventId,
+	disabled,
+	onSubscriptionChange,
+}) => {
 	const { user, isAuthorized } = useUserInfo();
 
 	const navigate = useNavigate();
@@ -45,6 +51,8 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 			);
 			const newIsSubscribed = response.subscribers_id?.includes(user.id);
 			setIsSubscribed(newIsSubscribed);
+			onSubscriptionChange?.(response.subscribers_id);
+
 			showToast(
 				'success',
 				`Вы ${newIsSubscribed ? 'записались на мероприятие' : 'отписались от мероприятия'}`,

@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons';
 import Button from 'components/lib/Button/Button.tsx';
 import Text from 'components/lib/Text/Text.tsx';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
@@ -30,6 +30,9 @@ import useUserInfo from 'hooks/useUserInfo.tsx';
 import Creator from '../shared/Creator/Creator.tsx';
 import { formatTimeWithoutSeconds } from 'utils/formatTime.ts';
 import PageSubscribeButton from 'components/shared/SubscribeButtons/PageSubsribeButton.tsx';
+import Participants from '../shared/Participants/Participants.tsx';
+import { UsersService } from 'api/UsersService/UsersService.ts';
+import { UserShortInfoModel } from 'types/types/User/UserShortInfo.ts';
 
 type EventInfoProps = {
 	event: EventInfoModel;
@@ -39,16 +42,48 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const { user, isAuthorized } = useUserInfo();
 	const navigate = useNavigate();
 	const eventsService = new EventsService();
+	const usersService = new UsersService();
+
+	const [participants, setParticipants] = useState<UserShortInfoModel[]>([]);
 
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
-	const isCreator = useMemo(() => user?.id == event.creator.id, [user, event]);
+	const isCreator = useMemo(() => user?.id === event.creator.id, [user, event]);
+
+	useEffect(() => {
+		const fetchParticipants = async () => {
+			if (isAuthorized && user?.id && event.subscribersId?.includes(user.id)) {
+				try {
+					const participantsData = await Promise.all(
+						event.subscribersId.map((subscriberId) =>
+							usersService.getUserInfo(subscriberId),
+						),
+					);
+
+					const participantsShortInfo = participantsData.map((p) => ({
+						id: p.id,
+						username: p.username,
+						avatar: p.avatar,
+						tgUrl: p.tgUrl,
+					}));
+
+					setParticipants(participantsShortInfo);
+				} catch (error) {
+					console.error('Ошибка при загрузке участников:', error);
+				}
+			} else {
+				setParticipants([]);
+			}
+		};
+
+		fetchParticipants();
+	}, [event, user, isAuthorized, usersService]);
 
 	const eventFields = [
 		{
 			label: <DollarOutlined />,
-			value: <Text>{`${event.price}₽`}</Text>,
+			value: `${event.price}₽`,
 		},
 		{
 			label: <CalendarOutlined />,
@@ -56,7 +91,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)}`,
+			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)}`, // строка
 		},
 		{
 			label: <RiseOutlined />,
@@ -74,13 +109,14 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				? `${event.busy}/${event.capacity}`
 				: event.busy.toString(),
 		},
-		{
-			...(event.description && {
-				label: <FileTextOutlined />,
-				value: event.description,
-			}),
-		},
 	];
+
+	if (event.description) {
+		eventFields.push({
+			label: <FileTextOutlined />,
+			value: event.description,
+		});
+	}
 
 	const handleBackButtonClick = useCallback(() => {
 		navigate(-1);
@@ -88,7 +124,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 	const navigateToEventEdit = useCallback(
 		() => navigate(`/events/${event.id}?edit=true`),
-		[event],
+		[event, navigate],
 	);
 
 	const onDeleteButtonClick = async () => {
@@ -96,7 +132,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			if (!isAuthorized || !user?.id) {
 				showToast('info', 'Авторизуйтесь, чтобы продолжить');
 				navigate('/login');
-
 				return;
 			}
 
@@ -114,7 +149,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		}
 	};
 
-	// @ts-ignore
 	return (
 		<div className={styles.event_info}>
 			<div className={styles.event_info__header}>
@@ -133,7 +167,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					{convertSportTypeToDisplayValue(event.sportType)}
 				</Text>
 
-				{isCreator ? (
+				{isCreator && (
 					<div className={styles.event_info__header_buttons}>
 						<Tooltip
 							title={'Редактировать'}
@@ -156,16 +190,14 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 							</Button>
 						</Tooltip>
 					</div>
-				) : (
-					''
 				)}
 			</div>
-			<Divider />
+			<Divider className={styles.custom_divider} />
 			<Carousel
 				photos={event.photos}
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
-			<Divider />
+			<Divider className={styles.custom_divider} />
 
 			<div className={styles.event_info__subscribe_button}>
 				<PageSubscribeButton
@@ -177,7 +209,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				/>
 			</div>
 
-			{/* @ts-ignore */}
 			<LabelValue items={eventFields} />
 
 			<div className={styles.event_info__creator}>
@@ -187,7 +218,11 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 			<div className={styles.event_info__participants}>
 				<Text color={'primary'}>Участники:</Text>
-				{/* <Participants subscribers={event.subscribers} /> */}
+				{participants.length > 0 ? (
+					<Participants participants={participants} />
+				) : (
+					<Text>Нет участников</Text>
+				)}
 			</div>
 		</div>
 	);
