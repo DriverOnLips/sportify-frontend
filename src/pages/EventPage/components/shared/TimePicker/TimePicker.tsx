@@ -1,6 +1,5 @@
 import TimePicker from 'antd/es/time-picker';
 import React, { useMemo, useState } from 'react';
-import { formatTime } from 'utils/formatTime.ts';
 import dayjs from 'dayjs';
 import { EventCreateModel } from 'types/types/Event/EventCreate.ts';
 
@@ -22,8 +21,8 @@ const EventTimePicker: React.FC<Props> = ({
 	const updateTimeRange = useMemo(
 		() => (startTime: string | null, endTime: string | null) => {
 			changeEventField({
-				startTime: startTime || undefined,
-				endTime: endTime || undefined,
+				startTime: startTime ? `${startTime}:00` : undefined,
+				endTime: endTime ? `${endTime}:00` : undefined,
 			});
 		},
 		[],
@@ -41,10 +40,12 @@ const EventTimePicker: React.FC<Props> = ({
 		}
 
 		const [startTime, endTime] = dates;
-		const formattedStartTime = formatTime(startTime);
-		const formattedEndTime = formatTime(endTime);
+
+		const formattedStartTime = startTime.format('HH:mm');
+		const formattedEndTime = endTime.format('HH:mm');
 
 		setTimeRange([formattedStartTime, formattedEndTime]);
+
 		updateTimeRange(formattedStartTime, formattedEndTime);
 	};
 
@@ -52,13 +53,13 @@ const EventTimePicker: React.FC<Props> = ({
 		<TimePicker.RangePicker
 			className={className}
 			value={
-				timeRange.map((time) => (time ? dayjs(time, 'HH:mm:ss') : null)) as [
+				timeRange.map((time) => (time ? dayjs(time, 'HH:mm') : null)) as [
 					dayjs.Dayjs | null,
 					dayjs.Dayjs | null,
 				]
 			}
 			onChange={onChangeRange}
-			format='HH:mm:ss'
+			format='HH:mm'
 			placeholder={['Время начала', 'Время окончания']}
 		/>
 	);

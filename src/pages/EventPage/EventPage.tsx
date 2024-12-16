@@ -50,7 +50,6 @@ const EventPage: React.FC = () => {
 		getEvents(id);
 	}, [id]);
 
-	// Функция для изменения типа транспорта
 	const handleTransportChange = (e: any) => {
 		setSelectedTransport(e.target.value);
 	};
@@ -68,13 +67,11 @@ const EventPage: React.FC = () => {
 							{!isWide && <Divider />}
 
 							<div className={styles.event_page__map}>
-								{/* Передаем выбранный транспорт в компонент карты */}
 								<YandexMap
 									address={event.address}
 									transport={selectedTransport}
 								/>
 
-								{/* Панель выбора транспорта, позиционируем её поверх карты */}
 								<div className={styles.event_page__transport}>
 									<Radio.Group
 										value={selectedTransport}
