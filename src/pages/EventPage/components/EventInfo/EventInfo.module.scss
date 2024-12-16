@@ -19,6 +19,19 @@
 		}
 	}
 
+	&__subscribe_button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		button {
+			font-size: 1.5rem;
+			padding: 20px 30px;
+			text-align: center;
+			border-radius: 8px;
+		}
+	}
+
 	&__creator {
 		display: flex;
 		align-items: center;

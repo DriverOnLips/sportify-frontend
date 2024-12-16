@@ -1,3 +1,4 @@
+// Updated EventInfo component
 import {
 	ArrowLeftOutlined,
 	TeamOutlined,
@@ -16,7 +17,6 @@ import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
-//import SubscribeButton from 'components/shared/SubscribeButtons/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
@@ -49,18 +49,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const eventFields = [
 		{
 			label: <DollarOutlined />,
-			value: (
-				<div className={styles.event_info__subscribe_button}>
-					<Text>{`${event.price}₽`}</Text>
-					<PageSubscribeButton
-						disabled={event?.capacity ? event.busy >= event.capacity : false}
-						isSub={
-							user?.id !== undefined && !!event.subscribersId?.includes(user.id)
-						}
-						eventId={event.id}
-					/>
-				</div>
-			),
+			value: <Text>{`${event.price}₽`}</Text>,
 		},
 		{
 			label: <CalendarOutlined />,
@@ -178,6 +167,16 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
 			<Divider />
+
+			<div className={styles.event_info__subscribe_button}>
+				<PageSubscribeButton
+					disabled={event?.capacity ? event.busy >= event.capacity : false}
+					isSub={
+						user?.id !== undefined && !!event.subscribersId?.includes(user.id)
+					}
+					eventId={event.id}
+				/>
+			</div>
 
 			{/* @ts-ignore */}
 			<LabelValue items={eventFields} />
