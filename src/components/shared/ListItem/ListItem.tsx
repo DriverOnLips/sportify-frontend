@@ -15,7 +15,7 @@ import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.t
 import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
 import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
 import { formatDateDDMMMMYYYY } from '../../../utils/formatTime.ts';
-import SubscribeButton from '../SubscribeButton/SubscribeButton.tsx';
+import SubscribeButton from '../SubscribeButtons/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
@@ -108,7 +108,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 								<div className={styles.list_item__content_header}>
 									<div className={styles.list_item__content_header_sport}>
 										<Text
-											size={'s4'}
+											size={'s5'}
 											weight={'bold'}
 										>
 											{convertSportTypeToDisplayValue(event.sportType)}

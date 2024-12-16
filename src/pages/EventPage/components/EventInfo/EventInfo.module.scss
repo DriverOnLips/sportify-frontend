@@ -8,6 +8,11 @@
 		align-items: center;
 		margin-bottom: 5px;
 
+		&_title {
+			flex: 1;
+			text-align: center !important;
+		}
+
 		&_buttons {
 			display: flex;
 			gap: 1rem;

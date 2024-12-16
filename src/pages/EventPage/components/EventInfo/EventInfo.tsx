@@ -16,7 +16,7 @@ import React, { useCallback, useMemo } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
-import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
+//import SubscribeButton from 'components/shared/SubscribeButtons/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
@@ -30,6 +30,7 @@ import styles from './EventInfo.module.scss';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import Creator from '../shared/Creator/Creator.tsx';
 import { formatTimeWithoutSeconds } from 'utils/formatTime.ts';
+import PageSubscribeButton from 'components/shared/SubscribeButtons/PageSubsribeButton.tsx';
 
 type EventInfoProps = {
 	event: EventInfoModel;
@@ -48,7 +49,18 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const eventFields = [
 		{
 			label: <DollarOutlined />,
-			value: `${event.price}₽`,
+			value: (
+				<div className={styles.event_info__subscribe_button}>
+					<Text>{`${event.price}₽`}</Text>
+					<PageSubscribeButton
+						disabled={event?.capacity ? event.busy >= event.capacity : false}
+						isSub={
+							user?.id !== undefined && !!event.subscribersId?.includes(user.id)
+						}
+						eventId={event.id}
+					/>
+				</div>
+			),
 		},
 		{
 			label: <CalendarOutlined />,
@@ -125,7 +137,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				)}
 
 				<Text
-					size={'s3'}
+					className={styles.event_info__header_title}
+					size={'s4'}
 					weight={'bold'}
 					color={'primary'}
 				>
@@ -156,13 +169,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 						</Tooltip>
 					</div>
 				) : (
-					<SubscribeButton
-						disabled={event?.capacity ? event.busy >= event.capacity : false}
-						isSub={
-							user?.id !== undefined && !!event.subscribersId?.includes(user.id)
-						}
-						eventId={event.id}
-					/>
+					''
 				)}
 			</div>
 			<Divider />
