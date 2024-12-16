@@ -20,6 +20,7 @@ import styles from './ListItem.module.scss';
 import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 import useUserInfo from '../../../hooks/useUserInfo.tsx';
+import { formatTimeWithoutSeconds } from '../../../utils/formatTime.ts';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { user } = useUserInfo();
@@ -60,7 +61,7 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 		{ label: <EnvironmentOutlined />, value: event.address },
 		{
 			label: <ClockCircleOutlined />,
-			value: `${event.startTime} - ${event.endTime} `,
+			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)} `,
 		},
 
 		{

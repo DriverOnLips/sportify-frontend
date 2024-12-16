@@ -29,6 +29,7 @@ import { useScreenMode } from 'hooks/useScreenMode.ts';
 import styles from './EventInfo.module.scss';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import Creator from '../shared/Creator/Creator.tsx';
+import { formatTimeWithoutSeconds } from 'utils/formatTime.ts';
 
 type EventInfoProps = {
 	event: EventInfoModel;
@@ -55,7 +56,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${event.startTime!} - ${event.endTime!} `,
+			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)}`,
 		},
 		{
 			label: <RiseOutlined />,
