@@ -17,7 +17,7 @@ const Participants: React.FC<Props> = ({ participants }) => {
 	}));
 
 	return (
-		<div className='flex flex-row items-center justify-center w-max'>
+		<div className='flex flex-row items-center justify-center w-max custom'>
 			<AnimatedTooltip
 				imgStyle={{ height: '30px' }}
 				items={tooltipItems}
