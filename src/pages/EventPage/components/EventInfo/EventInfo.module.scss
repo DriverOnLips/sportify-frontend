@@ -8,9 +8,26 @@
 		align-items: center;
 		margin-bottom: 5px;
 
+		&_title {
+			flex: 1;
+			text-align: center !important;
+		}
+
 		&_buttons {
 			display: flex;
 			gap: 1rem;
+		}
+	}
+
+	&__subscribe_button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		button {
+			padding: 20px 24px;
+			text-align: center;
+			border-radius: 8px;
 		}
 	}
 
@@ -18,6 +35,17 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
-		margin: 6px 0;
+		margin: 3px 0;
+	}
+
+	&__participants {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		margin: 3px 0;
+	}
+
+	.custom_divider {
+		margin: 14px 0;
 	}
 }
