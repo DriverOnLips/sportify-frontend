@@ -44,19 +44,27 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const eventsService = new EventsService();
 	const usersService = new UsersService();
 
+	const [currentEvent, setCurrentEvent] = useState<EventInfoModel>(event);
 	const [participants, setParticipants] = useState<UserShortInfoModel[]>([]);
 
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
-	const isCreator = useMemo(() => user?.id === event.creator.id, [user, event]);
+	const isCreator = useMemo(
+		() => user?.id === currentEvent.creator.id,
+		[user, currentEvent],
+	);
 
 	useEffect(() => {
 		const fetchParticipants = async () => {
-			if (isAuthorized && user?.id && event.subscribersId?.includes(user.id)) {
+			if (
+				isAuthorized &&
+				user?.id &&
+				currentEvent.subscribersId?.includes(user.id)
+			) {
 				try {
 					const participantsData = await Promise.all(
-						event.subscribersId.map((subscriberId) =>
+						currentEvent.subscribersId.map((subscriberId) =>
 							usersService.getUserInfo(subscriberId),
 						),
 					);
@@ -78,43 +86,47 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		};
 
 		fetchParticipants();
-	}, [event, user, isAuthorized, usersService]);
+	}, [currentEvent, user, isAuthorized, usersService]);
 
 	const eventFields = [
 		{
 			label: <DollarOutlined />,
-			value: `${event.price}₽`,
+			value: `${currentEvent.price}₽`,
 		},
 		{
 			label: <CalendarOutlined />,
-			value: formatDateDDMMMMYYYY(event.date!),
+			value: formatDateDDMMMMYYYY(currentEvent.date!),
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)}`, // строка
+			value: `${formatTimeWithoutSeconds(currentEvent.startTime)} - ${formatTimeWithoutSeconds(currentEvent.endTime)}`,
 		},
 		{
 			label: <RiseOutlined />,
 			value:
-				event.gameLevel.length > 0
-					? event.gameLevel
+				currentEvent.gameLevel.length > 0
+					? currentEvent.gameLevel
 							.map((level) => convertGameLevelToDisplayValue(level))
 							.join(', ')
 					: 'Любой',
 		},
-		{ label: <EnvironmentOutlined />, value: event.address, itemMaxLines: 3 },
+		{
+			label: <EnvironmentOutlined />,
+			value: currentEvent.address,
+			itemMaxLines: 3,
+		},
 		{
 			label: <TeamOutlined />,
-			value: event.capacity
-				? `${event.busy}/${event.capacity}`
-				: event.busy.toString(),
+			value: currentEvent.capacity
+				? `${currentEvent.busy}/${currentEvent.capacity}`
+				: currentEvent.busy.toString(),
 		},
 	];
 
-	if (event.description) {
+	if (currentEvent.description) {
 		eventFields.push({
 			label: <FileTextOutlined />,
-			value: event.description,
+			value: currentEvent.description,
 		});
 	}
 
@@ -123,8 +135,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	}, [navigate]);
 
 	const navigateToEventEdit = useCallback(
-		() => navigate(`/events/${event.id}?edit=true`),
-		[event, navigate],
+		() => navigate(`/events/${currentEvent.id}?edit=true`),
+		[currentEvent, navigate],
 	);
 
 	const onDeleteButtonClick = async () => {
@@ -135,7 +147,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				return;
 			}
 
-			await eventsService.deleteEvent(event.id, user.id);
+			await eventsService.deleteEvent(currentEvent.id, user.id);
 			showToast('success', 'Мероприятие удалено');
 			navigate('/events');
 		} catch (error: any) {
@@ -164,7 +176,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 					weight={'bold'}
 					color={'primary'}
 				>
-					{convertSportTypeToDisplayValue(event.sportType)}
+					{convertSportTypeToDisplayValue(currentEvent.sportType)}
 				</Text>
 
 				{isCreator && (
@@ -194,18 +206,30 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			</div>
 			<Divider className={styles.custom_divider} />
 			<Carousel
-				photos={event.photos}
+				photos={currentEvent.photos}
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
 			<Divider className={styles.custom_divider} />
 
 			<div className={styles.event_info__subscribe_button}>
 				<PageSubscribeButton
-					disabled={event?.capacity ? event.busy >= event.capacity : false}
-					isSub={
-						user?.id !== undefined && !!event.subscribersId?.includes(user.id)
+					disabled={
+						currentEvent?.capacity
+							? currentEvent.busy >= currentEvent.capacity
+							: false
 					}
-					eventId={event.id}
+					isSub={
+						user?.id !== undefined &&
+						!!currentEvent.subscribersId?.includes(user.id)
+					}
+					eventId={currentEvent.id}
+					onSubscriptionChange={(newSubscribersId) => {
+						// Обновляем локальный стейт event
+						setCurrentEvent((prev) => ({
+							...prev,
+							subscribersId: newSubscribersId,
+						}));
+					}}
 				/>
 			</div>
 
@@ -213,17 +237,21 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 			<div className={styles.event_info__creator}>
 				<Text color={'primary'}>Создатель: </Text>
-				<Creator creator={event.creator} />
+				<Creator creator={currentEvent.creator} />
 			</div>
 
-			<div className={styles.event_info__participants}>
-				<Text color={'primary'}>Участники:</Text>
-				{participants.length > 0 ? (
-					<Participants participants={participants} />
-				) : (
-					<Text>Нет участников</Text>
-				)}
-			</div>
+			{(user?.id === currentEvent.creator.id ||
+				(user?.id !== undefined &&
+					currentEvent.subscribersId?.includes(user.id))) && (
+				<div className={styles.event_info__participants}>
+					<Text color={'primary'}>Участники:</Text>
+					{participants.length > 0 ? (
+						<Participants participants={participants} />
+					) : (
+						<Text>Нет участников</Text>
+					)}
+				</div>
+			)}
 		</div>
 	);
 };
