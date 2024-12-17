@@ -11,16 +11,17 @@ import { Card, Collapse } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from '../../lib/Text/Text.tsx';
-import { EventShortInfoModel } from '../../../types/types/Event/EventShortInfo.ts';
-import { convertSportTypeToDisplayValue } from '../../../utils/converSportTypes.ts';
-import { convertGameLevelToDisplayValue } from '../../../utils/convertGameLevels.ts';
-import { formatDateDDMMMMYYYY } from '../../../utils/formatTime.ts';
+import { EventShortInfoModel } from 'types/types/Event/EventShortInfo.ts';
+import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
+import { convertGameLevelToDisplayValue } from 'utils/convertGameLevels.ts';
+import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
 import SubscribeButton from '../SubscribeButtons/SubscribeButton.tsx';
 import styles from './ListItem.module.scss';
 import LabelValue from '../../lib/LabelValue/LabelValue.tsx';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
-import useUserInfo from '../../../hooks/useUserInfo.tsx';
-import { formatTimeWithoutSeconds } from '../../../utils/formatTime.ts';
+import useUserInfo from 'hooks/useUserInfo.tsx';
+import { formatTimeWithoutSeconds } from 'utils/formatTime.ts';
+import { GAME_LEVELS_COUNT } from 'types/enums/GameLevels.ts';
 
 const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 	const { user } = useUserInfo();
@@ -36,13 +37,8 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 
 	const leftField = [
 		{
-			label: <RiseOutlined />,
-			value:
-				event.gameLevel.length > 0
-					? event.gameLevel
-							.map((level) => convertGameLevelToDisplayValue(level))
-							.join(', ')
-					: 'Любой',
+			label: <TeamOutlined />,
+			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
 		},
 	];
 
@@ -63,10 +59,19 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			label: <ClockCircleOutlined />,
 			value: `${formatTimeWithoutSeconds(event.startTime)} - ${formatTimeWithoutSeconds(event.endTime)} `,
 		},
-
 		{
-			label: <TeamOutlined />,
-			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
+			label: <RiseOutlined />,
+			value:
+				event.gameLevel.length > 0 &&
+				event.gameLevel.length !== GAME_LEVELS_COUNT ? (
+					<Text maxLines={2}>
+						{event.gameLevel
+							.map((level) => convertGameLevelToDisplayValue(level))
+							.join(', ')}
+					</Text>
+				) : (
+					'Любой'
+				),
 		},
 	];
 

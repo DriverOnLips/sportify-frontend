@@ -24,6 +24,16 @@ export const eventListSlice = createSlice({
 		setAllEvents: (state, action: PayloadAction<EventShortInfoModel[]>) => {
 			state.allEvents = action.payload;
 		},
+		setNumOfSubscribersToEventFromList: (
+			state,
+			{
+				payload: { eventId, numOfSubscribers },
+			}: PayloadAction<{ eventId: string; numOfSubscribers: number }>,
+		) => {
+			state.allEvents = state.allEvents.map((event) =>
+				event.id === eventId ? { ...event, busy: numOfSubscribers } : event,
+			);
+		},
 		deleteAllEvents: (state) => {
 			state.allEvents = [];
 		},
@@ -75,7 +85,7 @@ export const selectPastEvents = (
 export const {
 	setAllEvents: setAllEventsAction,
 	deleteAllEvents: deleteAllEventsAction,
-
+	setNumOfSubscribersToEventFromList: setNumOfSubscribersToEventFromListAction,
 	setMyEvents: setMyEventsAction,
 	deleteMyEvents: deleteMyEventsAction,
 
