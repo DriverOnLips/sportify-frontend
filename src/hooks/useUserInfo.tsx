@@ -73,7 +73,7 @@ const useUserInfo = () => {
 		}
 	};
 
-	const tgLogin = async () => {
+	const tgLogin = async (callback: () => void) => {
 		try {
 			const response = await authService.getTgToken();
 			const authUrl = makeTgLoginUrl(response);
@@ -81,24 +81,60 @@ const useUserInfo = () => {
 			// Открываем окно авторизации
 			const authWindow = window.open(authUrl, '_blank');
 
-			// Обработчик для фокуса
-			const handleFocus = async () => {
-				window.removeEventListener('focus', handleFocus);
+			let intervalId: NodeJS.Timeout | null = null;
+			let attempts = 0;
+			const maxAttempts = 10;
 
-				if (authWindow && !authWindow.closed) {
-					// Закрываем окно авторизации, если оно ещё открыто
-					authWindow.close();
-				}
-
+			// Функция проверки статуса авторизации
+			const checkAuthStatus = async () => {
 				try {
+					attempts += 1;
+
 					const usr = await authService.tgLogin(response.token);
-					dispatch(setUserAction(usr));
-					showToast('success', 'Вы вошли в аккаунт');
-				} catch (loginError: any) {
-					showToast('error', 'Ошибка', `Ошибка входа: ${loginError.message}`);
+
+					if (usr) {
+						dispatch(setUserAction(usr));
+						showToast('success', 'Вы вошли в аккаунт');
+
+						stopAuthProcess();
+					} else if (attempts >= maxAttempts) {
+						stopAuthProcess('error');
+					}
+				} catch (error: any) {
+					if (attempts >= maxAttempts) {
+						stopAuthProcess('error');
+					}
 				}
 			};
 
+			// Остановка процесса авторизации
+			const stopAuthProcess = (result: 'success' | 'error' = 'success') => {
+				callback();
+
+				window.removeEventListener('focus', handleFocus);
+
+				if (intervalId) {
+					clearInterval(intervalId);
+					intervalId = null;
+				}
+
+				if (authWindow && !authWindow.closed) {
+					authWindow.close();
+				}
+
+				if (result === 'error') {
+					dispatch(deleteUserAction());
+					showToast('error', 'Ошибка входа в аккаунт');
+				}
+			};
+
+			const handleFocus = () => {
+				if (!intervalId) {
+					intervalId = setInterval(checkAuthStatus, 3000);
+				}
+			};
+
+			// Добавляем обработчик события фокуса
 			window.addEventListener('focus', handleFocus);
 		} catch (error: any) {
 			dispatch(deleteUserAction());
