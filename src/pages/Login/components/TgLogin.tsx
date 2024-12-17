@@ -1,22 +1,27 @@
 import { cn } from 'lib/utils.ts';
 import { SendOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import { Button } from 'antd';
 
 const TgLogin = () => {
 	const { tgLogin } = useUserInfo();
+
+	const [loading, setLoading] = useState(false);
 
 	const handleClick = async (
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 	) => {
 		e.preventDefault();
-		await tgLogin();
+		setLoading(true);
+
+		await tgLogin(() => setLoading(false));
 	};
 
 	return (
 		<>
 			<div className='flex flex-col space-y-4'>
-				<button
+				<Button
 					className={cn(
 						'relative group/btn flex space-x-2 items-center',
 						'justify-center px-4 w-full text-black rounded-md h-10',
@@ -24,14 +29,14 @@ const TgLogin = () => {
 						'dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]',
 					)}
 					onClick={handleClick}
-					type='submit'
+					loading={loading}
 				>
 					<SendOutlined />
 					<span className='text-neutral-700 dark:text-neutral-300 text-sm'>
 						Войти через Telegram
 					</span>
 					<BottomGradient />
-				</button>
+				</Button>
 			</div>
 			<div className='bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full' />
 		</>

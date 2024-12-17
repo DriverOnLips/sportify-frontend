@@ -73,7 +73,7 @@ const useUserInfo = () => {
 		}
 	};
 
-	const tgLogin = async () => {
+	const tgLogin = async (callback: () => void) => {
 		try {
 			const response = await authService.getTgToken();
 			const authUrl = makeTgLoginUrl(response);
@@ -98,17 +98,19 @@ const useUserInfo = () => {
 
 						stopAuthProcess();
 					} else if (attempts >= maxAttempts) {
-						stopAuthProcess();
+						stopAuthProcess('error');
 					}
 				} catch (error: any) {
 					if (attempts >= maxAttempts) {
-						stopAuthProcess();
+						stopAuthProcess('error');
 					}
 				}
 			};
 
 			// Остановка процесса авторизации
-			const stopAuthProcess = () => {
+			const stopAuthProcess = (result: 'success' | 'error' = 'success') => {
+				callback();
+
 				window.removeEventListener('focus', handleFocus);
 
 				if (intervalId) {
@@ -119,12 +121,15 @@ const useUserInfo = () => {
 				if (authWindow && !authWindow.closed) {
 					authWindow.close();
 				}
+
+				if (result === 'error') {
+					dispatch(deleteUserAction());
+					showToast('error', 'Ошибка входа в аккаунт');
+				}
 			};
 
-			// Обработчик для фокуса
 			const handleFocus = () => {
 				if (!intervalId) {
-					// Запускаем интервал на 3 секунды
 					intervalId = setInterval(checkAuthStatus, 3000);
 				}
 			};
