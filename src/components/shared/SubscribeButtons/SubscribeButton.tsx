@@ -6,6 +6,8 @@ import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import Tooltip from '../../lib/Tooltip/Tooltip.tsx';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setNumOfSubscribersToEventFromListAction } from '../../../states/EventListState/EventListState.ts';
 
 type Props = {
 	isSub: boolean;
@@ -14,9 +16,10 @@ type Props = {
 };
 
 const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
-	const { user, isAuthorized } = useUserInfo();
-
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { user, isAuthorized } = useUserInfo();
 
 	const eventsService = new EventsService();
 
@@ -47,8 +50,15 @@ const SubscribeButton: React.FC<Props> = ({ isSub, eventId, disabled }) => {
 				user.id,
 				!isSubscribed,
 			);
+
 			const newIsSubscribed = response.subscribers_id?.includes(user.id);
+			const numOfSubscribers = response.busy;
+
 			setIsSubscribed(newIsSubscribed);
+			dispatch(
+				setNumOfSubscribersToEventFromListAction({ eventId, numOfSubscribers }),
+			);
+
 			showToast(
 				'success',
 				`Вы ${newIsSubscribed ? 'записались на мероприятие' : 'отписались от мероприятия'}`,
