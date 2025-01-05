@@ -86,7 +86,7 @@ const EventCreate: React.FC = () => {
 				<div className={styles.event_create}>
 					<Text
 						className={styles.event_create__name}
-						size={'s3'}
+						size={'s4'}
 						color={'primary'}
 						weight={'bold'}
 					>
@@ -98,7 +98,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Вид спорта:
@@ -111,7 +111,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Адрес:
@@ -124,7 +124,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Дата:
@@ -137,7 +137,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Время начала и окончания:
@@ -150,7 +150,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Цена за участие:
@@ -162,7 +162,7 @@ const EventCreate: React.FC = () => {
 
 						<div className={styles.event_create__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Уровень игры:
@@ -174,7 +174,7 @@ const EventCreate: React.FC = () => {
 						<div className={styles.event_create__item}>
 							<Text
 								className={styles.event_create__capacity}
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Максимальное количество участников:
@@ -189,7 +189,7 @@ const EventCreate: React.FC = () => {
 
 						<div className={styles.event_create__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Описание:
@@ -199,7 +199,7 @@ const EventCreate: React.FC = () => {
 
 						<div className={styles.event_create__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Фотографии площадки:

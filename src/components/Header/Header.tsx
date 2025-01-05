@@ -111,7 +111,7 @@ const Header: React.FC = () => {
 							size='s6'
 							className={styles.logoSubtitle}
 						>
-							москва
+							Москва
 						</Text>
 					</div>
 				</div>
