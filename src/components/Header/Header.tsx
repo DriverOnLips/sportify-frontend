@@ -10,6 +10,7 @@ import {
 import { useScreenMode } from '../../hooks/useScreenMode.ts';
 import { useNavigate } from 'react-router-dom';
 import MenuSwitcher from '../Menu/Switcher/Switcher.tsx';
+import MoveLifeLogo from '../../assets/move-life_logo.svg';
 
 const OFFSET_X_T0_OPEN_SIDEBAR = 100;
 const OFFSET_Y_T0_OPEN_SIDEBAR = 50;
@@ -88,14 +89,32 @@ const Header: React.FC = () => {
 	return (
 		<header className={styles.header}>
 			{isWide ? (
-				<Text
-					weight={'bold'}
-					size={'s3'}
-					className={styles.header__logo_span}
+				<div
+					className={styles.logoContainer}
 					onClick={handleLogoClick}
 				>
-					{'MoveLife'}
-				</Text>
+					<img
+						src={MoveLifeLogo}
+						alt='MoveLife Logo'
+						className={styles.logo}
+					/>
+					<div className={styles.logoText}>
+						<Text
+							weight='bold'
+							size='s5'
+							className={styles.logoTitle}
+						>
+							MOVE-LIFE
+						</Text>
+						<Text
+							weight='medium'
+							size='s6'
+							className={styles.logoSubtitle}
+						>
+							москва
+						</Text>
+					</div>
+				</div>
 			) : (
 				<MenuSwitcher onClick={handleMenuSwitcherClick} />
 			)}
@@ -105,14 +124,16 @@ const Header: React.FC = () => {
 			{isWide ? (
 				<MenuSwitcher onClick={handleMenuSwitcherClick} />
 			) : (
-				<Text
-					weight={'bold'}
-					size={'s3'}
-					className={styles.header__logo_span}
+				<div
+					className={styles.shortLogoContainer}
 					onClick={handleLogoClick}
 				>
-					{'ML'}
-				</Text>
+					<img
+						src={MoveLifeLogo}
+						alt='MoveLife Logo'
+						className={styles.logo}
+					/>
+				</div>
 			)}
 		</header>
 	);

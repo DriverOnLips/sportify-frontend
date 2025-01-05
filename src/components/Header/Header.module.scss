@@ -1,12 +1,9 @@
-@use "styles/variables.scss" as *;
-
 .header {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 70px;
-
 
 	display: flex;
 	justify-content: space-between;
@@ -17,11 +14,38 @@
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	z-index: 999;
 	overflow: hidden;
+}
 
-	&__logo_span {
-		padding: 0.75rem 0;
-		color: #1677ff;
-		cursor: pointer;
+.logoContainer {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.logo {
+	width: 50px;
+	height: auto;
+
+	@media (min-width: 850px) {
+		margin-right: 10px;
 	}
 }
 
+.logoText {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.logoTitle {
+	font-size: 16px !important;
+	color: #ef15b5;
+	font-family: "Tektur", sans-serif;
+}
+
+.logoSubtitle {
+	font-size: 14px !important;
+	color: #666;
+	line-height: 1.1;
+	font-family: "Space-Grotesk", sans-serif;
+}
