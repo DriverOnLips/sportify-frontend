@@ -5,6 +5,8 @@ import App from './App.tsx';
 import { EnvProvider } from './contexts/EnvContext.tsx';
 import store from './states/store.ts';
 import { Provider } from 'react-redux';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>

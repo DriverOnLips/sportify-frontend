@@ -1,0 +1,46 @@
+.carousel {
+	width: 100%;
+	margin: 0 auto;
+
+	.slick-dots {
+		bottom: -20px;
+	}
+
+	.slick-arrow {
+		z-index: 10;
+	}
+
+	.slick-prev,
+	.slick-next {
+		width: 30px;
+		height: 30px;
+		background-color: black;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+	}
+}
+
+.slide {
+	display: flex;
+	cursor: pointer;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 1rem;
+	transition: transform 0.3s ease;
+
+	&:hover {
+		transform: scale(1.05);
+	}
+
+	.image {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+		border-radius: 10px;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+}
