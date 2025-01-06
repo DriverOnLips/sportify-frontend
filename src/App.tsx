@@ -7,6 +7,7 @@ import EventsList from 'pages/EventsList/EventsList.tsx';
 import '@fontsource/space-grotesk';
 import '@fontsource/cinzel';
 import '@fontsource/tektur';
+import '@fontsource/montserrat-alternates';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';

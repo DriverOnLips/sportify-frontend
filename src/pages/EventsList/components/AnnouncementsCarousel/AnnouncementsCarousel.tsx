@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Для внутренних редиректов
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import styles from './AnnouncementsCarousel.module.scss';
 
