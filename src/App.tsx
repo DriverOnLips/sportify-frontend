@@ -23,8 +23,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { selectIsSidebarOpen } from './states/AppState/AppState.tsx';
 import { useScreenMode } from './hooks/useScreenMode.ts';
 import Profile from './pages/Profile/Profile.tsx';
+import { ConfigProvider, ConfigProviderProps } from 'antd';
+import ruRu from 'antd/locale/ru_RU';
+
+type Locale = ConfigProviderProps['locale'];
 
 function App() {
+	const locale: Locale = ruRu;
+
 	const dispatch = useDispatch();
 
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -63,88 +69,90 @@ function App() {
 				/>
 			</Helmet>
 
-			<BrowserRouter basename='/'>
-				<Header />
-				<Sidebar />
-				<AnimatePresence>
-					<motion.div
-						id='content'
-						animate={{
-							marginLeft: isWide ? '300px' : isSidebarOpen ? '80px' : 0,
-						}}
-						layout
-					>
-						{isLoaded && (
-							<Routes>
-								<Route
-									path='/'
-									element={<MainPage />}
-								/>
-								<Route
-									path='/events'
-									element={<EventsList />}
-								/>
-								<Route
-									path='/events/:id'
-									element={<EventPage />}
-								/>
-								<Route
-									path='/events-my'
-									element={
-										<ProtectedRoute isAuthorized={isAuthorized}>
-											<MyEventsList />
-										</ProtectedRoute>
-									}
-								/>
-								<Route
-									path='/events-create'
-									element={
-										<ProtectedRoute isAuthorized={isAuthorized}>
-											<EventCreate />
-										</ProtectedRoute>
-									}
-								/>
-								<Route
-									path='/events-upcoming'
-									element={
-										<ProtectedRoute isAuthorized={isAuthorized}>
-											<UpcomingEventsList />
-										</ProtectedRoute>
-									}
-								/>
-								<Route
-									path='/events-past'
-									element={
-										<ProtectedRoute isAuthorized={isAuthorized}>
-											<PastEventsList />
-										</ProtectedRoute>
-									}
-								/>
-								<Route
-									path='/map'
-									element={<MapPage />}
-								/>
-								<Route
-									path='/profile/:id'
-									element={<Profile />}
-								/>
-								<Route
-									path='/login'
-									element={<Login />}
-								/>
-								<Route
-									path='/signup'
-									element={<Login />}
-								/>
-								<Route
-									path='/logout'
-									element={<Logout />}
-								/>
-							</Routes>
-						)}
-					</motion.div>
-				</AnimatePresence>
-			</BrowserRouter>
+			<ConfigProvider locale={locale}>
+				<BrowserRouter basename='/'>
+					<Header />
+					<Sidebar />
+					<AnimatePresence>
+						<motion.div
+							id='content'
+							animate={{
+								marginLeft: isWide ? '300px' : isSidebarOpen ? '80px' : 0,
+							}}
+							layout
+						>
+							{isLoaded && (
+								<Routes>
+									<Route
+										path='/'
+										element={<MainPage />}
+									/>
+									<Route
+										path='/events'
+										element={<EventsList />}
+									/>
+									<Route
+										path='/events/:id'
+										element={<EventPage />}
+									/>
+									<Route
+										path='/events-my'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<MyEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-create'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<EventCreate />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-upcoming'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<UpcomingEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-past'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<PastEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/map'
+										element={<MapPage />}
+									/>
+									<Route
+										path='/profile/:id'
+										element={<Profile />}
+									/>
+									<Route
+										path='/login'
+										element={<Login />}
+									/>
+									<Route
+										path='/signup'
+										element={<Login />}
+									/>
+									<Route
+										path='/logout'
+										element={<Logout />}
+									/>
+								</Routes>
+							)}
+						</motion.div>
+					</AnimatePresence>
+				</BrowserRouter>
+			</ConfigProvider>
 		</div>
 	);
 }
