@@ -51,7 +51,9 @@ const EventsList: React.FC = () => {
 
 	return (
 		<div className={styles.events_wrapper}>
-			<AnnouncementsCarousel announcements={announcements} />
+			<div className={styles.announcements__container}>
+				<AnnouncementsCarousel announcements={announcements} />
+			</div>
 			<div className={styles.events_list__container}>
 				{isLoaded ? (
 					allEvents.length > 0 ? (

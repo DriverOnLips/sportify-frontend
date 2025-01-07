@@ -64,7 +64,10 @@ const ListItem: React.FC<{ event: EventShortInfoModel }> = ({ event }) => {
 			value:
 				event.gameLevel.length > 0 &&
 				event.gameLevel.length !== GAME_LEVELS_COUNT ? (
-					<Text maxLines={2}>
+					<Text
+						size={'s6'}
+						maxLines={2}
+					>
 						{event.gameLevel
 							.map((level) => convertGameLevelToDisplayValue(level))
 							.join(', ')}

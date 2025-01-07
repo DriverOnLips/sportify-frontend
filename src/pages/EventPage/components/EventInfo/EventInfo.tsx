@@ -236,7 +236,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			<LabelValue items={eventFields} />
 
 			<div className={styles.event_info__creator}>
-				<Text color={'primary'}>Создатель: </Text>
+				<Text
+					size={'s6'}
+					color={'primary'}
+				>
+					Создатель:{' '}
+				</Text>
 				<Creator creator={currentEvent.creator} />
 			</div>
 
@@ -244,11 +249,16 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 				(user?.id !== undefined &&
 					currentEvent.subscribersId?.includes(user.id))) && (
 				<div className={styles.event_info__participants}>
-					<Text color={'primary'}>Участники:</Text>
+					<Text
+						size={'s6'}
+						color={'primary'}
+					>
+						Участники:
+					</Text>
 					{participants.length > 0 ? (
 						<Participants participants={participants} />
 					) : (
-						<Text>Нет участников</Text>
+						<Text size={'s6'}>Нет участников</Text>
 					)}
 				</div>
 			)}
