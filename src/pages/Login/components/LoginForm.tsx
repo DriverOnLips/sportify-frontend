@@ -6,9 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
 import TgLogin from './TgLogin.tsx';
+import { useScreenMode } from '../../../hooks/useScreenMode.ts';
 
 const LoginForm = () => {
 	const { login } = useUserInfo();
+	const screenWidth = useScreenMode();
+	const isWide =
+		screenWidth > 1000 || (screenWidth <= 650 && screenWidth > 400);
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -84,7 +88,7 @@ const LoginForm = () => {
 					type='submit'
 					onClick={handleClick}
 				>
-					Зарегистрироваться
+					{isWide ? 'Зарегистрироваться' : 'Регистрация'}
 					<BottomGradient />
 				</button>
 			</form>
