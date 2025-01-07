@@ -9,6 +9,12 @@
 	}
 }
 
+.events_wrapper {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 2vw;
+}
+
 @media (min-width: 650px) {
 	.events_list__container > * {
 		width: calc(25% - 2rem);
@@ -27,7 +33,6 @@
 		width: calc(50% - 2rem);
 	}
 }
-
 
 @media (max-width: 650px) {
 	.events_list {

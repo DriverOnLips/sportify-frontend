@@ -75,7 +75,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 				<div className={styles.event_edit}>
 					<Text
 						className={styles.event_edit__name}
-						size={'s3'}
+						size={'s4'}
 						color={'primary'}
 						weight={'bold'}
 					>
@@ -87,7 +87,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Вид спорта:
@@ -103,7 +103,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Адрес:
@@ -119,7 +119,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Дата:
@@ -135,7 +135,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Время начала и окончания:
@@ -155,7 +155,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<RequiredField>
 								<Text
-									size={'s4'}
+									size={'s6'}
 									color={'primary'}
 								>
 									Цена за участие:
@@ -170,7 +170,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 						<div className={styles.event_edit__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Уровень игры:
@@ -184,7 +184,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 						<div className={styles.event_edit__item}>
 							<Text
 								className={styles.event_edit__capacity}
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Максимальное количество участников:
@@ -202,7 +202,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 						<div className={styles.event_edit__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Описание:
@@ -215,7 +215,7 @@ const EventEdit: React.FC<EventEditProps> = ({ event }) => {
 
 						<div className={styles.event_edit__item}>
 							<Text
-								size={'s4'}
+								size={'s6'}
 								color={'primary'}
 							>
 								Фотографии площадки:
