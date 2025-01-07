@@ -29,7 +29,7 @@ const LabelValue: React.FC<Props> = ({ title, items, style, itemStyle }) => {
 					label={
 						item.label && (
 							<Text
-								size='s6'
+								size={'s6'}
 								color={'primary'}
 								weight={'bold'}
 							>
@@ -39,7 +39,8 @@ const LabelValue: React.FC<Props> = ({ title, items, style, itemStyle }) => {
 					}
 				>
 					<Text
-						size='s6'
+						size={'s6'}
+
 						maxLines={item.itemMaxLines}
 					>
 						{item.value}

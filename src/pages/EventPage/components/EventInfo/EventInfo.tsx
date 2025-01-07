@@ -172,7 +172,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 
 				<Text
 					className={styles.event_info__header_title}
-					size={'s4'}
+					size={'s5'}
 					weight={'bold'}
 					color={'primary'}
 				>
