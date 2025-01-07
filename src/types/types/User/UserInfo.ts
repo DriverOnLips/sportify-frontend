@@ -26,6 +26,7 @@ export const createUserInfoModel = (from: UserInfoApi): UserInfoModel => ({
 	id: from.user_id,
 	firstName: from.first_name,
 	secondName: from.second_name,
+	avatar: from.photo_url,
 	sportTypes: from.sport_types,
 	tgUrl: from.tg_url,
 	...from,

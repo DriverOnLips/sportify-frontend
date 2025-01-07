@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { UsersService } from 'api/UsersService/UsersService.ts';
 import { useDispatch } from 'react-redux';
 import { setUserAction } from '../../../../states/UserInfoState/UserInfoState.ts';
+import UploadImage from 'components/lib/UploadImage/UploadImage.tsx';
 
 type Props = {
 	user: UserInfoModel;
@@ -59,47 +60,57 @@ const EditProfile: React.FC<Props> = ({ user }) => {
 				className='my-8'
 				onSubmit={handleSubmit}
 			>
-				<div className='flex md:w-[50%] mb-4'>
-					<LabelInputContainer>
-						<Label htmlFor='firstname'>Имя пользователя</Label>
-						<Input
-							id='firstname'
-							placeholder='Tyler'
-							type='text'
-							disabled
-							value={editedUser.username}
-							onChange={(e) => {
-								changeUserField({ username: e.target.value });
-							}}
-						/>
-					</LabelInputContainer>
-				</div>
+				<div className='flex md:flex-row flex-col md:gap-8'>
+					<div className='flex flex-col w-full md:w-[50%] space-y-2 mb-4'>
+						<LabelInputContainer>
+							<Label htmlFor='firstname'>Имя пользователя</Label>
+							<Input
+								id='firstname'
+								placeholder='Tyler'
+								type='text'
+								disabled
+								value={editedUser.username}
+								onChange={(e) => {
+									changeUserField({ username: e.target.value });
+								}}
+							/>
+						</LabelInputContainer>
+						<LabelInputContainer>
+							<Label htmlFor='firstname'>Имя</Label>
+							<Input
+								id='firstname'
+								placeholder='Tyler'
+								type='text'
+								value={editedUser.firstName}
+								onChange={(e) => {
+									changeUserField({ firstName: e.target.value });
+								}}
+							/>
+						</LabelInputContainer>
+						<LabelInputContainer>
+							<Label htmlFor='secondname'>Фамилия</Label>
+							<Input
+								id='lastname'
+								placeholder='Durden'
+								type='text'
+								value={editedUser.secondName}
+								onChange={(e) => {
+									changeUserField({ secondName: e.target.value });
+								}}
+							/>
+						</LabelInputContainer>
+					</div>
 
-				<div className='flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4'>
-					<LabelInputContainer>
-						<Label htmlFor='firstname'>Имя</Label>
-						<Input
-							id='firstname'
-							placeholder='Tyler'
-							type='text'
-							value={editedUser.firstName}
-							onChange={(e) => {
-								changeUserField({ firstName: e.target.value });
-							}}
-						/>
-					</LabelInputContainer>
-					<LabelInputContainer>
-						<Label htmlFor='secondname'>Фамилия</Label>
-						<Input
-							id='lastname'
-							placeholder='Durden'
-							type='text'
-							value={editedUser.secondName}
-							onChange={(e) => {
-								changeUserField({ secondName: e.target.value });
-							}}
-						/>
-					</LabelInputContainer>
+					<div className='flex md:w-[50%] mb-4'>
+						<LabelInputContainer>
+							<Label htmlFor='firstname'>Аватар</Label>
+							<UploadImage
+								setLink={(avatar) => changeUserField({ avatar })}
+								removeLink={() => changeUserField({ avatar: undefined })}
+								initialFile={user.avatar}
+							/>
+						</LabelInputContainer>
+					</div>
 				</div>
 
 				<LabelInputContainer className='mb-4'>
