@@ -24,7 +24,7 @@ const ViewProfile: React.FC<Props> = ({ user }) => {
 									style={{
 										width: '20vw',
 										maxWidth: '200px',
-										borderRadius: 9999,
+										borderRadius: 8,
 									}}
 								/>
 							</div>

@@ -3,9 +3,14 @@ import { SendOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import useUserInfo from 'hooks/useUserInfo.tsx';
 import { Button } from 'antd';
+import { useScreenMode } from '../../../hooks/useScreenMode.ts';
 
 const TgLogin = () => {
 	const { tgLogin } = useUserInfo();
+
+	const screenWidth = useScreenMode();
+	const isWide =
+		screenWidth > 1000 || (screenWidth <= 650 && screenWidth > 400);
 
 	const [loading, setLoading] = useState(false);
 
@@ -33,7 +38,7 @@ const TgLogin = () => {
 				>
 					<SendOutlined />
 					<span className='text-neutral-700 dark:text-neutral-300 text-sm'>
-						Войти через Telegram
+						{isWide && 'Войти через'} Telegram
 					</span>
 					<BottomGradient />
 				</Button>
