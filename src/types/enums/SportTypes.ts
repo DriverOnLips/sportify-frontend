@@ -3,6 +3,7 @@ export enum SportTypes {
 	Basketball = 'basketball',
 	Football = 'football',
 	Tennis = 'tennis',
+	Table_tennis = 'table_tennis',
 	Running = 'running',
 	Hockey = 'hockey',
 	Skating = 'skating',

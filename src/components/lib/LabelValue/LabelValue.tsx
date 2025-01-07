@@ -40,6 +40,7 @@ const LabelValue: React.FC<Props> = ({ title, items, style, itemStyle }) => {
 				>
 					<Text
 						size={'s6'}
+
 						maxLines={item.itemMaxLines}
 					>
 						{item.value}

@@ -17,7 +17,7 @@ const AnnouncementsCarousel: React.FC<{ announcements: Announcement[] }> = ({
 	const settings = {
 		infinite: true,
 		speed: 500,
-		slidesToShow: 3.5,
+		slidesToShow: 4,
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 3800,
@@ -26,7 +26,7 @@ const AnnouncementsCarousel: React.FC<{ announcements: Announcement[] }> = ({
 			{
 				breakpoint: 1200,
 				settings: {
-					slidesToShow: 2.5,
+					slidesToShow: 3,
 					slidesToScroll: 1,
 				},
 			},
@@ -39,13 +39,6 @@ const AnnouncementsCarousel: React.FC<{ announcements: Announcement[] }> = ({
 			},
 			{
 				breakpoint: 768,
-				settings: {
-					slidesToShow: 1.5,
-					slidesToScroll: 1,
-				},
-			},
-			{
-				breakpoint: 576,
 				settings: {
 					slidesToShow: 1,
 					slidesToScroll: 1,

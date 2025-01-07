@@ -12,6 +12,8 @@ export const convertSportTypeToDisplayValue = (
 			return 'Волейбол';
 		case SportTypes.Tennis:
 			return 'Теннис';
+		case SportTypes.Table_tennis:
+			return 'Настольный теннис';
 		case SportTypes.Running:
 			return 'Бег';
 		case SportTypes.Hockey:
@@ -35,6 +37,8 @@ export const convertDisplayValueToSportType = (
 			return SportTypes.Volleyball;
 		case 'Теннис':
 			return SportTypes.Tennis;
+		case 'Настольный теннис':
+			return SportTypes.Table_tennis;
 		case 'Бег':
 			return SportTypes.Running;
 		case 'Хоккей':
