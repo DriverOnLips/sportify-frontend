@@ -6,6 +6,7 @@ import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLev
 import footballIcon from '../../../../assets/sport-icons/football-icon.svg';
 import basketballIcon from '../../../../assets/sport-icons/basketball-icon.svg';
 import volleyballIcon from '../../../../assets/sport-icons/volleyball-icon.svg';
+import tableTennisIcon from '../../../../assets/sport-icons/ping-pong.svg';
 
 interface YandexMapProps {
 	center?: [number, number];
@@ -45,7 +46,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 			case 'волейбол':
 				return volleyballIcon;
 			default:
-				return volleyballIcon;
+				return tableTennisIcon;
 		}
 	};
 
