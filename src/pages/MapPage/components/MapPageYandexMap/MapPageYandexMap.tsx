@@ -7,6 +7,11 @@ import footballIcon from '../../../../assets/sport-icons/football-icon.svg';
 import basketballIcon from '../../../../assets/sport-icons/basketball-icon.svg';
 import volleyballIcon from '../../../../assets/sport-icons/volleyball-icon.svg';
 import tableTennisIcon from '../../../../assets/sport-icons/ping-pong.svg';
+import hockeyIcon from '../../../../assets/sport-icons/hockey-icon.svg';
+import runningIcon from '../../../../assets/sport-icons//running-icon.svg';
+import skatingIcon from '../../../../assets/sport-icons/skating-icon.svg';
+import skiingIcon from '../../../../assets/sport-icons/skiing-icon.svg';
+import tennisIcon from '../../../../assets/sport-icons/tennis-icon.svg';
 
 interface YandexMapProps {
 	center?: [number, number];
@@ -45,6 +50,16 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				return basketballIcon;
 			case 'волейбол':
 				return volleyballIcon;
+			case 'хоккей':
+				return hockeyIcon;
+			case 'бег':
+				return runningIcon;
+			case 'катание на коньках':
+				return skatingIcon;
+			case 'катание на лыжах':
+				return skiingIcon;
+			case 'теннис':
+				return tennisIcon;
 			default:
 				return tableTennisIcon;
 		}
