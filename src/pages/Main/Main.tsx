@@ -11,6 +11,10 @@ const MainPage: React.FC = () => {
 	const tgStartPage = useSelector(selectTGWebAppStartPage);
 	const navigate = useNavigate();
 
+	const navigateToDefaultPage = () => {
+		navigate('/events');
+	};
+
 	const navigateToStartPage = (page: TgStartPage) => {
 		switch (page) {
 			case TgStartPage.EventCreate:
@@ -30,6 +34,8 @@ const MainPage: React.FC = () => {
 			console.log('tgStartPage:', tgStartPage);
 
 			navigateToStartPage(convertStringToTgStartPage(tgStartPage));
+		} else {
+			navigateToDefaultPage();
 		}
 	}, [tgStartPage]);
 

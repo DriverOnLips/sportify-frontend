@@ -12,14 +12,16 @@ import {
 	SmileOutlined,
 	PlayCircleOutlined,
 } from '@ant-design/icons';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { MenuProps } from 'antd';
 import { Menu as AntdMenu } from 'antd';
 import React from 'react';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './Menu.module.scss';
-import Text from '../lib/Text/Text.tsx';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import { useSelector } from 'react-redux';
+import { selectIsSidebarOpen } from '../../states/AppState/AppState.tsx';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -27,7 +29,9 @@ const Menu: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { isAuthorized } = useUserInfo();
+	const { isAuthorized, user } = useUserInfo();
+
+	const isSidebarOpen = useSelector(selectIsSidebarOpen);
 
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 850;
@@ -82,12 +86,13 @@ const Menu: React.FC = () => {
 			label: 'Аккаунт',
 			icon: <SmileOutlined />,
 			children: [
-				{
-					key: '10',
-					label: 'Профиль',
-					icon: <UserOutlined />,
-					disabled: true,
-				},
+				isAuthorized
+					? {
+							key: '10',
+							label: 'Профиль',
+							icon: <UserOutlined />,
+						}
+					: null,
 				!isAuthorized
 					? {
 							key: '11',
@@ -104,7 +109,8 @@ const Menu: React.FC = () => {
 	];
 
 	const getActiveKey = () => {
-		switch (location.pathname) {
+		const path = location.pathname.split('/').slice(0, 2).join('/');
+		switch (path) {
 			case '/events':
 				return ['2'];
 			case '/map':
@@ -117,6 +123,8 @@ const Menu: React.FC = () => {
 				return ['7'];
 			case '/events-past':
 				return ['8'];
+			case '/profile':
+				return ['10'];
 			case '/login':
 				return ['11'];
 			case '/logout':
@@ -146,6 +154,9 @@ const Menu: React.FC = () => {
 			case '8':
 				navigate('/events-past');
 				break;
+			case '10':
+				navigate(`/profile/${user!.id}`);
+				break;
 			case '11':
 				navigate('/login');
 				break;
@@ -157,39 +168,26 @@ const Menu: React.FC = () => {
 		}
 	};
 
-	const handleLogoClick = () => {
-		const contentDiv = document.getElementById('content');
-		if (location.pathname === '/events') {
-			contentDiv?.scrollTo({ top: 0, behavior: 'smooth' });
-			return;
-		}
-
-		navigate('/events');
-	};
-
 	return (
-		<div className={styles.menu}>
-			<div className={styles.menu__logo}>
-				<Text
-					weight={'bold'}
-					size={'s3'}
-					className={styles.menu__logo_span}
-					onClick={handleLogoClick}
-				>
-					{isWide ? 'MoveLife' : 'ML'}
-				</Text>
-			</div>
-
-			<AntdMenu
-				selectedKeys={getActiveKey()}
-				defaultOpenKeys={isWide ? ['1'] : []}
-				mode={'inline'}
-				theme='light'
-				inlineCollapsed={!isWide}
-				items={items}
-				onClick={handleClick}
-			/>
-		</div>
+		<AnimatePresence>
+			<motion.div
+				initial={{ width: isWide ? '300px' : 0 }}
+				animate={{ width: isWide ? '300px' : isSidebarOpen ? '80px' : 0 }}
+				exit={{ width: isWide ? '300px' : 0 }}
+				layout
+				className={styles.menu}
+			>
+				<AntdMenu
+					selectedKeys={getActiveKey()}
+					defaultOpenKeys={isWide ? ['1'] : []}
+					mode={'inline'}
+					theme='light'
+					inlineCollapsed={!isWide}
+					items={items}
+					onClick={handleClick}
+				/>
+			</motion.div>
+		</AnimatePresence>
 	);
 };
 

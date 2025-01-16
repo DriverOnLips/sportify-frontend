@@ -16,6 +16,7 @@ type TextProps = {
 	decoration?: string;
 	cursor?: string;
 	maxLines?: number;
+	style?: React.CSSProperties;
 	onClick?(): void;
 	children: ReactNode;
 };
@@ -32,12 +33,14 @@ const Text: React.FC<TextProps> = ({
 	decoration,
 	cursor,
 	maxLines,
+	style: customStyle,
 	onClick,
 	children,
 }) => {
 	const style: React.CSSProperties = {
 		textAlign: text_align,
 		'--max-lines-count': maxLines,
+		...customStyle,
 	} as React.CSSProperties;
 
 	if (display) style.display = display;

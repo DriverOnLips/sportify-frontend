@@ -22,3 +22,10 @@ export const formatDateYYYYMMDD = (
 export const formatTime = (time: Date | dayjs.Dayjs | string): string => {
 	return dayjs(time).format('HH:mm:ss');
 };
+
+export const formatTimeWithoutSeconds = (time?: string): string => {
+	if (!time) return '';
+
+	const [hours, minutes] = time.split(':');
+	return `${hours}:${minutes}`;
+};

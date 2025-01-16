@@ -3,13 +3,13 @@ import { EventInfoModel, EventInfoApi } from './EventInfo.ts';
 // тип для страницы со списком мероприятий
 export type EventShortInfoModel = Omit<
 	EventInfoModel,
-	'description' | 'rawMessage'
->;
+	'description' | 'rawMessage' | 'creator'
+> & { creatorId: string };
 
 export type EventShortInfoApi = Omit<
 	EventInfoApi,
-	'description' | 'raw_message'
->;
+	'description' | 'raw_message' | 'creator'
+> & { id: string };
 
 export const createEventShortInfoModel = (
 	from: EventShortInfoApi[],
@@ -23,6 +23,6 @@ export const createEventShortInfoModel = (
 		isFree: event.is_free,
 		gameLevel: event.game_level,
 		subscribersId: event.subscribers_id,
-		creatorId: event.creator_id,
+		creatorId: event.id,
 	}));
 };

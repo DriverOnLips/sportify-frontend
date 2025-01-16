@@ -55,6 +55,7 @@ const AddressInput: React.FC<Props> = ({ className, changeEventField }) => {
 					value: inputValue,
 					onChange: handleInputChange,
 				}}
+				filterLocations={[{ region: 'Москва' }, { region: 'Московская' }]}
 			/>
 		</div>
 	);

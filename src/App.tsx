@@ -4,10 +4,14 @@ import Sidebar from './components/Menu/Menu.tsx';
 import Header from './components/Header/Header.tsx';
 import EventPage from 'pages/EventPage/EventPage.tsx';
 import EventsList from 'pages/EventsList/EventsList.tsx';
+import '@fontsource/space-grotesk';
+import '@fontsource/cinzel';
+import '@fontsource/tektur';
+import '@fontsource/montserrat-alternates';
 import './App.scss';
 import { useEnv } from './contexts/EnvContext.tsx';
 import EventCreate from './pages/EventPage/components/EventCreate/EventCreate.tsx';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setParamsAction } from './states/TGWebApp/TGWebAppState.ts';
 import MainPage from './pages/Main/Main.tsx';
@@ -19,19 +23,34 @@ import PastEventsList from './pages/PastEventsList/PastEventsList.tsx';
 import Logout from './pages/Logout/Logout.tsx';
 import useUserInfo from './hooks/useUserInfo.tsx';
 import ProtectedRoute from './utils/ProtectedRoute.tsx';
+import { AnimatePresence, motion } from 'framer-motion';
+import { selectIsSidebarOpen } from './states/AppState/AppState.tsx';
+import { useScreenMode } from './hooks/useScreenMode.ts';
+import Profile from './pages/Profile/Profile.tsx';
+import { ConfigProvider, ConfigProviderProps } from 'antd';
+import ruRu from 'antd/locale/ru_RU';
+
+type Locale = ConfigProviderProps['locale'];
 
 function App() {
+	const locale: Locale = ruRu;
+
+	const dispatch = useDispatch();
+
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { isAuthorized, check } = useUserInfo();
 
-	const dispatch = useDispatch();
+	const isSidebarOpen = useSelector(selectIsSidebarOpen);
+
+	const screenWidth = useScreenMode();
+	const isWide = screenWidth > 850;
 
 	const { yandexMapApiKey } = useEnv();
 
 	const checkAuth = async () => {
 		await check();
 		// TODO: убрать нафиг это говно
-		setTimeout(() => setIsLoaded(true), 100);
+		setTimeout(() => setIsLoaded(true), 500);
 	};
 
 	useEffect(() => {
@@ -54,76 +73,90 @@ function App() {
 				/>
 			</Helmet>
 
-			<BrowserRouter basename='/'>
-				<Header />
-				<Sidebar />
-				<div id='content'>
-					{isLoaded && (
-						<Routes>
-							<Route
-								path='/'
-								element={<MainPage />}
-							/>
-							<Route
-								path='/events'
-								element={<EventsList />}
-							/>
-							<Route
-								path='/events/:id'
-								element={<EventPage />}
-							/>
-							<Route
-								path='/events-my'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<MyEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-create'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<EventCreate />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-upcoming'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<UpcomingEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/events-past'
-								element={
-									<ProtectedRoute isAuthorized={isAuthorized}>
-										<PastEventsList />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path='/map'
-								element={<MapPage />}
-							/>
-							<Route
-								path='/login'
-								element={<Login />}
-							/>
-							<Route
-								path='/signup'
-								element={<Login />}
-							/>
-							<Route
-								path='/logout'
-								element={<Logout />}
-							/>
-						</Routes>
-					)}
-				</div>
-			</BrowserRouter>
+			<ConfigProvider locale={locale}>
+				<BrowserRouter basename='/'>
+					<Header />
+					<Sidebar />
+					<AnimatePresence>
+						<motion.div
+							id='content'
+							animate={{
+								marginLeft: isWide ? '300px' : isSidebarOpen ? '80px' : 0,
+							}}
+							layout
+						>
+							{isLoaded && (
+								<Routes>
+									<Route
+										path='/'
+										element={<MainPage />}
+									/>
+									<Route
+										path='/events'
+										element={<EventsList />}
+									/>
+									<Route
+										path='/events/:id'
+										element={<EventPage />}
+									/>
+									<Route
+										path='/events-my'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<MyEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-create'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<EventCreate />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-upcoming'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<UpcomingEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/events-past'
+										element={
+											<ProtectedRoute isAuthorized={isAuthorized}>
+												<PastEventsList />
+											</ProtectedRoute>
+										}
+									/>
+									<Route
+										path='/map'
+										element={<MapPage />}
+									/>
+									<Route
+										path='/profile/:id'
+										element={<Profile />}
+									/>
+									<Route
+										path='/login'
+										element={<Login />}
+									/>
+									<Route
+										path='/signup'
+										element={<Login />}
+									/>
+									<Route
+										path='/logout'
+										element={<Logout />}
+									/>
+								</Routes>
+							)}
+						</motion.div>
+					</AnimatePresence>
+				</BrowserRouter>
+			</ConfigProvider>
 		</div>
 	);
 }

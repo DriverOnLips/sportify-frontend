@@ -12,11 +12,10 @@ import {
 } from '@ant-design/icons';
 import Button from 'components/lib/Button/Button.tsx';
 import Text from 'components/lib/Text/Text.tsx';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { EventInfoModel } from 'types/types/Event/EventInfo.ts';
 import { convertSportTypeToDisplayValue } from 'utils/converSportTypes.ts';
 import { formatDateDDMMMMYYYY } from 'utils/formatTime.ts';
-import SubscribeButton from 'components/shared/SubscribeButton/SubscribeButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from 'components/lib/Toast/Toast.tsx';
 import { EventsService } from 'api/EventsService/EventsService.ts';
@@ -28,59 +27,116 @@ import Carousel from './components/Carousel.tsx';
 import { useScreenMode } from 'hooks/useScreenMode.ts';
 import styles from './EventInfo.module.scss';
 import useUserInfo from 'hooks/useUserInfo.tsx';
+import Creator from '../shared/Creator/Creator.tsx';
+import { formatTimeWithoutSeconds } from 'utils/formatTime.ts';
+import PageSubscribeButton from 'components/shared/SubscribeButtons/PageSubsribeButton.tsx';
+import Participants from '../shared/Participants/Participants.tsx';
+import { UsersService } from 'api/UsersService/UsersService.ts';
+import { UserShortInfoModel } from 'types/types/User/UserShortInfo.ts';
 
-interface EventInfoProps {
+type EventInfoProps = {
 	event: EventInfoModel;
-}
+};
 
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 	const { user, isAuthorized } = useUserInfo();
 	const navigate = useNavigate();
 	const eventsService = new EventsService();
+	const usersService = new UsersService();
+
+	const [currentEvent, setCurrentEvent] = useState<EventInfoModel>(event);
+	const [participants, setParticipants] = useState<UserShortInfoModel[]>([]);
 
 	const screenWidth = useScreenMode();
 	const isWide = screenWidth > 650;
 
-	const isCreator = useMemo(() => user?.id == event.creatorId, [user, event]);
+	const isCreator = useMemo(
+		() => user?.id === currentEvent.creator.id,
+		[user, currentEvent],
+	);
+
+	useEffect(() => {
+		const fetchParticipants = async () => {
+			if (
+				isAuthorized &&
+				user?.id &&
+				currentEvent.subscribersId?.includes(user.id)
+			) {
+				try {
+					const participantsData = await Promise.all(
+						currentEvent.subscribersId.map((subscriberId) =>
+							usersService.getUserInfo(subscriberId),
+						),
+					);
+
+					const participantsShortInfo = participantsData.map((p) => ({
+						id: p.id,
+						username: p.username,
+						avatar: p.avatar,
+						tgUrl: p.tgUrl,
+					}));
+
+					setParticipants(participantsShortInfo);
+				} catch (error) {
+					console.error('Ошибка при загрузке участников:', error);
+				}
+			} else {
+				setParticipants([]);
+			}
+		};
+
+		fetchParticipants();
+	}, [currentEvent, user, isAuthorized, usersService]);
 
 	const eventFields = [
 		{
 			label: <DollarOutlined />,
-			value: `${event.price}₽`,
+			value: `${currentEvent.price}₽`,
 		},
 		{
 			label: <CalendarOutlined />,
-			value: formatDateDDMMMMYYYY(event.date!),
+			value: formatDateDDMMMMYYYY(currentEvent.date!),
 		},
 		{
 			label: <ClockCircleOutlined />,
-			value: `${event.startTime!} - ${event.endTime!} `,
+			value: `${formatTimeWithoutSeconds(currentEvent.startTime)} - ${formatTimeWithoutSeconds(currentEvent.endTime)}`,
 		},
 		{
 			label: <RiseOutlined />,
 			value:
-				event.gameLevel.length > 0
-					? event.gameLevel
+				currentEvent.gameLevel.length > 0
+					? currentEvent.gameLevel
 							.map((level) => convertGameLevelToDisplayValue(level))
 							.join(', ')
 					: 'Любой',
 		},
-		{ label: <EnvironmentOutlined />, value: event.address, itemMaxLines: 3 },
 		{
-			label: <TeamOutlined />,
-			value: event.capacity ? `${event.busy}/${event.capacity}` : event.busy,
+			label: <EnvironmentOutlined />,
+			value: currentEvent.address,
+			itemMaxLines: 3,
 		},
 		{
-			label: <FileTextOutlined />,
-			value: event.description,
+			label: <TeamOutlined />,
+			value: currentEvent.capacity
+				? `${currentEvent.busy}/${currentEvent.capacity}`
+				: currentEvent.busy.toString(),
 		},
 	];
 
-	const navigateToEvents = useCallback(() => navigate('/events'), [navigate]);
+	if (currentEvent.description) {
+		eventFields.push({
+			label: <FileTextOutlined />,
+			value: currentEvent.description,
+		});
+	}
+
+	const handleBackButtonClick = useCallback(() => {
+		navigate(-1);
+	}, [navigate]);
 
 	const navigateToEventEdit = useCallback(
-		() => navigate(`/events/${event.id}?edit=true`),
-		[event],
+		() => navigate(`/events/${currentEvent.id}?edit=true`),
+		[currentEvent, navigate],
 	);
 
 	const onDeleteButtonClick = async () => {
@@ -88,11 +144,10 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 			if (!isAuthorized || !user?.id) {
 				showToast('info', 'Авторизуйтесь, чтобы продолжить');
 				navigate('/login');
-
 				return;
 			}
 
-			await eventsService.deleteEvent(event.id, user.id);
+			await eventsService.deleteEvent(currentEvent.id, user.id);
 			showToast('success', 'Мероприятие удалено');
 			navigate('/events');
 		} catch (error: any) {
@@ -110,20 +165,21 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 		<div className={styles.event_info}>
 			<div className={styles.event_info__header}>
 				{isWide && (
-					<Button onClick={navigateToEvents}>
+					<Button onClick={handleBackButtonClick}>
 						<ArrowLeftOutlined />
 					</Button>
 				)}
 
 				<Text
-					size={'s3'}
+					className={styles.event_info__header_title}
+					size={'s5'}
 					weight={'bold'}
 					color={'primary'}
 				>
-					{convertSportTypeToDisplayValue(event.sportType)}
+					{convertSportTypeToDisplayValue(currentEvent.sportType)}
 				</Text>
 
-				{isCreator ? (
+				{isCreator && (
 					<div className={styles.event_info__header_buttons}>
 						<Tooltip
 							title={'Редактировать'}
@@ -146,26 +202,66 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
 							</Button>
 						</Tooltip>
 					</div>
-				) : (
-					<SubscribeButton
-						disabled={event?.capacity ? event.busy >= event.capacity : false}
-						isSub={
-							user?.id !== undefined && !!event.subscribersId?.includes(user.id)
-						}
-						eventId={event.id}
-					/>
 				)}
 			</div>
-
-			<Divider />
+			<Divider className={styles.custom_divider} />
 			<Carousel
-				photos={event.photos}
+				photos={currentEvent.photos}
 				style={{ display: 'flex', justifyContent: 'center' }}
 			/>
+			<Divider className={styles.custom_divider} />
 
-			<Divider />
+			<div className={styles.event_info__subscribe_button}>
+				<PageSubscribeButton
+					disabled={
+						currentEvent?.capacity
+							? currentEvent.busy >= currentEvent.capacity
+							: false
+					}
+					isSub={
+						user?.id !== undefined &&
+						!!currentEvent.subscribersId?.includes(user.id)
+					}
+					eventId={currentEvent.id}
+					onSubscriptionChange={(newSubscribersId) => {
+						// Обновляем локальный стейт event
+						setCurrentEvent((prev) => ({
+							...prev,
+							subscribersId: newSubscribersId,
+						}));
+					}}
+				/>
+			</div>
 
 			<LabelValue items={eventFields} />
+
+			<div className={styles.event_info__creator}>
+				<Text
+					size={'s6'}
+					color={'primary'}
+				>
+					Создатель:{' '}
+				</Text>
+				<Creator creator={currentEvent.creator} />
+			</div>
+
+			{(user?.id === currentEvent.creator.id ||
+				(user?.id !== undefined &&
+					currentEvent.subscribersId?.includes(user.id))) && (
+				<div className={styles.event_info__participants}>
+					<Text
+						size={'s6'}
+						color={'primary'}
+					>
+						Участники:
+					</Text>
+					{participants.length > 0 ? (
+						<Participants participants={participants} />
+					) : (
+						<Text size={'s6'}>Нет участников</Text>
+					)}
+				</div>
+			)}
 		</div>
 	);
 };

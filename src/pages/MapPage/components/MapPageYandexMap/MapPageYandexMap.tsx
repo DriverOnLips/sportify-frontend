@@ -1,6 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './MapPageYandexMap.module.scss';
 import { GameLevels } from '../../../../types/enums/GameLevels';
+import { convertGameLevelToDisplayValue } from '../../../../utils/convertGameLevels';
+
+import footballIcon from '../../../../assets/sport-icons/football-icon.svg';
+import basketballIcon from '../../../../assets/sport-icons/basketball-icon.svg';
+import volleyballIcon from '../../../../assets/sport-icons/volleyball-icon.svg';
+import tableTennisIcon from '../../../../assets/sport-icons/ping-pong.svg';
+import hockeyIcon from '../../../../assets/sport-icons/hockey-icon.svg';
+import runningIcon from '../../../../assets/sport-icons//running-icon.svg';
+import skatingIcon from '../../../../assets/sport-icons/skating-icon.svg';
+import skiingIcon from '../../../../assets/sport-icons/skiing-icon.svg';
+import tennisIcon from '../../../../assets/sport-icons/tennis-icon.svg';
 
 interface YandexMapProps {
 	center?: [number, number];
@@ -30,6 +41,30 @@ const YandexMap: React.FC<YandexMapProps> = ({
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const [ymapsLoaded, setYmapsLoaded] = useState(false);
 
+	const getSportIcon = (sportType: string) => {
+		const normalizedSportType = sportType.trim().toLowerCase();
+		switch (normalizedSportType) {
+			case 'футбол':
+				return footballIcon;
+			case 'баскетбол':
+				return basketballIcon;
+			case 'волейбол':
+				return volleyballIcon;
+			case 'хоккей':
+				return hockeyIcon;
+			case 'бег':
+				return runningIcon;
+			case 'катание на коньках':
+				return skatingIcon;
+			case 'катание на лыжах':
+				return skiingIcon;
+			case 'теннис':
+				return tennisIcon;
+			default:
+				return tableTennisIcon;
+		}
+	};
+
 	useEffect(() => {
 		const checkYandexAPI = () => {
 			if (window.ymaps && window.ymaps.ready) {
@@ -57,7 +92,7 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
 					center: mapCenter,
 					zoom,
-					controls: ['zoomControl'],
+					controls: [],
 				});
 			} else {
 				mapRef.current.setCenter(mapCenter);
@@ -65,6 +100,13 @@ const YandexMap: React.FC<YandexMapProps> = ({
 			}
 
 			mapRef.current.geoObjects.removeAll();
+
+			const clusterer = new window.ymaps.Clusterer({
+				preset: 'islands#blueClusterIcons',
+				groupByCoordinates: false,
+				clusterDisableClickZoom: true,
+				clusterOpenBalloonOnClick: true,
+			});
 
 			if (isUserLocation) {
 				const userLocationPlacemark = new window.ymaps.Placemark(
@@ -80,72 +122,69 @@ const YandexMap: React.FC<YandexMapProps> = ({
 				mapRef.current.geoObjects.add(userLocationPlacemark);
 			}
 
-			events.forEach((event) => {
+			const placemarks = events.map((event) => {
 				const coords: [number, number] = [event.latitude, event.longitude];
+				const icon = getSportIcon(event.name);
+				const levelLabel = event.game_level
+					.map((level) => convertGameLevelToDisplayValue(level))
+					.join(', ');
 
-				const eventPlacemark = new window.ymaps.Placemark(
+				return new window.ymaps.Placemark(
 					coords,
 					{
-						iconContent: `
-            <strong 
-              id="placemark-text-${event.id}"
-              style="
-                background-color: #1e98ff; 
-                color: white; border-radius: 10px; 
-                border: 4px solid #1e98ff; 
-                box-shadow: 0 0 0 2px white; 
-                padding: 4px;
-                cursor: pointer
-              ">
-							${event.name}
-						</strong>`,
-						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 18px;">${event.name}</strong>`,
+						balloonContentHeader: `<strong style="color: #1e98ff; font-size: 16px;">${event.name}</strong>`,
 						balloonContentBody: `
-              <div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
-                <p style="margin: 8px 0; font-size: 16px; font-weight: bold;">Цена: <span style="color: #1e98ff;">${event.price}₽</span></p>
-                <p style="margin: 8px 0;">Адрес: <span style="color: #666;">${event.adress}</span></p>
-                <p style="margin: 8px 0;">Уровень: <span style="color: #666;">${event.game_level}</span></p>
-                <p style="margin: 8px 0;"><span style="color: #1e98ff;">${event.busy} / ${event.capacity}</span></p>
-                <div style="margin-top: 16px; text-align: center;">
-                  <button 
-                    style="
-                      background-color: #1e98ff; 
-                      color: white; 
-                      padding: 10px 20px; 
-                      border: none; 
-                      border-radius: 5px; 
-                      cursor: pointer; 
-                      font-size: 16px; 
-                      font-weight: bold; 
-                      transition: background-color 0.3s ease;
-                    " 
-                    onclick="window.open('${event.eventUrl}', '_self')"
-                    onmouseover="this.style.backgroundColor='#1569C7';"
-                    onmouseout="this.style.backgroundColor='#1e98ff';"
-                  >
-                    Подробнее
-                  </button>
-                </div>
-              </div>
-            `,
+							<div style="font-family: 'Arial', sans-serif; font-size: 14px; color: #333;">
+								<p style="margin: 8px 0; font-size: 14px; font-weight: bold;">
+									Цена: <span style="color: #1e98ff;">${event.price}₽</span>
+								</p>
+								<p style="margin: 8px 0;">
+									Адрес: <span style="color: #666;">${event.adress}</span>
+								</p>
+								<p style="margin: 8px 0;">
+									Уровень: <span style="color: #666;">${levelLabel}</span>
+								</p>
+								<p style="margin: 8px 0;">
+									<span style="color: #1e98ff;">
+										${event.capacity !== null ? `${event.busy} / ${event.capacity}` : event.busy}
+									</span>
+								</p>
+								<div style="margin-top: 16px; text-align: center;">
+									<button 
+										style="
+											background-color: #1e98ff; 
+											color: white; 
+											padding: 10px 20px; 
+											border: none; 
+											border-radius: 5px; 
+											cursor: pointer; 
+											font-size: 16px; 
+											font-weight: bold; 
+											transition: background-color 0.3s ease;
+										" 
+										onclick="window.open('${event.eventUrl}', '_self')"
+										onmouseover="this.style.backgroundColor='#1569C7';"
+										onmouseout="this.style.backgroundColor='#1e98ff';"
+									>
+										Подробнее
+									</button>
+								</div>
+							</div>
+						`,
+
+						hintContent: event.name,
 					},
 					{
-						preset: 'islands#blueIcon',
+						iconLayout: 'default#image',
+						iconImageHref: icon,
+						iconImageSize: [30, 30],
+						iconImageOffset: [-15, -15],
 					},
 				);
-
-				const placemarkTextElement = document.getElementById(
-					`placemark-text-${event.id}`,
-				);
-				if (placemarkTextElement) {
-					placemarkTextElement.addEventListener('click', () => {
-						eventPlacemark.balloon.open();
-						eventPlacemark.events.fire('click');
-					});
-				}
-
-				mapRef.current.geoObjects.add(eventPlacemark);
 			});
+
+			clusterer.add(placemarks);
+			mapRef.current.geoObjects.add(clusterer);
 		};
 
 		if (ymapsLoaded) {

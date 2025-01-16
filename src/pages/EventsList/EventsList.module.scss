@@ -4,9 +4,18 @@
 	&__container {
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 2vw;
 		align-items: flex-start;
 	}
+}
+
+.announcements__container {
+	margin-bottom: -30px;
+}
+
+.events_wrapper {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 2vw;
 }
 
 @media (min-width: 650px) {
@@ -28,11 +37,10 @@
 	}
 }
 
-
 @media (max-width: 650px) {
 	.events_list {
 		&__container {
-			padding: 0 0 0 2vw;
+			padding: 0 2vw;
 		}
 	}
 

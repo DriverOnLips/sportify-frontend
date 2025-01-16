@@ -6,14 +6,20 @@ $scrollbar-width: 20px;
 	width: 100%;
 
 	&__info {
-		width: calc((100vw - 300px) / 2);
-		min-height: calc(100vh - 80px - 2rem);
+		width: 50%;
+		//width: calc((100vw - 300px) / 2);
+		//min-height: calc(100vh - 80px - 2rem);
+		min-height: calc(100vh - 70px);
+
 		padding: 1rem;
 	}
 
 	&__map {
-		width: calc((100vw - 300px - 20px) / 2);
-		height: calc(100vh - 80px - 2rem);
+		width: 50%;
+		//width: calc((100vw - 300px - 20px) / 2);
+
+		//height: calc(100vh - 80px - 2rem);
+		height: calc(100vh - 70px);
 	}
 }
 
@@ -29,28 +35,30 @@ $scrollbar-width: 20px;
 	z-index: 10;
 }
 
-@media (max-width: 850px) {
-	.event_page {
-		&__info {
-			width: calc((100vw - 80px) / 2);
-		}
-
-		&__map {
-			width: calc((100vw - 80px - 20px) / 2);
-		}
-	}
-}
+//@media (max-width: 850px) {
+//	.event_page {
+//		&__info {
+//			width: calc((100vw - 80px) / 2);
+//		}
+//
+//		&__map {
+//			width: calc((100vw - 80px - 20px) / 2);
+//		}
+//	}
+//}
 
 @media (max-width: 650px) {
 	.event_page {
 		flex-direction: column;
 
 		&__info {
-			width: calc(100vw - 80px - 1rem - $scrollbar-width);
+			width: 100%;
+			//width: calc(100vw - 80px - 1rem - $scrollbar-width);
 		}
 
 		&__map {
-			width: calc(100vw - 80px - 1rem);
+			width: 100%;
+			//width: calc(100vw - 80px - 1rem);
 			height: 50vh;
 		}
 	}
@@ -58,9 +66,9 @@ $scrollbar-width: 20px;
 	//need to fix
 	.event_page__transport {
 		position: absolute;
-		top: 900px;
+		top: 700px;
 		right: 30px;
-		left: 150px;
+		left: 10px;
 		background-color: rgba(255, 255, 255, 0.7);
 		padding: 10px 20px;
 		border-radius: 5px;

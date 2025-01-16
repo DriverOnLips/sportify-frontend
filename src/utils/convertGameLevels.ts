@@ -1,5 +1,7 @@
 import { GameLevels } from '../types/enums/GameLevels.ts';
 
+// Пробелы и дефисы неразрывные
+
 export const convertGameLevelToDisplayValue = (
 	gameLevel: GameLevels,
 ): string => {
@@ -7,15 +9,15 @@ export const convertGameLevelToDisplayValue = (
 		case GameLevels.Low:
 			return 'Начинающий';
 		case GameLevels.LowPlus:
-			return 'Начинающий +';
+			return 'Начинающий +';
 		case GameLevels.MidMinus:
-			return 'Средний -';
+			return 'Средний -';
 		case GameLevels.Mid:
 			return 'Средний';
 		case GameLevels.MidPlus:
-			return 'Средний +';
+			return 'Средний +';
 		case GameLevels.High:
-			return 'Полу-профи';
+			return 'Полу‑профи';
 		case GameLevels.HighPlus:
 			return 'Профи';
 	}
@@ -27,15 +29,15 @@ export const convertDisplayValueToGameLevel = (
 	switch (gameLevel) {
 		case 'Начинающий':
 			return GameLevels.Low;
-		case 'Начинающий +':
+		case 'Начинающий +':
 			return GameLevels.LowPlus;
-		case 'Средний -':
+		case 'Средний -':
 			return GameLevels.MidMinus;
 		case 'Средний':
 			return GameLevels.Mid;
-		case 'Средний +':
+		case 'Средний +':
 			return GameLevels.MidPlus;
-		case 'Полу-профи':
+		case 'Полу‑профи':
 			return GameLevels.High;
 		case 'Профи':
 			return GameLevels.HighPlus;

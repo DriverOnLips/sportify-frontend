@@ -1,0 +1,40 @@
+.profile_view_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_view {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  max-width: 60vw;
+  margin: 2rem;
+
+  & > * {
+    margin: 0.5rem;
+  }
+
+  &__first_row {
+    display: flex;
+
+    & > * {
+      margin: 0.5rem;
+    }
+
+    &_image {
+      width: max-content;
+    }
+
+    &_info {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .profile_view {
+    max-width: 80vw;
+  }
+}

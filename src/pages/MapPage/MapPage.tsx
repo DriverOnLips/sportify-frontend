@@ -11,12 +11,7 @@ const MapPage: React.FC = () => {
 	const { allEvents, getAllEvents, deleteAllEvents } = useEventsList();
 
 	useEffect(() => {
-		if (allEvents.length === 0) {
-			console.log('События загружаются...');
-			getAllEvents();
-		} else {
-			console.log('События уже загружены:', allEvents);
-		}
+		getAllEvents();
 	}, []);
 
 	useEffect(() => {

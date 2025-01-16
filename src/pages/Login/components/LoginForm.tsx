@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import Input from 'components/lib/Aceternity/Input/AceternityInput.tsx';
 import Label from 'components/lib/Aceternity/Label/AceternityLabel.tsx';
 import { cn } from 'lib/utils.ts';
-// import { SendOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import useUserInfo from 'hooks/useUserInfo.tsx';
-import { UserWithPwModel } from '../../../types/types/User/UserWithPw.ts';
-import { showToast } from '../../../components/lib/Toast/Toast.tsx';
+import { UserWithPwModel } from 'types/types/User/UserWithPw.ts';
+import TgLogin from './TgLogin.tsx';
+import { useScreenMode } from '../../../hooks/useScreenMode.ts';
 
 const LoginForm = () => {
 	const { login } = useUserInfo();
+	const screenWidth = useScreenMode();
+	const isWide =
+		screenWidth > 1000 || (screenWidth <= 650 && screenWidth > 400);
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -26,7 +29,6 @@ const LoginForm = () => {
 
 		try {
 			await login(user);
-			showToast('success', 'Вы вошли в аккаунт');
 			navigate('/events');
 		} catch (_) {}
 	};
@@ -38,7 +40,7 @@ const LoginForm = () => {
 	return (
 		<div className={cn('w-full mx-auto')}>
 			<h2 className='font-bold text-xl text-neutral-800 dark:text-neutral-200'>
-				Добро прожаловать в MoveLife
+				Добро прожаловать в Move-Life
 			</h2>
 			<p className='text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300'>
 				Войдите, чтобы открыть максимум возможностей
@@ -79,27 +81,14 @@ const LoginForm = () => {
 
 				<div className='bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full' />
 
-				{/*<div className='flex flex-col space-y-4'>*/}
-				{/*	<button*/}
-				{/*		className=' relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]'*/}
-				{/*		type='submit'*/}
-				{/*	>*/}
-				{/*		<SendOutlined />*/}
-				{/*		<span className='text-neutral-700 dark:text-neutral-300 text-sm'>*/}
-				{/*			Telegram*/}
-				{/*		</span>*/}
-				{/*		<BottomGradient />*/}
-				{/*	</button>*/}
-				{/*</div>*/}
-
-				{/*<div className='bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full' />*/}
+				<TgLogin />
 
 				<button
 					className='bg-gradient-to-br relative group/btn from-blue-950 to-blue-400 block w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
 					type='submit'
 					onClick={handleClick}
 				>
-					Зарегистрироваться
+					{isWide ? 'Зарегистрироваться' : 'Регистрация'}
 					<BottomGradient />
 				</button>
 			</form>

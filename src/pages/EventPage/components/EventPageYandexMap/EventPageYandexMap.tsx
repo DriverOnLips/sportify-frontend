@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './EventPageYandexMap.module.scss';
+import { useScreenMode } from '../../../../hooks/useScreenMode.ts';
 
 interface YandexMapProps {
 	address: string;
-	transport: 'auto' | 'pedestrian' | 'masstransit'; // добавляем параметр transport
+	transport: 'auto' | 'pedestrian' | 'masstransit';
 }
 
 const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 	const mapRef = useRef<any>(null);
 	const mapContainerRef = useRef<HTMLDivElement>(null);
 	const [ymapsLoaded, setYmapsLoaded] = useState(false);
+
+	// для ресайза карты
+	// @ts-ignore
+	const screenWidth = useScreenMode();
 
 	useEffect(() => {
 		const checkYandexAPI = () => {
@@ -36,7 +41,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 				mapRef.current = new window.ymaps.Map(mapContainerRef.current, {
 					center: [55.7960599, 37.5380087],
 					zoom: 10,
-					controls: ['zoomControl', 'routeButtonControl'],
+					controls: [],
 				});
 			}
 
@@ -74,7 +79,6 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 					},
 				);
 
-				// Функция для создания маршрута в зависимости от выбранного транспорта
 				const createRoute = (routingMode: string, color: string) => {
 					return new window.ymaps.multiRouter.MultiRoute(
 						{
@@ -120,7 +124,7 @@ const YandexMap: React.FC<YandexMapProps> = ({ address, transport }) => {
 				mapRef.current = null;
 			}
 		};
-	}, [address, ymapsLoaded, transport]); // добавляем зависимость от transport
+	}, [address, ymapsLoaded, transport]);
 
 	return (
 		<div
