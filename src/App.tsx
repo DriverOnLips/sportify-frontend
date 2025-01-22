@@ -49,7 +49,6 @@ function App() {
 
 	const checkAuth = async () => {
 		await check();
-		// TODO: убрать нафиг это говно
 		setTimeout(() => setIsLoaded(true), 500);
 	};
 
